@@ -6,10 +6,12 @@
       <threshold>8</threshold>
     </default>
     <int>3</int>
-    <int>2</int>
-    <string>SettingsRegistryId</string>
-    <string>Repast.registry</string>
+    <int>3</int>
+    <string>LastLoadedScenario</string>
+    <string>H:\workspace\Zombies\Zombies.rs</string>
     <string>SettingsFileName</string>
     <string>Repast.settings</string>
+    <string>SettingsRegistryId</string>
+    <string>Repast.registry</string>
   </hashtable>
 </simphony.settings.SettingsRegistry>
