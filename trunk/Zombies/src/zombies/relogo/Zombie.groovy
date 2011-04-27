@@ -21,7 +21,9 @@ class Zombie extends BaseTurtle {
 		
 		if (count(humansHere()) > 0) {
 			label = "Brains!"
-			infect(oneOf(humansHere()))
+			def infectee = oneOf(humansHere())
+			infect(infectee)
+			createInfectionTo(infectee)
 		} 
 		else {
 			label = ""	

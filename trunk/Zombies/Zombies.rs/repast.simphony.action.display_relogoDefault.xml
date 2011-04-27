@@ -47,6 +47,10 @@
       <string>UserLink</string>
       <string>zombies.style.LinkStyle</string>
     </entry>
+    <entry>
+      <string>Infection</string>
+      <string>zombies.style.LinkStyle</string>
+    </entry>
   </netStyles>
   <editedNetStyles>
     <entry>
@@ -63,6 +67,10 @@
     </entry>
     <entry>
       <string>UserLink</string>
+      <null/>
+    </entry>
+    <entry>
+      <string>Infection</string>
       <null/>
     </entry>
   </editedNetStyles>
@@ -114,6 +122,11 @@
     </repast.simphony.scenario.data.ProjectionData>
     <repast.simphony.scenario.data.ProjectionData>
       <id>UserLink</id>
+      <attributes/>
+      <type>NETWORK</type>
+    </repast.simphony.scenario.data.ProjectionData>
+    <repast.simphony.scenario.data.ProjectionData>
+      <id>Infection</id>
       <attributes/>
       <type>NETWORK</type>
     </repast.simphony.scenario.data.ProjectionData>
@@ -173,6 +186,13 @@
       <string>UserLink</string>
       <repast.simphony.visualization.engine.DefaultProjectionDescriptor>
         <proj reference="../../../../projections/repast.simphony.scenario.data.ProjectionData[5]"/>
+        <props/>
+      </repast.simphony.visualization.engine.DefaultProjectionDescriptor>
+    </entry>
+    <entry>
+      <string>Infection</string>
+      <repast.simphony.visualization.engine.DefaultProjectionDescriptor>
+        <proj reference="../../../../projections/repast.simphony.scenario.data.ProjectionData[6]"/>
         <props/>
       </repast.simphony.visualization.engine.DefaultProjectionDescriptor>
     </entry>

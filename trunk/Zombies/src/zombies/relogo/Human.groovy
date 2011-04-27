@@ -22,7 +22,7 @@ class Human extends BaseTurtle {
 		forward(1.5)
 		if (infected) {
 			infectionTime++
-			if (infectionTime >= 5) {
+			if (infectionTime >= gestationPeriod) {
 				hatchZombies(1) {
 					size = 2
 				}
