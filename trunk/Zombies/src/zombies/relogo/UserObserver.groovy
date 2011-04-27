@@ -9,7 +9,10 @@ import repast.simphony.relogo.UtilityG;
 
 class UserObserver extends BaseObserver{
 	
+	def relogoRun = 0
+	
 	def setup() {
+		relogoRun++
 		clearAll()
 		setDefaultShape(Human, "person")
 		createHumans(numHumans)  {
@@ -31,12 +34,21 @@ class UserObserver extends BaseObserver{
 		ask (humans()) {
 			step()
 		}
+		tick()
 	}
 	
 	def remainingHumans() {
 		count(humans())
 	}
 
+	def remainingZombies() {
+		count(zombies())
+	}
+	
+	def timestamp() {
+		ticks()
+	}
+	
 	/**
 	 * Add observer methods here. For example:
 
