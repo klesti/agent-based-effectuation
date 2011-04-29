@@ -1,0 +1,80 @@
+<repast.simphony.data.engine.DefaultDataGathererDescriptor>
+  <name>Data Set 1</name>
+  <dataSetId class="string">Data Set 1</dataSetId>
+  <scheduleParameters>
+    <start>1.0</start>
+    <interval>1.0</interval>
+    <priority>-Infinity</priority>
+    <duration>-1.0</duration>
+    <frequency>REPEAT</frequency>
+  </scheduleParameters>
+  <dataMappingContainer class="repast.simphony.data.logging.gather.DefaultDataMappingContainer">
+    <nameMappingTable>
+      <entry>
+        <string>remainingZombies</string>
+        <repast.simphony.data.logging.gather.MethodMapping>
+          <method>
+            <class>zombies.relogo.UserObserver</class>
+            <name>remainingZombies</name>
+            <parameter-types/>
+          </method>
+        </repast.simphony.data.logging.gather.MethodMapping>
+      </entry>
+      <entry>
+        <string>remainingHumans</string>
+        <repast.simphony.data.logging.gather.MethodMapping>
+          <method>
+            <class>zombies.relogo.UserObserver</class>
+            <name>remainingHumans</name>
+            <parameter-types/>
+          </method>
+        </repast.simphony.data.logging.gather.MethodMapping>
+      </entry>
+      <entry>
+        <string>RelogoRun</string>
+        <repast.simphony.data.logging.gather.MethodMapping>
+          <method>
+            <class>zombies.relogo.UserObserver</class>
+            <name>getRelogoRun</name>
+            <parameter-types/>
+          </method>
+        </repast.simphony.data.logging.gather.MethodMapping>
+      </entry>
+      <entry>
+        <string>timestamp</string>
+        <repast.simphony.data.logging.gather.MethodMapping>
+          <method>
+            <class>zombies.relogo.UserObserver</class>
+            <name>timestamp</name>
+            <parameter-types/>
+          </method>
+        </repast.simphony.data.logging.gather.MethodMapping>
+      </entry>
+    </nameMappingTable>
+    <mappingNameTable>
+      <entry>
+        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry/repast.simphony.data.logging.gather.MethodMapping"/>
+        <string>remainingZombies</string>
+      </entry>
+      <entry>
+        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[2]/repast.simphony.data.logging.gather.MethodMapping"/>
+        <string>remainingHumans</string>
+      </entry>
+      <entry>
+        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[4]/repast.simphony.data.logging.gather.MethodMapping"/>
+        <string>timestamp</string>
+      </entry>
+      <entry>
+        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[3]/repast.simphony.data.logging.gather.MethodMapping"/>
+        <string>RelogoRun</string>
+      </entry>
+    </mappingNameTable>
+  </dataMappingContainer>
+  <aggregateContainer class="repast.simphony.data.logging.gather.DefaultAggregateDataMappingContainer">
+    <nameMappingTable/>
+    <mappingNameTable/>
+    <alternatedNameTable/>
+    <nameAlternatedTable/>
+  </aggregateContainer>
+  <agentClass>zombies.relogo.UserObserver</agentClass>
+</repast.simphony.data.engine.DefaultDataGathererDescriptor>
