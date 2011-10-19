@@ -25,4 +25,8 @@ public class Agent {
 	public void setNetwork(Network<Object> network) {
 		this.network = network;
 	}
+	
+	public void step() {
+		
+	}
 }

@@ -19,6 +19,15 @@ public class MarketResearcher extends Agent {
 		super(network);
 		// TODO Auto-generated constructor stub
 	}
+
+	/* (non-Javadoc)
+	 * @see EffectuationCausation.Agent#step()
+	 */
+	@Override
+	public void step() {
+		// TODO Auto-generated method stub
+		super.step();
+	}
 	
 	
 
