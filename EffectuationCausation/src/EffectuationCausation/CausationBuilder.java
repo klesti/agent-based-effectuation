@@ -38,6 +38,15 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 			context.add(m);
 			network.addEdge(initialGoal, m);
 		}
+		
+		//Add the customers to the network
+		
+		int numberOfCustomers = 100;
+		
+		for (int i = 0; i < numberOfCustomers; i++) {
+			Customer c = new Customer("Customer" . String.valueOf(i));
+			context.add(c);
+		}
 	
 		return context;
 	}
