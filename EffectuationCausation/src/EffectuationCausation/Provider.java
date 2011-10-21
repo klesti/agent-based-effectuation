@@ -15,8 +15,8 @@ public class Provider extends Agent {
 	
 	private List<Means> offeredMeans;
 
-	public Provider(Network<Object> network) {
-		super(network);
+	public Provider(Network<Object> network, String label) {
+		super(network, label);
 		// TODO Auto-generated constructor stub
 	}
 

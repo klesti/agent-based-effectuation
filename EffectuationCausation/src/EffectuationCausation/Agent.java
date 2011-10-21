@@ -13,8 +13,9 @@ public class Agent {
 	protected String label;
 	protected Network<Object> network;
 	
-	public Agent(Network<Object> network) {
+	public Agent(Network<Object> network, String label) {
 		this.network = network;
+		this.label = label;
 	}
 	
 	/**
@@ -48,6 +49,6 @@ public class Agent {
 	}
 
 	public void step() {
-		
+				
 	}
 }

@@ -8,8 +8,8 @@ public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected List<Customer> customers;
 	
-	public Entrepreneur(Network<Object> network) {
-		super(network);
+	public Entrepreneur(Network<Object> network, String label) {
+		super(network, label);
 		// TODO Auto-generated constructor stub
 	}
 

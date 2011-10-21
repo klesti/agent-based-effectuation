@@ -6,8 +6,8 @@ public class Customer extends Agent {
 	
 	protected int[] demandVector;
 	
-	public Customer(Network<Object> network) {
-		super(network);
+	public Customer(Network<Object> network, String label) {
+		super(network, label);
 		// TODO Auto-generated constructor stub
 	}
 
