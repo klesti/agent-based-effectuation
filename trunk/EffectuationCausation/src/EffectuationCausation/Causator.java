@@ -52,6 +52,7 @@ public class Causator extends Entrepreneur {
 		}
 	}
 	
+	@ScheduledMethod(priority=1,start=2,duration=1)
 	public void selectMarketSample() {		
 		int sampleSize = (int) Math.ceil((causationBuilder.sampleSize / 100) * causationBuilder.numberOfCustomers);
 		Context<Object> context = ContextUtils.getContext(this);
@@ -70,17 +71,24 @@ public class Causator extends Entrepreneur {
 			
 			int spread;
 			
+			List<Customer> workingSample = new ArrayList<Customer>();
+			
 			if (i == marketResearchers.size() - 1) {
 				spread = marketResearchers.size();
 			} else {
-				int start = (customers.size() > 5) ? 5 : 1;
-				
+				int start = (customers.size() > 5) ? 5 : 1;				
 				spread = RandomHelper.nextIntFromTo(start, customers.size());
 			}
 			
 			for (int j = 0; j < spread; j++) {
-				m.getWorkingSample().add(customers.get(customers.size()-1));
-			}		
+				workingSample.add(customers.get(customers.size()-1));
+			}
+			
+			m.setWorkingSample(workingSample);
 		}
+	}
+	
+	public void aggregateMarketResearchResults() {
+		
 	}
 }
