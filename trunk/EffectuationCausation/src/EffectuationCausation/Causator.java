@@ -81,7 +81,7 @@ public class Causator extends Entrepreneur {
 			}
 			
 			for (int j = 0; j < spread; j++) {
-				workingSample.add(customers.get(customers.size()-1));
+				workingSample.add(customers.remove(0));
 			}
 			
 			m.setWorkingSample(workingSample);
