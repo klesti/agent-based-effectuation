@@ -15,6 +15,7 @@ import repast.simphony.space.graph.JungNetwork;
 public class MarketResearcher extends Agent {
 	
 	protected List<Customer> workingSample;
+	protected int[] surveyResults;
 
 	public MarketResearcher(JungNetwork<Object> network, String label) {
 		super(network, label);
@@ -35,6 +36,15 @@ public class MarketResearcher extends Agent {
 	 */
 	public void setWorkingSample(List<Customer> workingSample) {
 		this.workingSample = workingSample;
+		surveyResults = new int[this.workingSample.get(0).demandVector.length];
+	}
+	
+
+	/**
+	 * @return the surveyResults
+	 */
+	public int[] getSurveyResults() {
+		return surveyResults;
 	}
 
 
