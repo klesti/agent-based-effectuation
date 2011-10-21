@@ -5,7 +5,7 @@ package EffectuationCausation;
 
 import java.util.List;
 
-import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.JungNetwork;
 
 /**
  * @author klesti
@@ -15,7 +15,7 @@ public class MarketResearcher extends Agent {
 	
 	protected List<Customer> potentialCustomers;
 
-	public MarketResearcher(Network<Object> network, String label) {
+	public MarketResearcher(JungNetwork<Object> network, String label) {
 		super(network, label);
 		// TODO Auto-generated constructor stub
 	}
