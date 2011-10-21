@@ -3,7 +3,7 @@
  */
 package EffectuationCausation;
 
-import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.JungNetwork;
 
 /**
  * @author klesti
@@ -11,9 +11,9 @@ import repast.simphony.space.graph.Network;
  */
 public class Agent {
 	protected String label;
-	protected Network<Object> network;
+	protected JungNetwork<Object> network;
 	
-	public Agent(Network<Object> network, String label) {
+	public Agent(JungNetwork<Object> network, String label) {
 		this.network = network;
 		this.label = label;
 	}
@@ -36,7 +36,7 @@ public class Agent {
 	/**
 	 * @return the network
 	 */
-	public Network<Object> getNetwork() {
+	public JungNetwork<Object> getNetwork() {
 		return network;
 	}
 
@@ -44,7 +44,7 @@ public class Agent {
 	/**
 	 * @param network the network to set
 	 */
-	public void setNetwork(Network<Object> network) {
+	public void setNetwork(JungNetwork<Object> network) {
 		this.network = network;
 	}
 

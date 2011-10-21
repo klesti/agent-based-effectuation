@@ -2,13 +2,13 @@ package EffectuationCausation;
 
 import java.util.List;
 
-import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.JungNetwork;
 
 public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected List<Customer> customers;
 	
-	public Entrepreneur(Network<Object> network, String label) {
+	public Entrepreneur(JungNetwork<Object> network, String label) {
 		super(network, label);
 		// TODO Auto-generated constructor stub
 	}

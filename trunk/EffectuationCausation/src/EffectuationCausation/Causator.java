@@ -5,7 +5,7 @@ import java.util.List;
 import repast.simphony.context.Context;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.util.ContextUtils;
 
 public class Causator extends Entrepreneur {
@@ -14,7 +14,7 @@ public class Causator extends Entrepreneur {
 	protected Goal goal;
 
 	
-	public Causator(Network<Object> network, String label) {
+	public Causator(JungNetwork<Object> network, String label) {
 		super(network, label);
 		// TODO Auto-generated constructor stub
 	}

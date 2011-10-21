@@ -1,12 +1,12 @@
 package EffectuationCausation;
 
-import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.JungNetwork;
 
 public class Customer extends Agent {
 	
 	protected int[] demandVector;
 	
-	public Customer(Network<Object> network, String label) {
+	public Customer(JungNetwork<Object> network, String label) {
 		super(network, label);
 		// TODO Auto-generated constructor stub
 	}
