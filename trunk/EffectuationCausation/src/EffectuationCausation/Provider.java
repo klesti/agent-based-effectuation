@@ -3,6 +3,7 @@
  */
 package EffectuationCausation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.space.graph.JungNetwork;
@@ -17,7 +18,7 @@ public class Provider extends Agent {
 
 	public Provider(JungNetwork<Object> network, String label) {
 		super(network, label);
-		// TODO Auto-generated constructor stub
+		offeredMeans = new ArrayList<Means>();
 	}
 
 	public List<Means> getOfferedMeans() {

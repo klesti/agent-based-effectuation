@@ -1,14 +1,16 @@
 package EffectuationCausation;
 
+import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.JungNetwork;
 
 public class Customer extends Agent {
 	
 	protected int[] demandVector;
 	
-	public Customer(JungNetwork<Object> network, String label) {
+	public Customer(JungNetwork<Object> network, String label, int demandVectorSize) {
 		super(network, label);
-		// TODO Auto-generated constructor stub
+		demandVector = new int[demandVectorSize];
+		generateRandomDemandVector();
 	}
 
 	/**
@@ -23,6 +25,12 @@ public class Customer extends Agent {
 	 */
 	public void setDemandVector(int[] demandVector) {
 		this.demandVector = demandVector;
+	}
+	
+	public void generateRandomDemandVector() {
+		for (int i = 0; i < demandVector.length; i++) {
+			demandVector[i] = RandomHelper.nextIntFromTo(0, 1);
+		}
 	}
 
 }
