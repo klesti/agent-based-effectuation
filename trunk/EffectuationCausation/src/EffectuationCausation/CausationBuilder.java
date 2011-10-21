@@ -18,12 +18,12 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 	public Context build(Context<Object> context) {
 		context.setId("causation");
 		
-		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("entrepreneurial network",
+		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("network",
 				context, true);
 		DirectedJungNetwork<Object> network = (DirectedJungNetwork<Object>) netBuilder.buildNetwork();
 		
 		//Add the causator entrepreneur and it's initial goal
-		Causator causator = new Causator(network);
+		Causator causator = new Causator(network, "Causator");
 		Goal initialGoal = new Goal(true);
 		
 		causator.goal = initialGoal;
@@ -44,7 +44,7 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		int numberOfCustomers = 100;
 		
 		for (int i = 0; i < numberOfCustomers; i++) {
-			Customer c = new Customer("Customer" . String.valueOf(i));
+			Customer c = new Customer(network, "Customer" + String.valueOf(i));
 			context.add(c);
 		}
 	

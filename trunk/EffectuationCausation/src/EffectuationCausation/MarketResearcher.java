@@ -15,8 +15,8 @@ public class MarketResearcher extends Agent {
 	
 	protected List<Customer> potentialCustomers;
 
-	public MarketResearcher(Network<Object> network) {
-		super(network);
+	public MarketResearcher(Network<Object> network, String label) {
+		super(network, label);
 		// TODO Auto-generated constructor stub
 	}
 
