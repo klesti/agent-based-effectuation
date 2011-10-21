@@ -53,8 +53,12 @@ public class MarketResearcher extends Agent {
 	 */
 	@Override
 	public void step() {
-		// TODO Auto-generated method stub
-		super.step();
+		if (workingSample.size() > 0) {
+			Customer c = workingSample.remove(0);
+			for (int i = 0; i < c.demandVector.length; i++ ) {
+				surveyResults[i] += c.demandVector[i];				
+			}			
+		}
 	}
 	
 	
