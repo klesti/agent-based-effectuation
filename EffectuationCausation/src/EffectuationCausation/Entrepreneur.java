@@ -1,5 +1,6 @@
 package EffectuationCausation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.space.graph.JungNetwork;
@@ -10,7 +11,8 @@ public class Entrepreneur extends Agent {
 	
 	public Entrepreneur(JungNetwork<Object> network, String label) {
 		super(network, label);
-		// TODO Auto-generated constructor stub
+		availableMeans = new ArrayList<Means>();
+		customers = new ArrayList<Customer>();
 	}
 
 	public List<Customer> getCustomers() {

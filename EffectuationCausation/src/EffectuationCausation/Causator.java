@@ -1,5 +1,6 @@
 package EffectuationCausation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.context.Context;
@@ -12,11 +13,14 @@ public class Causator extends Entrepreneur {
 	
 	protected List<MarketResearcher> marketResearchers;
 	protected Goal goal;
+	private CausationBuilder causationBuilder;
 
 	
-	public Causator(JungNetwork<Object> network, String label) {
+	public Causator(JungNetwork<Object> network, String label, 
+			CausationBuilder causationBuilder) {
 		super(network, label);
-		// TODO Auto-generated constructor stub
+		this.causationBuilder = causationBuilder;
+		marketResearchers = new ArrayList<MarketResearcher>();
 	}
 
 	public Goal getGoal() {
@@ -38,13 +42,45 @@ public class Causator extends Entrepreneur {
 	@ScheduledMethod(priority=1,start=1,duration=1)
 	public void hireMarketResearchers() {
 		int numberOfMarketResearchers = RandomHelper.nextIntFromTo(1, 5);
+		Context<Object> context = ContextUtils.getContext(this);
 		
 		for (int i = 0; i < numberOfMarketResearchers; i++) {
 			MarketResearcher m = new MarketResearcher(network, "MarketResearcher" + String.valueOf(i));			
 			marketResearchers.add(m);
-			Context<Object> context = ContextUtils.getContext(this);
 			context.add(m);			
 			network.addEdge(this, m);
+		}
+	}
+	
+	public void selectMarketSample() {		
+		int sampleSize = (int) Math.ceil((causationBuilder.sampleSize / 100) * causationBuilder.numberOfCustomers);
+		Context<Object> context = ContextUtils.getContext(this);
+		
+		List<Customer> customers = new ArrayList<Customer>();
+		
+		
+		for (Object c: context.getRandomObjects(Customer.class, sampleSize)) {
+			customers.add((Customer)c);
+		}
+		
+		//Spread the customers sample among the hired market researchers 
+		
+		for (int i = 0; i < marketResearchers.size(); i++) {
+			MarketResearcher m = marketResearchers.get(i);
+			
+			int spread;
+			
+			if (i == marketResearchers.size() - 1) {
+				spread = marketResearchers.size();
+			} else {
+				int start = (customers.size() > 5) ? 5 : 1;
+				
+				spread = RandomHelper.nextIntFromTo(start, customers.size());
+			}
+			
+			for (int j = 0; j < spread; j++) {
+				m.getWorkingSample().add(customers.get(customers.size()-1));
+			}		
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package EffectuationCausation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.random.RandomHelper;
@@ -8,14 +9,18 @@ public class Goal {
 	private List<Means> requiredMeans;
 	private int[] productVector;
 	
-	public Goal(boolean generateRequiredMeans) {
+	public Goal(int productVectorSize, boolean generateRequiredMeans) {
 		if (generateRequiredMeans) {
 			//TODO: Generate required means
 		}
+		requiredMeans = new ArrayList<Means>();
+		productVector = new int[productVectorSize];
+		generateRandomProductVector();
+		
 	}
 	
-	public Goal() {
-		this(false);
+	public Goal(int productVectorSize) {
+		this(productVectorSize, false);
 	}
 
 	public void generateRequiredMeans() {
@@ -54,6 +59,12 @@ public class Goal {
 	 */
 	public void setProductVector(int[] productVector) {
 		this.productVector = productVector;
+	}
+	
+	public void generateRandomProductVector() {
+		for (int i = 0; i < productVector.length; i++) {
+			productVector[i] = RandomHelper.nextIntFromTo(0, 1);
+		}
 	}
 
 }
