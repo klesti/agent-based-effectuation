@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.context.Context;
-import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.engine.watcher.Watch;
+import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.util.ContextUtils;
@@ -13,7 +14,9 @@ public class Causator extends Entrepreneur {
 	
 	protected List<MarketResearcher> marketResearchers;
 	protected Goal goal;
+	protected int[] aggregatedSurveyResults;
 	private CausationBuilder causationBuilder;
+	
 
 	
 	public Causator(JungNetwork<Object> network, String label, 
@@ -21,6 +24,11 @@ public class Causator extends Entrepreneur {
 		super(network, label);
 		this.causationBuilder = causationBuilder;
 		marketResearchers = new ArrayList<MarketResearcher>();
+		//Initialize aggregatedSurveyResults
+		aggregatedSurveyResults = new int[causationBuilder.vectorSpaceSize];
+		for (int i = 0; i < aggregatedSurveyResults.length; i++) {
+			aggregatedSurveyResults[i] = 0;
+		}		
 	}
 
 	public Goal getGoal() {
@@ -39,7 +47,6 @@ public class Causator extends Entrepreneur {
 		this.marketResearchers = marketResearchers;
 	}
 	
-	@ScheduledMethod(priority=1,start=1,duration=1)
 	public void hireMarketResearchers() {
 		int numberOfMarketResearchers = RandomHelper.nextIntFromTo(1, 5);
 		Context<Object> context = ContextUtils.getContext(this);
@@ -52,8 +59,7 @@ public class Causator extends Entrepreneur {
 		}
 	}
 	
-	@ScheduledMethod(priority=1,start=2,duration=1)
-	public void selectMarketSample() {		
+	public void selectAndSpreadMarketSample() {		
 		int sampleSize = (int) Math.ceil((causationBuilder.sampleSize / 100) * causationBuilder.numberOfCustomers);
 		Context<Object> context = ContextUtils.getContext(this);
 		
@@ -88,7 +94,41 @@ public class Causator extends Entrepreneur {
 		}
 	}
 	
-	public void aggregateMarketResearchResults() {
+	@Watch(watcheeClassName = "EffectuationCausation.MarketResearcher", watcheeFieldNames = "finishedMarketResearch", 
+			query = "linked_to", whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)	
+	public void aggregateMarketResearchResults(MarketResearcher m) {
+		for (int i = 0; i < m.getSurveyResults().length; i++) {
+			aggregatedSurveyResults[i] += m.getSurveyResults()[i];
+		}
 		
+		boolean finishedMarketResearch = true;
+		
+		for (MarketResearcher m2: marketResearchers) {
+			if (!m2.isFinishedMarketResearch()) {
+				finishedMarketResearch = false;
+				break;
+			}
+		}		
+		
+		if (finishedMarketResearch) {
+			refineProduct();
+		}
+	}
+	
+	/**
+	 *  Refine product based on the results of the initial market research
+	 */
+	public void refineProduct() {		
+		int[] productVector = goal.getProductVector();
+		
+		for (int i = 0; i < aggregatedSurveyResults.length; i++) {
+			if (productVector[i] != aggregatedSurveyResults[i] && 
+					(aggregatedSurveyResults[i] / causationBuilder.sampleSize) * 100 
+					> causationBuilder.productElementChangeThreshold) {				
+				productVector[i] = aggregatedSurveyResults[i];
+			}
+		}
+		
+		goal.setProductVector(productVector);
 	}
 }
