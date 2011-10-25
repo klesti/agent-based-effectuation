@@ -3,12 +3,20 @@
  */
 package EffectuationCausation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import repast.simphony.context.Context;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
 import repast.simphony.engine.schedule.Schedule;
 import repast.simphony.engine.schedule.ScheduleParameters;
+import repast.simphony.engine.watcher.Watch;
+import repast.simphony.engine.watcher.WatcherTriggerSchedule;
+import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.DirectedJungNetwork;
+import repast.simphony.space.graph.JungNetwork;
+import repast.simphony.util.ContextUtils;
 
 /**
  * @author klesti
@@ -23,21 +31,28 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 	// The percentage of the customers sample that needs to have a product element as 1
 	// in order to change the initial value of the product elements vector
 	public static final int productElementChangeThreshold = 50; 
+	public static final int maxProviders = 10; // Maximum number of providers	
 	
 	
 	protected Schedule schedule;
-	protected Context context;
+	protected Context<Object> context;
+	protected DirectedJungNetwork<Object> network;
+	public static List<Means> offeredMeans; // List of all offered means (by all providers) 
 
 	@Override
-	public Context build(Context<Object> context) {
+	public Context<Object> build(Context<Object> context) {
 		
-		this.context = context;
+		this.context = context;		
 		
-		context.setId("causation");		
+		context.setId("causation");
+		
+		offeredMeans = new ArrayList<Means>();
 		
 		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("network",
 				context, true);
-		DirectedJungNetwork<Object> network = (DirectedJungNetwork<Object>) netBuilder.buildNetwork();
+		
+		this.network  = (DirectedJungNetwork<Object>) netBuilder.buildNetwork();
+		
 		
 
 		//Add the causator entrepreneur and it's initial goal
@@ -56,6 +71,16 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 			context.add(c);
 		}
 	
+		
+		//Add the providers to the network
+		
+		int numberOfProviders = RandomHelper.nextIntFromTo(3, maxProviders);
+		
+		for (int i = 0; i < numberOfProviders; i++) {
+			Provider p = new Provider(network, "Provider" + String.valueOf(i));
+			context.add(p);
+		}
+				
 		//Schedule actions
 		
 		scheduleActions();
@@ -76,5 +101,4 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		ScheduleParameters parameters2 = ScheduleParameters.createOneTime(2);
 		schedule.schedule(parameters2, causator, "selectAndSpreadMarketSample", (Object)null);
 	}
-	
 }
