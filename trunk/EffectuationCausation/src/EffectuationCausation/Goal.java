@@ -28,6 +28,7 @@ public class Goal {
 
 	public void generateRequiredMeans() {
 		clearRequiredMeans();
+		CausationBuilder.offeredMeans.clear();		
 		Context<Object> context = ContextUtils.getContext(this);
 		JungNetwork<Object> network = (JungNetwork<Object>)context.getProjection("network");
 		int possibleMeans = RandomHelper.nextIntFromTo(2, 10);		
