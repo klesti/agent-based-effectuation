@@ -7,9 +7,9 @@ public class Customer extends Agent {
 	
 	protected int[] demandVector;
 	
-	public Customer(JungNetwork<Object> network, String label, int demandVectorSize) {
+	public Customer(JungNetwork<Object> network, String label) {
 		super(network, label);
-		demandVector = new int[demandVectorSize];
+		demandVector = new int[CausationBuilder.vectorSpaceSize];
 		generateRandomDemandVector();
 	}
 

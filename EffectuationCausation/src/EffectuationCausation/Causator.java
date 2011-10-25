@@ -15,17 +15,16 @@ public class Causator extends Entrepreneur {
 	protected List<MarketResearcher> marketResearchers;
 	protected Goal goal;
 	protected int[] aggregatedSurveyResults;
-	private CausationBuilder causationBuilder;
+	
 	
 
 	
-	public Causator(JungNetwork<Object> network, String label, 
-			CausationBuilder causationBuilder) {
+	public Causator(JungNetwork<Object> network, String label) {
 		super(network, label);
-		this.causationBuilder = causationBuilder;
+		
 		marketResearchers = new ArrayList<MarketResearcher>();
 		//Initialize aggregatedSurveyResults
-		aggregatedSurveyResults = new int[causationBuilder.vectorSpaceSize];
+		aggregatedSurveyResults = new int[CausationBuilder.vectorSpaceSize];
 		for (int i = 0; i < aggregatedSurveyResults.length; i++) {
 			aggregatedSurveyResults[i] = 0;
 		}		
@@ -60,7 +59,7 @@ public class Causator extends Entrepreneur {
 	}
 	
 	public void selectAndSpreadMarketSample() {		
-		int sampleSize = (int) Math.ceil((causationBuilder.sampleSize / 100) * causationBuilder.numberOfCustomers);
+		int sampleSize = (int) Math.ceil((CausationBuilder.sampleSize / 100) * CausationBuilder.numberOfCustomers);
 		Context<Object> context = ContextUtils.getContext(this);
 		
 		List<Customer> customers = new ArrayList<Customer>();
@@ -123,8 +122,8 @@ public class Causator extends Entrepreneur {
 		
 		for (int i = 0; i < aggregatedSurveyResults.length; i++) {
 			if (productVector[i] != aggregatedSurveyResults[i] && 
-					(aggregatedSurveyResults[i] / causationBuilder.sampleSize) * 100 
-					> causationBuilder.productElementChangeThreshold) {				
+					(aggregatedSurveyResults[i] / CausationBuilder.sampleSize) * 100 
+					> CausationBuilder.productElementChangeThreshold) {				
 				productVector[i] = aggregatedSurveyResults[i];
 			}
 		}

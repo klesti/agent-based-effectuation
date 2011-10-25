@@ -17,12 +17,13 @@ import repast.simphony.space.graph.DirectedJungNetwork;
 public class CausationBuilder implements ContextBuilder<Object>  {
 
 	//Parameters, later will be prodived by the user interface
-	public int vectorSpaceSize = 10;
-	public int numberOfCustomers = 100;
-	public int sampleSize = 5; //Sample size in percentage
+	public static final int vectorSpaceSize = 10;
+	public static final int numberOfCustomers = 100;
+	public static final int sampleSize = 5; //Sample size in percentage
 	// The percentage of the customers sample that needs to have a product element as 1
 	// in order to change the initial value of the product elements vector
-	public int productElementChangeThreshold = 50; 
+	public static final int productElementChangeThreshold = 50; 
+	
 	
 	protected Schedule schedule;
 	protected Context context;
@@ -40,7 +41,7 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		
 
 		//Add the causator entrepreneur and it's initial goal
-		Causator causator = new Causator(network, "Causator", this);
+		Causator causator = new Causator(network, "Causator");
 		Goal initialGoal = new Goal(vectorSpaceSize, true);
 		
 		causator.setGoal(initialGoal);
@@ -51,7 +52,7 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		//Add the customers to the network	
 		
 		for (int i = 0; i < numberOfCustomers; i++) {
-			Customer c = new Customer(network, "Customer" + String.valueOf(i), vectorSpaceSize);
+			Customer c = new Customer(network, "Customer" + String.valueOf(i));
 			context.add(c);
 		}
 	
