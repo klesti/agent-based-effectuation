@@ -22,21 +22,45 @@ import repast.simphony.util.ContextUtils;
 public class Provider extends Agent {
 	
 	private List<Means> offeredMeans;
+	private List<ProvidesTo> providesToList;
 
 	public Provider(JungNetwork<Object> network, String label) {
 		super(network, label);
 		offeredMeans = new ArrayList<Means>();
+		providesToList = new ArrayList<ProvidesTo>();
 		generateOfferedMeans();
 	}
 
+
+	/**
+	 * @return the offeredMeans
+	 */
 	public List<Means> getOfferedMeans() {
 		return offeredMeans;
 	}
 
+	/**
+	 * @param offeredMeans the offeredMeans to set
+	 */
 	public void setOfferedMeans(List<Means> offeredMeans) {
 		this.offeredMeans = offeredMeans;
 	}
-	
+
+
+	/**
+	 * @return the providesToList
+	 */
+	public List<ProvidesTo> getProvidesToList() {
+		return providesToList;
+	}
+
+	/**
+	 * @param providesToList the providesToList to set
+	 */
+	public void setProvidesToList(List<ProvidesTo> providesToList) {
+		this.providesToList = providesToList;
+	}
+
 	@Watch(watcheeClassName = "EffectuationCausation.Goal", watcheeFieldNames = "requiredMeans", 
 			 whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)	
 	public void generateOfferedMeans() {
@@ -50,7 +74,12 @@ public class Provider extends Agent {
 			Means m = (Means)o;
 			offeredMeans.add(m);
 			CausationBuilder.offeredMeans.add(m);
-			network.addEdge(this, o);			
+			//Add an edge with a random weight (price, time, etc) between the offered means and the 
+			// provider
+			RepastEdge<Object> edge = new RepastEdge<Object>(m, this, true, 
+					RandomHelper.nextIntFromTo(CausationBuilder.meansOfferedWeightRange[0], 
+							CausationBuilder.meansOfferedWeightRange[1]));
+			network.addEdge(edge);			
 		}		
 		assureAllMeansAreOffered(context, network);
 	}
@@ -88,7 +117,10 @@ public class Provider extends Agent {
 			for (int i = 0; i < n; i++) {
 				int j = RandomHelper.nextIntFromTo(0, providers.size()-1);
 				providers.get(j).getOfferedMeans().add(m);
-				network.addEdge(providers.get(j), m);
+				RepastEdge<Object> edge = new RepastEdge<Object>(m, providers.get(j), true, 
+						RandomHelper.nextIntFromTo(CausationBuilder.meansOfferedWeightRange[0], 
+								CausationBuilder.meansOfferedWeightRange[1]));
+				network.addEdge(edge);
 			}
 		}
 		

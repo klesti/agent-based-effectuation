@@ -8,21 +8,22 @@ import repast.simphony.engine.watcher.Watch;
 import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.JungNetwork;
+import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.RepastEdge;
 import repast.simphony.util.ContextUtils;
 
 public class Causator extends Entrepreneur {
 	
 	protected List<MarketResearcher> marketResearchers;
 	protected Goal goal;
+	protected List<Means> availableMeans;
 	protected int[] aggregatedSurveyResults;
-	
-	
 
-	
 	public Causator(JungNetwork<Object> network, String label) {
 		super(network, label);
 		
 		marketResearchers = new ArrayList<MarketResearcher>();
+		availableMeans = new ArrayList<Means>();
 		//Initialize aggregatedSurveyResults
 		aggregatedSurveyResults = new int[CausationBuilder.vectorSpaceSize];
 		for (int i = 0; i < aggregatedSurveyResults.length; i++) {
@@ -129,5 +130,33 @@ public class Causator extends Entrepreneur {
 		}
 		
 		goal.setProductVector(productVector);
+	}
+	
+	/**
+	 *  Acquire the means that are needed to achieve the desired goal
+	 */
+	
+	public void acquireMeans() {
+					
+		for (Means m: goal.getRequiredMeans()) {
+			double minWeight = 1000 * CausationBuilder.meansOfferedWeightRange[1];
+			Provider provider = new Provider(network, "p");
+			//Get the means from the provider that offers it with lowest "weight"
+			for (Object o: network.getAdjacent(m)) {
+				if (o instanceof Provider) {
+					Provider p = (Provider)o;
+					RepastEdge<Object> edge = network.getEdge(m, p);
+					if (edge.getWeight() < minWeight) {
+						minWeight = edge.getWeight();
+						provider = p;
+					}
+				}
+			}
+			
+			availableMeans.add(m);
+			network.addEdge(this, m);
+			ProvidesTo providesTo = new ProvidesTo(this, m);
+			provider.getProvidesToList().add(providesTo);
+		}
 	}
 }
