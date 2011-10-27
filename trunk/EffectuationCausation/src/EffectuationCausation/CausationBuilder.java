@@ -32,7 +32,7 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 	// in order to change the initial value of the product elements vector
 	public static final int productElementChangeThreshold = 50; 
 	public static final int maxProviders = 10; // Maximum number of providers	
-	
+	public static final int[] meansOfferedWeightRange = {1,10}; // Means offered weight range 
 	
 	protected Schedule schedule;
 	protected Context<Object> context;
