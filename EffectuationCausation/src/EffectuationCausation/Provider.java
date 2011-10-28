@@ -10,7 +10,6 @@ import repast.simphony.context.Context;
 import repast.simphony.engine.watcher.Watch;
 import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.RepastEdge;
 import repast.simphony.util.ContextUtils;
@@ -24,7 +23,7 @@ public class Provider extends Agent {
 	private List<Means> offeredMeans;
 	private List<ProvidesTo> providesToList;
 
-	public Provider(JungNetwork<Object> network, String label) {
+	public Provider(Network<Object> network, String label) {
 		super(network, label);
 		offeredMeans = new ArrayList<Means>();
 		providesToList = new ArrayList<ProvidesTo>();
@@ -84,8 +83,7 @@ public class Provider extends Agent {
 		assureAllMeansAreOffered(context, network);
 	}
 	
-	public void clearOfferedMeans() {
-		JungNetwork<Object> network = (JungNetwork<Object>)context.getProjection("network");
+	public void clearOfferedMeans() {		
 		for (Means m: offeredMeans) {
 			RepastEdge<Object> edge = network.getEdge(this, m);
 			network.removeEdge(edge);

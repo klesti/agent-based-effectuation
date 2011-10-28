@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.engine.schedule.ScheduledMethod;
-import repast.simphony.space.graph.JungNetwork;
+import repast.simphony.space.graph.Network;
 
 /**
  * @author klesti
@@ -19,7 +19,7 @@ public class MarketResearcher extends Agent {
 	protected int[] surveyResults;
 	protected boolean finishedMarketResearch = false;
 
-	public MarketResearcher(JungNetwork<Object> network, String label) {
+	public MarketResearcher(Network<Object> network, String label) {
 		super(network, label);
 		workingSample = new ArrayList<Customer>();
 	}

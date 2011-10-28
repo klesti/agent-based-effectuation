@@ -19,7 +19,7 @@ public class Causator extends Entrepreneur {
 	protected List<Means> availableMeans;
 	protected int[] aggregatedSurveyResults;
 
-	public Causator(JungNetwork<Object> network, String label) {
+	public Causator(Network<Object> network, String label) {
 		super(network, label);
 		
 		marketResearchers = new ArrayList<MarketResearcher>();

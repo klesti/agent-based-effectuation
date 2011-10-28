@@ -5,7 +5,7 @@ import java.util.List;
 
 import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.JungNetwork;
+import repast.simphony.space.graph.Network;
 import repast.simphony.util.ContextUtils;
 
 public class Goal {
@@ -30,7 +30,7 @@ public class Goal {
 		clearRequiredMeans();
 		CausationBuilder.offeredMeans.clear();		
 		Context<Object> context = ContextUtils.getContext(this);
-		JungNetwork<Object> network = (JungNetwork<Object>)context.getProjection("network");
+		Network<Object> network = (Network<Object>)context.getProjection("network");
 		int possibleMeans = RandomHelper.nextIntFromTo(2, 10);		
 		for (int i = 0; i < possibleMeans; i++) {
 			Means m = new Means("Means" + String.valueOf(i));
