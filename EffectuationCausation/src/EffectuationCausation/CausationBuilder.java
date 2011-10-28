@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.context.Context;
+import repast.simphony.context.space.continuous.ContinuousSpaceFactory;
+import repast.simphony.context.space.continuous.ContinuousSpaceFactoryFinder;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
 import repast.simphony.engine.schedule.Schedule;
@@ -14,6 +16,8 @@ import repast.simphony.engine.schedule.ScheduleParameters;
 import repast.simphony.engine.watcher.Watch;
 import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
+import repast.simphony.space.continuous.ContinuousSpace;
+import repast.simphony.space.continuous.RandomCartesianAdder;
 import repast.simphony.space.graph.DirectedJungNetwork;
 import repast.simphony.space.graph.Network;
 import repast.simphony.util.ContextUtils;
@@ -35,8 +39,8 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 	public static final int[] meansOfferedWeightRange = {1,10}; // Means offered weight range 
 	
 	protected Schedule schedule;
-	protected Context<Object> context;
-	protected Network<Object> network;
+	public static Context<Object> context;
+	public static Network<Object> network;
 	public static List<Means> offeredMeans; // List of all offered means (by all providers) 
 
 	@Override
@@ -47,21 +51,22 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		context.setId("causation");
 		
 		offeredMeans = new ArrayList<Means>();
-		
+
 		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("network",
 				context, true);
 		
-		this.network  = (DirectedJungNetwork<Object>) netBuilder.buildNetwork();
+		network  = netBuilder.buildNetwork();
 		
-		
-
 		//Add the causator entrepreneur and it's initial goal
 		Causator causator = new Causator(network, "Causator");
-		Goal initialGoal = new Goal(vectorSpaceSize, true);
+		Goal initialGoal = new Goal(vectorSpaceSize);		
 		
-		causator.setGoal(initialGoal);
+		context.add(initialGoal);		
+		initialGoal.generateRequiredMeans();
+		
+		causator.setGoal(initialGoal);		
 		context.add(causator);
-		context.add(initialGoal);
+		
 		network.addEdge(causator, initialGoal);		
 		
 		//Add the customers to the network	
@@ -79,6 +84,7 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		for (int i = 0; i < numberOfProviders; i++) {
 			Provider p = new Provider(network, "Provider" + String.valueOf(i));
 			context.add(p);
+			p.generateOfferedMeans();
 		}
 				
 		//Schedule actions
@@ -92,13 +98,14 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		schedule = new Schedule();
 		
 		//Hire market researchers		
-		Causator causator = (Causator)context.getObjects(Causator.class).get(0);		
+		Causator causator = (Causator)context.getObjects(Causator.class).get(0);
+		
 		ScheduleParameters parameters = ScheduleParameters.createOneTime(1);
-		schedule.schedule(parameters, causator, "hireMarketResearchers", (Object)null);
+		schedule.schedule(parameters, causator, "hireMarketResearchers");
 		
 		//Spread the customers sample among the hired market researchers
 		
 		ScheduleParameters parameters2 = ScheduleParameters.createOneTime(2);
-		schedule.schedule(parameters2, causator, "selectAndSpreadMarketSample", (Object)null);
+		schedule.schedule(parameters2, causator, "selectAndSpreadMarketSample");
 	}
 }

@@ -1,6 +1,7 @@
 package EffectuationCausation;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import repast.simphony.context.Context;
@@ -12,39 +13,31 @@ public class Goal {
 	private List<Means> requiredMeans;
 	private int[] productVector;
 	
-	public Goal(int productVectorSize, boolean generateRequiredMeans) {
-		if (generateRequiredMeans) {
-			generateRequiredMeans();
-		}
+	public Goal(int productVectorSize) {
 		requiredMeans = new ArrayList<Means>();
 		productVector = new int[productVectorSize];
-		generateRandomProductVector();
 		
+		generateRandomProductVector();		
 	}
 	
-	public Goal(int productVectorSize) {
-		this(productVectorSize, false);
-	}
-
 	public void generateRequiredMeans() {
 		clearRequiredMeans();
 		CausationBuilder.offeredMeans.clear();		
-		Context<Object> context = ContextUtils.getContext(this);
-		Network<Object> network = (Network<Object>)context.getProjection("network");
+		
+		
 		int possibleMeans = RandomHelper.nextIntFromTo(2, 10);		
 		for (int i = 0; i < possibleMeans; i++) {
 			Means m = new Means("Means" + String.valueOf(i));
 			requiredMeans.add(m);
 			//Add the required means to the network
-			context.add(m);
-			network.addEdge(this, m);		
+			CausationBuilder.context.add(m);
+			CausationBuilder.network.addEdge(this, m);	
 		}
 	}
 	
-	public void clearRequiredMeans() {
-		Context<Object> context = ContextUtils.getContext(this);
+	public void clearRequiredMeans() {		
 		for (Means m: requiredMeans) {
-			context.remove(m);
+			CausationBuilder.context.remove(m);
 		}
 		requiredMeans.clear();
 	}

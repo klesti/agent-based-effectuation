@@ -26,8 +26,7 @@ public class Provider extends Agent {
 	public Provider(Network<Object> network, String label) {
 		super(network, label);
 		offeredMeans = new ArrayList<Means>();
-		providesToList = new ArrayList<ProvidesTo>();
-		generateOfferedMeans();
+		providesToList = new ArrayList<ProvidesTo>();		
 	}
 
 
@@ -64,12 +63,10 @@ public class Provider extends Agent {
 			 whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)	
 	public void generateOfferedMeans() {
 		clearOfferedMeans();
-		Context<Object> context = ContextUtils.getContext(this);		
-		Network<Object> network = (Network<Object>)context.getProjection("network");
 		
-		int totalRequiredMeans = context.getObjects(Means.class).size();
+		int totalRequiredMeans = CausationBuilder.context.getObjects(Means.class).size();
 		
-		for (Object o: context.getRandomObjects(Means.class, RandomHelper.nextIntFromTo(1, totalRequiredMeans))) {
+		for (Object o: CausationBuilder.context.getRandomObjects(Means.class, RandomHelper.nextIntFromTo(1, totalRequiredMeans))) {
 			Means m = (Means)o;
 			offeredMeans.add(m);
 			CausationBuilder.offeredMeans.add(m);
@@ -78,9 +75,9 @@ public class Provider extends Agent {
 			RepastEdge<Object> edge = new RepastEdge<Object>(m, this, true, 
 					RandomHelper.nextIntFromTo(CausationBuilder.meansOfferedWeightRange[0], 
 							CausationBuilder.meansOfferedWeightRange[1]));
-			network.addEdge(edge);			
+			network.addEdge(edge);	
 		}		
-		assureAllMeansAreOffered(context, network);
+		assureAllMeansAreOffered(CausationBuilder.context, network);
 	}
 	
 	public void clearOfferedMeans() {		
