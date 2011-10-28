@@ -3,13 +3,13 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.List;
 
-import repast.simphony.space.graph.JungNetwork;
+import repast.simphony.space.graph.Network;
 
 public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected List<Customer> customers;
 	
-	public Entrepreneur(JungNetwork<Object> network, String label) {
+	public Entrepreneur(Network<Object> network, String label) {
 		super(network, label);
 		availableMeans = new ArrayList<Means>();
 		customers = new ArrayList<Customer>();

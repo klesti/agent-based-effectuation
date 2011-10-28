@@ -15,7 +15,7 @@ import repast.simphony.engine.watcher.Watch;
 import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.DirectedJungNetwork;
-import repast.simphony.space.graph.JungNetwork;
+import repast.simphony.space.graph.Network;
 import repast.simphony.util.ContextUtils;
 
 /**
@@ -36,7 +36,7 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 	
 	protected Schedule schedule;
 	protected Context<Object> context;
-	protected DirectedJungNetwork<Object> network;
+	protected Network<Object> network;
 	public static List<Means> offeredMeans; // List of all offered means (by all providers) 
 
 	@Override
