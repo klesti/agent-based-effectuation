@@ -59,6 +59,8 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 		
 		//Add the causator entrepreneur and it's initial goal
 		Causator causator = new Causator(network, "Causator");
+		context.add(causator);
+		
 		Goal initialGoal = new Goal(vectorSpaceSize);		
 		
 		context.add(initialGoal);		
