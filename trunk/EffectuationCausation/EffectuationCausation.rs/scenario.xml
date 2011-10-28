@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Scenario>
- <repast.simphony.dataLoader.engine.MIContextXMLDataLoaderAction context="EffectuationCausation" file="repast.simphony.dataLoader.engine.MIContextXMLDataLoaderAction_0.xml" />
+<repast.simphony.dataLoader.engine.ClassNameDataLoaderAction context="EffectuationCausation" file="repast.simphony.dataLoader.engine.ClassNameDataLoaderAction_0.xml" />
+<repast.simphony.action.display context="EffectuationCausation" file="repast.simphony.action.display_1.xml" />
 </Scenario>
