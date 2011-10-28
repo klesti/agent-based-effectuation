@@ -3,35 +3,29 @@
   <type>TWO_D</type>
   <styles>
     <entry>
-      <string>EffectuationCausation.Means</string>
-      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
-    </entry>
-    <entry>
       <string>EffectuationCausation.Customer</string>
-      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
-    </entry>
-    <entry>
-      <string>EffectuationCausation.Goal</string>
-      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+      <string>repast.simphony.visualizationOGL2D.DefaultStyleOGL2D</string>
     </entry>
   </styles>
   <editedStyles>
     <entry>
-      <string>EffectuationCausation.Means</string>
-      <string>EffectuationCausation.Means.style_1.xml</string>
-    </entry>
-    <entry>
       <string>EffectuationCausation.Customer</string>
-      <string>EffectuationCausation.Customer.style_1.xml</string>
-    </entry>
-    <entry>
-      <string>EffectuationCausation.Goal</string>
-      <string>EffectuationCausation.Goal.style_1.xml</string>
+      <null/>
     </entry>
   </editedStyles>
-  <netStyles/>
-  <editedNetStyles/>
-  <frequency>ON_MOVE</frequency>
+  <netStyles>
+    <entry>
+      <string>causation network</string>
+      <string>repast.simphony.visualizationOGL2D.DefaultEdgeStyleOGL2D</string>
+    </entry>
+  </netStyles>
+  <editedNetStyles>
+    <entry>
+      <string>causation network</string>
+      <null/>
+    </entry>
+  </editedNetStyles>
+  <frequency>ON_NEW</frequency>
   <schedParams>
     <start>1.0</start>
     <interval>1.0</interval>
@@ -39,59 +33,30 @@
     <duration>-1.0</duration>
     <frequency>REPEAT</frequency>
   </schedParams>
-  <layoutClassName>foo.bar.baz</layoutClassName>
-  <layoutProjection>space</layoutProjection>
+  <layoutClassName>repast.simphony.visualization.visualization2D.Random2DLayout</layoutClassName>
+  <layoutProjection>causation network</layoutProjection>
   <layoutInterval>0</layoutInterval>
   <layerOrder>
     <entry>
-      <string>EffectuationCausation.Means</string>
-      <int>0</int>
-    </entry>
-    <entry>
       <string>EffectuationCausation.Customer</string>
-      <int>2</int>
-    </entry>
-    <entry>
-      <string>EffectuationCausation.Goal</string>
-      <int>1</int>
+      <int>0</int>
     </entry>
   </layerOrder>
   <projections>
     <repast.simphony.scenario.data.ProjectionData>
-      <id>space</id>
+      <id>causation network</id>
       <attributes/>
-      <type>CONTINUOUS_SPACE</type>
+      <type>NETWORK</type>
     </repast.simphony.scenario.data.ProjectionData>
   </projections>
   <valueLayers/>
-  <visualizationProperties class="repast.simphony.visualization.UnitSizeLayoutProperties">
-    <unitSize>15.0</unitSize>
-  </visualizationProperties>
   <projectionDescriptors>
     <entry>
-      <string>space</string>
-      <repast.simphony.visualization.continuous.ContinuousProjectionDescriptor>
+      <string>causation network</string>
+      <repast.simphony.visualization.engine.DefaultProjectionDescriptor>
         <proj reference="../../../../projections/repast.simphony.scenario.data.ProjectionData"/>
-        <props>
-          <entry>
-            <string>repast.simphony.visualization.continuous.ContinuousDecorator</string>
-            <map>
-              <entry>
-                <string>UNIT_SIZE</string>
-                <float>15.0</float>
-              </entry>
-              <entry>
-                <string>SHOW</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>COLOR</string>
-                <int>-16777216</int>
-              </entry>
-            </map>
-          </entry>
-        </props>
-      </repast.simphony.visualization.continuous.ContinuousProjectionDescriptor>
+        <props/>
+      </repast.simphony.visualization.engine.DefaultProjectionDescriptor>
     </entry>
   </projectionDescriptors>
   <props/>
