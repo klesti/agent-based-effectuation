@@ -44,15 +44,14 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 	public static List<Means> offeredMeans; // List of all offered means (by all providers) 
 
 	@Override
-	public Context<Object> build(Context<Object> context) {
-		
-		this.context = context;		
-		
+	public Context<Object> build(Context<Object> context) {		
 		context.setId("causation");
+		
+		CausationBuilder.context = context;		
 		
 		offeredMeans = new ArrayList<Means>();
 
-		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("network",
+		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("causation network",
 				context, true);
 		
 		network  = netBuilder.buildNetwork();
