@@ -3,14 +3,11 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.List;
 
-import repast.simphony.context.Context;
 import repast.simphony.engine.watcher.Watch;
 import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.RepastEdge;
-import repast.simphony.util.ContextUtils;
 
 public class Causator extends Entrepreneur {
 	
@@ -47,51 +44,37 @@ public class Causator extends Entrepreneur {
 		this.marketResearchers = marketResearchers;
 	}
 	
-	public void hireMarketResearchers() {
+	public void hireMarketResearchers() {		
 		int numberOfMarketResearchers = RandomHelper.nextIntFromTo(1, 5);
-		Context<Object> context = ContextUtils.getContext(this);
 		
 		for (int i = 0; i < numberOfMarketResearchers; i++) {
 			MarketResearcher m = new MarketResearcher(network, "MarketResearcher" + String.valueOf(i));			
 			marketResearchers.add(m);
-			context.add(m);			
+			CausationBuilder.context.add(m);			
 			network.addEdge(this, m);
 		}
+		System.out.println("Hired market researchers");
 	}
 	
 	public void selectAndSpreadMarketSample() {		
-		int sampleSize = (int) Math.ceil((CausationBuilder.sampleSize / 100) * CausationBuilder.numberOfCustomers);
-		Context<Object> context = ContextUtils.getContext(this);
+		int sampleSize = (int) Math.ceil((CausationBuilder.sampleSizePercentage * CausationBuilder.numberOfCustomers / 100));
 		
-		List<Customer> customers = new ArrayList<Customer>();
+		CausationBuilder.sampleSize = sampleSize;
 		
+		List<Customer> customers = new ArrayList<Customer>();		
 		
-		for (Object c: context.getRandomObjects(Customer.class, sampleSize)) {
+		for (Object c: CausationBuilder.context.getRandomObjects(Customer.class, sampleSize)) {
 			customers.add((Customer)c);
-		}
+		}		
+		
 		
 		//Spread the customers sample among the hired market researchers 
-		
-		for (int i = 0; i < marketResearchers.size(); i++) {
-			MarketResearcher m = marketResearchers.get(i);
-			
-			int spread;
-			
-			List<Customer> workingSample = new ArrayList<Customer>();
-			
-			if (i == marketResearchers.size() - 1) {
-				spread = marketResearchers.size();
-			} else {
-				int start = (customers.size() > 5) ? 5 : 1;				
-				spread = RandomHelper.nextIntFromTo(start, customers.size());
-			}
-			
-			for (int j = 0; j < spread; j++) {
-				workingSample.add(customers.remove(0));
-			}
-			
-			m.setWorkingSample(workingSample);
-		}
+		int stop = customers.size();
+		for (int i = 0; i < stop; i++) {			
+			int index = RandomHelper.nextIntFromTo(0, customers.size()-1);			
+			marketResearchers.get(i % marketResearchers.size()).getWorkingSample()
+									.add(customers.remove(index));
+		}		
 	}
 	
 	@Watch(watcheeClassName = "EffectuationCausation.MarketResearcher", watcheeFieldNames = "finishedMarketResearch", 
@@ -118,18 +101,21 @@ public class Causator extends Entrepreneur {
 	/**
 	 *  Refine product based on the results of the initial market research
 	 */
-	public void refineProduct() {		
+	public void refineProduct() {	
+		
 		int[] productVector = goal.getProductVector();
 		
-		for (int i = 0; i < aggregatedSurveyResults.length; i++) {
-			if (productVector[i] != aggregatedSurveyResults[i] && 
-					(aggregatedSurveyResults[i] / CausationBuilder.sampleSize) * 100 
-					> CausationBuilder.productElementChangeThreshold) {				
-				productVector[i] = aggregatedSurveyResults[i];
+		for (int i = 0; i < aggregatedSurveyResults.length; i++) {		
+			
+			if ( ((double)aggregatedSurveyResults[i] / (double)CausationBuilder.sampleSize) * 100 
+					> CausationBuilder.productElementChangeThreshold) {
+				
+				productVector[i] = (productVector[i] + 1) % 2;				
 			}
 		}
-		
+		System.out.println("Product refined");
 		goal.setProductVector(productVector);
+		acquireMeans();
 	}
 	
 	/**
@@ -157,6 +143,10 @@ public class Causator extends Entrepreneur {
 			network.addEdge(this, m);
 			ProvidesTo providesTo = new ProvidesTo(this, m);
 			provider.getProvidesToList().add(providesTo);
-		}
+		}		
+	}
+	
+	public int getNumberOfMarketResearchers() {
+		return getMarketResearchers().size();
 	}
 }

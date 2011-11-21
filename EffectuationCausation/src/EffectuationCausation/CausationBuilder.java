@@ -7,38 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.context.Context;
-import repast.simphony.context.space.continuous.ContinuousSpaceFactory;
-import repast.simphony.context.space.continuous.ContinuousSpaceFactoryFinder;
+import repast.simphony.context.DefaultContext;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
-import repast.simphony.engine.schedule.Schedule;
+import repast.simphony.engine.schedule.ISchedule;
 import repast.simphony.engine.schedule.ScheduleParameters;
-import repast.simphony.engine.watcher.Watch;
-import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.continuous.ContinuousSpace;
-import repast.simphony.space.continuous.RandomCartesianAdder;
-import repast.simphony.space.graph.DirectedJungNetwork;
 import repast.simphony.space.graph.Network;
-import repast.simphony.util.ContextUtils;
 
 /**
  * @author klesti
  *
  */
-public class CausationBuilder implements ContextBuilder<Object>  {
+public class CausationBuilder extends DefaultContext<Object> implements ContextBuilder<Object>	 {
 
 	//Parameters, later will be prodived by the user interface
 	public static final int vectorSpaceSize = 10;
 	public static final int numberOfCustomers = 100;
-	public static final int sampleSize = 5; //Sample size in percentage
+	public static final int sampleSizePercentage = 5; //Sample size in percentage
+	public static int sampleSize = 0; //Sample size in percentage
 	// The percentage of the customers sample that needs to have a product element as 1
 	// in order to change the initial value of the product elements vector
-	public static final int productElementChangeThreshold = 50; 
+	public static final int productElementChangeThreshold = 40; 
 	public static final int maxProviders = 10; // Maximum number of providers	
 	public static final int[] meansOfferedWeightRange = {1,10}; // Means offered weight range 
 	
-	protected Schedule schedule;
 	public static Context<Object> context;
 	public static Network<Object> network;
 	public static List<Means> offeredMeans; // List of all offered means (by all providers) 
@@ -90,23 +83,23 @@ public class CausationBuilder implements ContextBuilder<Object>  {
 				
 		//Schedule actions
 		
-		scheduleActions();
-		
+		scheduleActions();		
+				
 		return context;
 	}
 	
 	public void scheduleActions() {
-		schedule = new Schedule();
+		ISchedule schedule = repast.simphony.engine.environment.RunEnvironment.getInstance()
+        .getCurrentSchedule();
 		
 		//Hire market researchers		
-		Causator causator = (Causator)context.getObjects(Causator.class).get(0);
-		
+		Causator causator = (Causator)CausationBuilder.context.getObjects(Causator.class).get(0);
 		ScheduleParameters parameters = ScheduleParameters.createOneTime(1);
 		schedule.schedule(parameters, causator, "hireMarketResearchers");
-		
+				
 		//Spread the customers sample among the hired market researchers
 		
 		ScheduleParameters parameters2 = ScheduleParameters.createOneTime(2);
-		schedule.schedule(parameters2, causator, "selectAndSpreadMarketSample");
+		schedule.schedule(parameters2, causator, "selectAndSpreadMarketSample");		
 	}
 }

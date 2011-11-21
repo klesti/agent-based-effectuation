@@ -1,13 +1,10 @@
 package EffectuationCausation;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.Network;
-import repast.simphony.util.ContextUtils;
+
 
 public class Goal {
 	private List<Means> requiredMeans;
@@ -64,6 +61,7 @@ public class Goal {
 	public int[] getProductVector() {
 		return productVector;
 	}
+	
 
 	/**
 	 * @param productVector the productVector to set
@@ -85,6 +83,16 @@ public class Goal {
 		if (changed) {
 			generateRequiredMeans();
 		}
+	}
+	
+	public String printProductVector() {
+		String s = "";
+		
+		for (int i = 0; i < productVector.length; i++) {
+			s += String.valueOf(productVector[i]);
+		}
+		
+		return s;
 	}
 	
 	public void generateRandomProductVector() {
