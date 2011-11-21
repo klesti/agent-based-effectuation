@@ -22,6 +22,7 @@ public class MarketResearcher extends Agent {
 	public MarketResearcher(Network<Object> network, String label) {
 		super(network, label);
 		workingSample = new ArrayList<Customer>();
+		surveyResults = new int[CausationBuilder.vectorSpaceSize];
 	}
 
 	
@@ -37,8 +38,7 @@ public class MarketResearcher extends Agent {
 	 * @param workingSample the workingSample to set
 	 */
 	public void setWorkingSample(List<Customer> workingSample) {
-		this.workingSample = workingSample;
-		surveyResults = new int[this.workingSample.get(0).demandVector.length];
+		this.workingSample = workingSample;		
 		for (int i = 0; i < surveyResults.length; i++) {
 			surveyResults[i] = 0;
 		}
@@ -70,7 +70,7 @@ public class MarketResearcher extends Agent {
 	@ScheduledMethod(start=3,interval=1)	
 	public void step() {
 		if (!finishedMarketResearch && workingSample.size() > 0) {
-			Customer c = workingSample.remove(0);
+			Customer c = workingSample.remove(0);			
 			for (int i = 0; i < c.demandVector.length; i++ ) {
 				surveyResults[i] += c.demandVector[i];			
 			}	
