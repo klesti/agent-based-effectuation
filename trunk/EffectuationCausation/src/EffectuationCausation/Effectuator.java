@@ -3,7 +3,7 @@
  */
 package EffectuationCausation;
 
-import repast.simphony.space.graph.JungNetwork;
+import repast.simphony.space.graph.Network;
 
 /**
  * @author klesti
@@ -11,7 +11,7 @@ import repast.simphony.space.graph.JungNetwork;
  */
 public class Effectuator extends Entrepreneur {
 
-	public Effectuator(JungNetwork<Object> network, String label) {
+	public Effectuator(Network<Object> network, String label) {
 		super(network, label);
 		// TODO Auto-generated constructor stub
 	}
