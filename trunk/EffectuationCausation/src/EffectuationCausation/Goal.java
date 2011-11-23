@@ -5,10 +5,9 @@ import java.util.List;
 
 import repast.simphony.random.RandomHelper;
 
-
 public class Goal {
-	private List<Means> requiredMeans;
-	private int[] productVector;
+	protected List<Means> requiredMeans;
+	protected int[] productVector;
 	
 	public Goal() {
 		requiredMeans = new ArrayList<Means>();
@@ -17,10 +16,12 @@ public class Goal {
 		generateRandomProductVector();		
 	}
 	
+	/**
+	 *  This method should be called only in the causation scenario
+	 */
 	public void generateRequiredMeans() {
 		clearRequiredMeans();
 		CausationBuilder.offeredMeans.clear();		
-		
 		
 		int possibleMeans = RandomHelper.nextIntFromTo(2, 10);		
 		for (int i = 0; i < possibleMeans; i++) {
