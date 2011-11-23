@@ -10,9 +10,9 @@ public class Goal {
 	private List<Means> requiredMeans;
 	private int[] productVector;
 	
-	public Goal(int productVectorSize) {
+	public Goal() {
 		requiredMeans = new ArrayList<Means>();
-		productVector = new int[productVectorSize];
+		productVector = new int[Parameters.vectorSpaceSize];
 		
 		generateRandomProductVector();		
 	}

@@ -22,7 +22,7 @@ public class MarketResearcher extends Agent {
 	public MarketResearcher(Network<Object> network, String label) {
 		super(network, label);
 		workingSample = new ArrayList<Customer>();
-		surveyResults = new int[CausationBuilder.vectorSpaceSize];
+		surveyResults = new int[Parameters.vectorSpaceSize];
 	}
 
 	

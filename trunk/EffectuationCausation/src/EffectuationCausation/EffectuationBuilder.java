@@ -17,7 +17,6 @@ import repast.simphony.space.graph.Network;
 public class EffectuationBuilder extends DefaultContext<Object> implements ContextBuilder<Object> {
 
 	//Parameters, later will be prodived by the user interface
-	public static final int vectorSpaceSize = 10;
 	public static final int numberOfCustomers = 100;	
 	public static final int maxInitialGoals = 5;
 	public static Network<Object> network;
@@ -39,7 +38,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		int totalInitialGoals = RandomHelper.nextIntFromTo(1, maxInitialGoals);
 		
 		for (int i = 0; i < totalInitialGoals; i++) {
-			Goal g = new Goal(vectorSpaceSize);
+			Goal g = new Goal();
 			context.add(g);
 			network.addEdge(effectuator, g);
 		}
