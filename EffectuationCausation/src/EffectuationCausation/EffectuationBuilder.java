@@ -3,8 +3,6 @@
  */
 package EffectuationCausation;
 
-import java.util.Collections;
-
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
 import repast.simphony.context.space.graph.NetworkBuilder;
@@ -26,7 +24,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	public static Network<Object> network;	
 	
 	@Override
-	public Context build(Context<Object> context) {
+	public Context<Object> build(Context<Object> context) {
 		
 		context.setId("effectuation");
 				

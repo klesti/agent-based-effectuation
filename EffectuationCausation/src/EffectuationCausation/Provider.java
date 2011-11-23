@@ -12,7 +12,6 @@ import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.RepastEdge;
-import repast.simphony.util.ContextUtils;
 
 /**
  * @author klesti
