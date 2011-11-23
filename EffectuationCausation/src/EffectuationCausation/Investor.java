@@ -1,5 +1,6 @@
 package EffectuationCausation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import repast.simphony.space.graph.Network;
@@ -8,10 +9,13 @@ public class Investor extends Agent {
 	
 	private List<Means> availableMeans;
 	private double availableMoney;
+	private Goal goal;
 	
 	public Investor(Network<Object> network, String label) {
 		super(network, label);
-		// TODO Auto-generated constructor stub
+		availableMeans = new ArrayList<Means>();
+		goal = new Goal();
+		goal.generateRandomProductVector();
 	}
 
 	/**
@@ -40,6 +44,19 @@ public class Investor extends Agent {
 	 */
 	public void setAvailableMoney(double availableMoney) {
 		this.availableMoney = availableMoney;
+	}
+
+	/**
+	 * @return the goal
+	 */
+	public Goal getGoal() {
+		return goal;
+	}
+
+	/**
+	 * @param goal the goal to set
+	 */
+	public void setGoal(Goal goal) {
+		this.goal = goal;
 	}	
-	
 }

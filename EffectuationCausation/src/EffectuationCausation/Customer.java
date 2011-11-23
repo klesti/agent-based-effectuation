@@ -9,7 +9,7 @@ public class Customer extends Agent {
 	
 	public Customer(Network<Object> network, String label) {
 		super(network, label);
-		demandVector = new int[CausationBuilder.vectorSpaceSize];
+		demandVector = new int[Parameters.vectorSpaceSize];
 		generateRandomDemandVector();
 	}
 

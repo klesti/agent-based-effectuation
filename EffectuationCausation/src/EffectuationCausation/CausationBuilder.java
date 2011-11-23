@@ -22,7 +22,6 @@ import repast.simphony.space.graph.Network;
 public class CausationBuilder extends DefaultContext<Object> implements ContextBuilder<Object>	 {
 
 	//Parameters, later will be prodived by the user interface
-	public static final int vectorSpaceSize = 10;
 	public static final int numberOfCustomers = 100;
 	public static final int sampleSizePercentage = 5; //Sample size in percentage
 	public static int sampleSize = 0; //Sample size in percentage
@@ -53,7 +52,7 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 		Causator causator = new Causator(network, "Causator");
 		context.add(causator);
 		
-		Goal initialGoal = new Goal(vectorSpaceSize);		
+		Goal initialGoal = new Goal();		
 		
 		context.add(initialGoal);		
 		initialGoal.generateRequiredMeans();

@@ -8,6 +8,7 @@ import repast.simphony.space.graph.Network;
 public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected List<Customer> customers;
+	protected Goal goal;
 	
 	public Entrepreneur(Network<Object> network, String label) {
 		super(network, label);
@@ -30,5 +31,13 @@ public class Entrepreneur extends Agent {
 	public void setAvailableMeans(List<Means> availableMeans) {
 		this.availableMeans = availableMeans;
 	}
+	
+	public Goal getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Goal goal) {
+		this.goal = goal;
+	}	
 
 }

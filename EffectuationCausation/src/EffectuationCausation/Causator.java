@@ -12,7 +12,6 @@ import repast.simphony.space.graph.RepastEdge;
 public class Causator extends Entrepreneur {
 	
 	protected List<MarketResearcher> marketResearchers;
-	protected Goal goal;
 	protected List<Means> availableMeans;
 	protected int[] aggregatedSurveyResults;
 
@@ -22,18 +21,10 @@ public class Causator extends Entrepreneur {
 		marketResearchers = new ArrayList<MarketResearcher>();
 		availableMeans = new ArrayList<Means>();
 		//Initialize aggregatedSurveyResults
-		aggregatedSurveyResults = new int[CausationBuilder.vectorSpaceSize];
+		aggregatedSurveyResults = new int[Parameters.vectorSpaceSize];
 		for (int i = 0; i < aggregatedSurveyResults.length; i++) {
 			aggregatedSurveyResults[i] = 0;
 		}		
-	}
-
-	public Goal getGoal() {
-		return goal;
-	}
-
-	public void setGoal(Goal goal) {
-		this.goal = goal;
 	}
 
 	public List<MarketResearcher> getMarketResearchers() {
