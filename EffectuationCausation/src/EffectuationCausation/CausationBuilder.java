@@ -39,7 +39,7 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 	public Context<Object> build(Context<Object> context) {		
 		context.setId("causation");
 		
-		CausationBuilder.context = context;		
+		CausationBuilder.context = context;
 		
 		offeredMeans = new ArrayList<Means>();
 
