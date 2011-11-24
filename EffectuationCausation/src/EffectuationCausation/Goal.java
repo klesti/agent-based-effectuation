@@ -3,13 +3,20 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.List;
 
+import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
+import repast.simphony.space.graph.Network;
 
 public class Goal {
-	protected List<Means> requiredMeans;
-	protected int[] productVector;
+	private List<Means> requiredMeans;
+	private int[] productVector;
+	private Context<Object> context;
+	private Network<Object> network;
 	
-	public Goal() {
+	public Goal(Context<Object> context, Network<Object> network) {
+		this.context = context;
+		this.network = network;
+		
 		requiredMeans = new ArrayList<Means>();
 		productVector = new int[Parameters.vectorSpaceSize];
 		
@@ -28,14 +35,14 @@ public class Goal {
 			Means m = new Means("Means" + String.valueOf(i));
 			requiredMeans.add(m);
 			//Add the required means to the network
-			CausationBuilder.context.add(m);
-			CausationBuilder.network.addEdge(this, m);	
+			context.add(m);
+			network.addEdge(this, m);	
 		}
 	}
 	
 	public void clearRequiredMeans() {		
 		for (Means m: requiredMeans) {
-			CausationBuilder.context.remove(m);
+			context.remove(m);
 		}
 		requiredMeans.clear();
 	}
@@ -53,6 +60,11 @@ public class Goal {
 	 * @param requiredMeans the requiredMeans to set
 	 */
 	public void setRequiredMeans(List<Means> requiredMeans) {
+		clearRequiredMeans();
+		for (Means m: requiredMeans) {
+			context.add(m);
+			network.addEdge(this, m);
+		}
 		this.requiredMeans = requiredMeans;
 	}
 

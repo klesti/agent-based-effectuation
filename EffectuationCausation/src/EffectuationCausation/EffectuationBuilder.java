@@ -3,6 +3,10 @@
  */
 package EffectuationCausation;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
 import repast.simphony.context.space.graph.NetworkBuilder;
@@ -33,27 +37,40 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("effectuation network",
 				context, true);
 		
-		network  = netBuilder.buildNetwork();	
+		EffectuationBuilder.network  = netBuilder.buildNetwork();	
 		 
 		
 		//Add the effectuator entrepreneur and it's initial available means
-		Effectuator effectuator = new Effectuator(network, "Effectuator");
+		Effectuator effectuator = new Effectuator(context, network, "Effectuator");
 		context.add(effectuator);
 		effectuator.generateAvailableMeans();
 		
 		// Generate initial goal(s) based on the available means	
-		
-		
+			
 		int totalInitialGoals = RandomHelper.nextIntFromTo(1, maxInitialGoals);
 		
 		for (int i = 0; i < totalInitialGoals; i++) {
-			Goal g = new Goal();
-			context.add(g);
-			network.addEdge(effectuator, g);
+			
+			Goal g = new Goal(context, network);
+			//First goal requires all available means
+			if (i == 0) {
+				g.setRequiredMeans(effectuator.getAvailableMeans());				
+			} else {
+				//Require a random number of the available means
+				Collections.shuffle(effectuator.getAvailableMeans());
+				int randomNumber = RandomHelper.nextIntFromTo(1, effectuator.getAvailableMeans().size());
+				
+				List<Means> requiredMeans = new ArrayList<Means>();
+				
+				for (int j = 0; j < randomNumber; j++) {
+					requiredMeans.add(effectuator.getAvailableMeans().get(j));					
+				}				
+				g.setRequiredMeans(requiredMeans);
+			}			
+			effectuator.addGoal(g);
 		}
 		
-		//Network generation
-		
+		//TODO: Network generation
 		
 
 		return context;

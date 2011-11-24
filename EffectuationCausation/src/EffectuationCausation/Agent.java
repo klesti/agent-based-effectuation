@@ -3,6 +3,7 @@
  */
 package EffectuationCausation;
 
+import repast.simphony.context.Context;
 import repast.simphony.space.graph.Network;
 
 /**
@@ -11,9 +12,12 @@ import repast.simphony.space.graph.Network;
  */
 public class Agent {
 	protected String label;
+	protected Context<Object> context;
 	protected Network<Object> network;
 	
-	public Agent(Network<Object> network, String label) {
+	
+	public Agent(Context<Object> context, Network<Object> network, String label) {
+		this.context = context;
 		this.network = network;
 		this.label = label;
 	}
@@ -25,6 +29,20 @@ public class Agent {
 		return label;
 	}
 
+
+	/**
+	 * @return the context
+	 */
+	public Context<Object> getContext() {
+		return context;
+	}
+
+	/**
+	 * @param context the context to set
+	 */
+	public void setContext(Context<Object> context) {
+		this.context = context;
+	}
 
 	/**
 	 * @param label the label to set
@@ -47,6 +65,7 @@ public class Agent {
 	public void setNetwork(Network<Object> network) {
 		this.network = network;
 	}
+	
 
 	public void step() {
 				

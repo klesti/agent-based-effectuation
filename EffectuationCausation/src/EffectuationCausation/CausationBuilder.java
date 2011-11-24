@@ -49,23 +49,21 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 		network  = netBuilder.buildNetwork();
 		
 		//Add the causator entrepreneur and it's initial goal
-		Causator causator = new Causator(network, "Causator");
+		Causator causator = new Causator(context, network, "Causator");
 		context.add(causator);
 		
-		Goal initialGoal = new Goal();		
+		Goal initialGoal = new Goal(context,network);		
 		
-		context.add(initialGoal);		
+		context.add(initialGoal);
 		initialGoal.generateRequiredMeans();
 		
-		causator.setGoal(initialGoal);		
 		context.add(causator);
-		
-		network.addEdge(causator, initialGoal);		
+		causator.setGoal(initialGoal);		
 		
 		//Add the customers to the network	
 		
 		for (int i = 0; i < numberOfCustomers; i++) {
-			Customer c = new Customer(network, "Customer" + String.valueOf(i));
+			Customer c = new Customer(context, network, "Customer" + String.valueOf(i));
 			context.add(c);
 		}
 	
@@ -75,7 +73,7 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 		int numberOfProviders = RandomHelper.nextIntFromTo(3, maxProviders);
 		
 		for (int i = 0; i < numberOfProviders; i++) {
-			Provider p = new Provider(network, "Provider" + String.valueOf(i));
+			Provider p = new Provider(context, network, "Provider" + String.valueOf(i));
 			context.add(p);
 			p.generateOfferedMeans();
 		}
