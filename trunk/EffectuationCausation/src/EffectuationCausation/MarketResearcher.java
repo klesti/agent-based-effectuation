@@ -6,6 +6,7 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.List;
 
+import repast.simphony.context.Context;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.space.graph.Network;
 
@@ -19,8 +20,8 @@ public class MarketResearcher extends Agent {
 	protected int[] surveyResults;
 	protected boolean finishedMarketResearch = false;
 
-	public MarketResearcher(Network<Object> network, String label) {
-		super(network, label);
+	public MarketResearcher(Context<Object> context, Network<Object> network, String label) {
+		super(context, network, label);
 		workingSample = new ArrayList<Customer>();
 		surveyResults = new int[Parameters.vectorSpaceSize];
 	}

@@ -1,35 +1,21 @@
 package EffectuationCausation;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import repast.simphony.context.Context;
 import repast.simphony.space.graph.Network;
 
-public class Investor extends Agent {
+public class Investor extends Entrepreneur {
 	
-	private List<Means> availableMeans;
 	private double availableMoney;
-	private Goal goal;
 	
-	public Investor(Network<Object> network, String label) {
-		super(network, label);
+	public Investor(Context<Object> context, Network<Object> network, String label) {
+		super(context, network, label);
 		availableMeans = new ArrayList<Means>();
-		goal = new Goal();
+		goal = new Goal(EffectuationBuilder.context, network);
 		goal.generateRandomProductVector();
-	}
-
-	/**
-	 * @return the availableMeans
-	 */
-	public List<Means> getAvailableMeans() {
-		return availableMeans;
-	}
-
-	/**
-	 * @param availableMeans the availableMeans to set
-	 */
-	public void setAvailableMeans(List<Means> availableMeans) {
-		this.availableMeans = availableMeans;
+		generateAvailableMeans();
+		goal.setRequiredMeans(availableMeans);
 	}
 
 	/**
@@ -46,17 +32,4 @@ public class Investor extends Agent {
 		this.availableMoney = availableMoney;
 	}
 
-	/**
-	 * @return the goal
-	 */
-	public Goal getGoal() {
-		return goal;
-	}
-
-	/**
-	 * @param goal the goal to set
-	 */
-	public void setGoal(Goal goal) {
-		this.goal = goal;
-	}	
 }

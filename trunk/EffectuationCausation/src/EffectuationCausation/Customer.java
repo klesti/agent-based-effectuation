@@ -1,5 +1,6 @@
 package EffectuationCausation;
 
+import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
@@ -7,8 +8,8 @@ public class Customer extends Agent {
 	
 	protected int[] demandVector;
 	
-	public Customer(Network<Object> network, String label) {
-		super(network, label);
+	public Customer(Context<Object> context, Network<Object> network, String label) {
+		super(context, network, label);
 		demandVector = new int[Parameters.vectorSpaceSize];
 		generateRandomDemandVector();
 	}

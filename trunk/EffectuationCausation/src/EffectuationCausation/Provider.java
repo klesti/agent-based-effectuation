@@ -22,8 +22,8 @@ public class Provider extends Agent {
 	private List<Means> offeredMeans;
 	private List<ProvidesTo> providesToList;
 
-	public Provider(Network<Object> network, String label) {
-		super(network, label);
+	public Provider(Context<Object> context, Network<Object> network, String label) {
+		super(context, network, label);
 		offeredMeans = new ArrayList<Means>();
 		providesToList = new ArrayList<ProvidesTo>();		
 	}

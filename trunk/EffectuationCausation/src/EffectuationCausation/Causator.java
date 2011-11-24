@@ -3,6 +3,7 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.List;
 
+import repast.simphony.context.Context;
 import repast.simphony.engine.watcher.Watch;
 import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
@@ -12,11 +13,10 @@ import repast.simphony.space.graph.RepastEdge;
 public class Causator extends Entrepreneur {
 	
 	protected List<MarketResearcher> marketResearchers;
-	protected List<Means> availableMeans;
 	protected int[] aggregatedSurveyResults;
 
-	public Causator(Network<Object> network, String label) {
-		super(network, label);
+	public Causator(Context<Object> context, Network<Object> network, String label) {
+		super(context, network, label);
 		
 		marketResearchers = new ArrayList<MarketResearcher>();
 		availableMeans = new ArrayList<Means>();
@@ -32,6 +32,14 @@ public class Causator extends Entrepreneur {
 	}
 
 	public void setMarketResearchers(List<MarketResearcher> marketResearchers) {
+		for (MarketResearcher m: this.marketResearchers) {
+			context.remove(m);
+		}
+		
+		for (MarketResearcher m: marketResearchers) {
+			context.add(m);
+			network.addEdge(this, m);
+		}
 		this.marketResearchers = marketResearchers;
 	}
 	
@@ -39,9 +47,9 @@ public class Causator extends Entrepreneur {
 		int numberOfMarketResearchers = RandomHelper.nextIntFromTo(1, 5);
 		
 		for (int i = 0; i < numberOfMarketResearchers; i++) {
-			MarketResearcher m = new MarketResearcher(network, "MarketResearcher" + String.valueOf(i));			
+			MarketResearcher m = new MarketResearcher(context, network, "MarketResearcher" + String.valueOf(i));			
 			marketResearchers.add(m);
-			CausationBuilder.context.add(m);			
+			context.add(m);			
 			network.addEdge(this, m);
 		}
 		System.out.println("Hired market researchers");
@@ -54,7 +62,7 @@ public class Causator extends Entrepreneur {
 		
 		List<Customer> customers = new ArrayList<Customer>();		
 		
-		for (Object c: CausationBuilder.context.getRandomObjects(Customer.class, sampleSize)) {
+		for (Object c: context.getRandomObjects(Customer.class, sampleSize)) {
 			customers.add((Customer)c);
 		}		
 		
@@ -117,7 +125,7 @@ public class Causator extends Entrepreneur {
 					
 		for (Means m: goal.getRequiredMeans()) {
 			double minWeight = 1000 * CausationBuilder.meansOfferedWeightRange[1];
-			Provider provider = new Provider(network, "p");
+			Provider provider = new Provider(context, network, "p");
 			//Get the means from the provider that offers it with lowest "weight"
 			for (Object o: network.getAdjacent(m)) {
 				if (o instanceof Provider) {
