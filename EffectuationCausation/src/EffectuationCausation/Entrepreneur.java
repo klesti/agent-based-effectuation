@@ -11,6 +11,10 @@ import repast.simphony.space.graph.Network;
  * @author klesti
  *
  */
+/**
+ * @author klesti
+ *
+ */
 public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected List<Customer> customers;
@@ -84,7 +88,7 @@ public class Entrepreneur extends Agent {
 	/**
 	 * To be called only in the effectuation scenario 
 	 */
-	public void generateAvailableMeans() {		
+	public void generateAvailableMeans() {
 		int totalMeans = RandomHelper.nextIntFromTo(1, EffectuationBuilder.maxInitalMeans);
 		
 		for (int i = 0; i < totalMeans; i++) {
@@ -92,6 +96,21 @@ public class Entrepreneur extends Agent {
 			availableMeans.add(m);
 			context.add(m);
 			network.addEdge(this, m);
-		}		
+		}
+	}
+	
+	
+	
+	/**
+	 *  To be called only in the effectuation scenario
+	 *  @description Generate goal based on the available means (require all of them)
+	 */
+	public void generateGoal() {
+		if (availableMeans.size() == 0) {
+			generateAvailableMeans();
+		}
+		goal = new Goal(context, network);
+		goal.generateRandomProductVector();
+		goal.setRequiredMeans(availableMeans);
 	}
 }

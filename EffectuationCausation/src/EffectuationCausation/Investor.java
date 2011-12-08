@@ -3,6 +3,7 @@ package EffectuationCausation;
 import java.util.ArrayList;
 
 import repast.simphony.context.Context;
+import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
 public class Investor extends Entrepreneur {
@@ -12,9 +13,10 @@ public class Investor extends Entrepreneur {
 	public Investor(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
 		availableMeans = new ArrayList<Means>();
-		goal = new Goal(EffectuationBuilder.context, network);
+		goal = new Goal(context, network);
 		goal.generateRandomProductVector();
 		generateAvailableMeans();
+		generateAvailableMoney();
 		goal.setRequiredMeans(availableMeans);
 	}
 
@@ -30,6 +32,10 @@ public class Investor extends Entrepreneur {
 	 */
 	public void setAvailableMoney(double availableMoney) {
 		this.availableMoney = availableMoney;
+	}
+	
+	public void generateAvailableMoney() {
+		availableMoney = RandomHelper.nextDoubleFromTo(1000, 10000);
 	}
 
 }
