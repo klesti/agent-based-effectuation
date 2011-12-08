@@ -72,7 +72,6 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		
 		//TODO: Network generation
 		
-
 		return context;
 	}
 
