@@ -4,9 +4,7 @@
 package EffectuationCausation;
 
 import repast.simphony.context.Context;
-import repast.simphony.context.DefaultContext;
-import repast.simphony.context.space.graph.NetworkBuilder;
-import repast.simphony.context.space.graph.RandomDensityGenerator;
+import repast.simphony.context.space.graph.NetworkGenerator;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
@@ -15,7 +13,7 @@ import repast.simphony.space.graph.Network;
  * @author klesti
  *
  */
-public class BarabasiAlbertNetworkGenerator extends RandomDensityGenerator<Object> {
+public class BarabasiAlbertNetworkGenerator implements NetworkGenerator<Object> {
 	
 	private int edgesPerStep;
 	private int totalCustomers;
@@ -24,14 +22,8 @@ public class BarabasiAlbertNetworkGenerator extends RandomDensityGenerator<Objec
 	private Context<Object> context;
 	private Network<Object> network;
 
-	public BarabasiAlbertNetworkGenerator() {
-		super(0.2, false, false);
-		
-		context = new DefaultContext<Object>("effectual network");
-		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("network",
-				context, true);
-		
-		network = netBuilder.buildNetwork();
+	public BarabasiAlbertNetworkGenerator(Context<Object> context) {		
+		this.context = context;
 		
 		edgesPerStep = 0;
 		totalCustomers = 0;
@@ -44,10 +36,10 @@ public class BarabasiAlbertNetworkGenerator extends RandomDensityGenerator<Objec
 	 */
 	@Override
 	public Network<Object> createNetwork(Network<Object> network) {		
-		initializeNetworkNodes();
-		Network<Object> n = super.createNetwork(network);
+		this.network = network;
 		
-		this.network = n;
+		initializeNetwork(0.3);	
+		
 
 		// Evolve network using preferential attachment
 		
@@ -70,7 +62,7 @@ public class BarabasiAlbertNetworkGenerator extends RandomDensityGenerator<Objec
 			}			
 		}
 		
-		return n;
+		return network;
 	}
 	
 	/**
@@ -83,7 +75,15 @@ public class BarabasiAlbertNetworkGenerator extends RandomDensityGenerator<Objec
 			
 			double totalDegree = network.getDegree();
 			
-			for (Object o: context) {				
+			for (Object o: context) {
+				
+				//Attach only to subclasses of Agent!
+				
+				if (!o.getClass().isAssignableFrom(Agent.class)) 
+				{
+					continue;
+				}
+				
 				double prob = network.getDegree(o) / totalDegree;
 				
 				if (prob > 0.0 && RandomHelper.nextDoubleFromTo(0,1) >= prob) {				
@@ -92,10 +92,14 @@ public class BarabasiAlbertNetworkGenerator extends RandomDensityGenerator<Objec
 				}			
 			}
 		}
-	}	
+	}
 	
 	
-	private void initializeNetworkNodes() {
+	/**
+	 * Initializes the network
+	 * @param p initial wiring probability
+	 */
+	private void initializeNetwork(double p) {
 		if (totalCustomers == 0 && totalEntrepreneuers == 0 && totalInvestors == 0) {
 			initializeParametersRandomly();
 		}
@@ -117,7 +121,19 @@ public class BarabasiAlbertNetworkGenerator extends RandomDensityGenerator<Objec
 		context.add(new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt())));
 		totalInvestors--;
 		context.add(new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt())));
-		totalInvestors--;	
+		totalInvestors--;
+		
+		//Initial wiring using a random network
+		for (Object i: network.getNodes()) {
+			for (Object j: network.getNodes()) {
+				double random = RandomHelper.nextDoubleFromTo(0, 1);
+				if (i.getClass().isAssignableFrom(Agent.class) &&
+						j.getClass().isAssignableFrom(Agent.class) &&
+						random >= p) {
+					network.addEdge(i, j);					
+				}
+			}
+		}
 	}
 	
 	public void initializeParametersRandomly() {
