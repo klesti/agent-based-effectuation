@@ -70,7 +70,11 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			effectuator.addGoal(g);
 		}
 		
-		//TODO: Network generation
+						
+		//Network generation
+		
+		BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
+		EffectuationBuilder.network = ng.createNetwork(EffectuationBuilder.network);
 		
 		return context;
 	}
