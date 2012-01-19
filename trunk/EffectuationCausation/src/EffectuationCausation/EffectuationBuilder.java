@@ -24,8 +24,12 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	public static final int numberOfCustomers = 100;	
 	public static final int maxInitialGoals = 3;
 	public static final int maxInitalMeans = 3;
+	public static final int maxDepthForMeeting = 3;
+	public static final int minMeetings = 3;
+	public static final int maxMeetings = 10;
 	public static Context<Object> context;
 	public static Network<Object> network;	
+	
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
