@@ -192,6 +192,11 @@ public class Effectuator extends Entrepreneur {
 				}
 				actualCommitment = c;
 				setGoal(c.getGoal());
+				// Create a direct connection between the involved parties if it is 
+				// not already there
+				if (!network.isAdjacent(this, c.getSecondParty())) {
+					network.addEdge(this, c.getSecondParty());
+				}
 				break;
 			}
 		}
