@@ -200,7 +200,7 @@ public class Effectuator extends Entrepreneur {
 			for (Goal g: getGoals()) {
 				double p = RandomHelper.nextDoubleFromTo(0,1);
 				if (p >= prob) {
-					setGoal(goal);
+					setGoal(g);
 					break;
 				}				
 			}
