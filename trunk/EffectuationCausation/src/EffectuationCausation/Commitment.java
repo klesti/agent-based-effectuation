@@ -5,6 +5,13 @@ package EffectuationCausation;
 
 import java.util.List;
 
+import repast.simphony.random.RandomHelper;
+import repast.simphony.space.graph.ShortestPath;
+
+/**
+ * @author klesti
+ *
+ */
 /**
  * @author klesti
  *
@@ -75,6 +82,54 @@ public class Commitment {
 	 */
 	public void setMeans(List<Means> means) {
 		this.means = means;
+	}
+	
+	/**
+	 * Returns a random utility from 0 to 1 for this commitment
+	 * @return utility
+	 */
+	public double getRandomUtility() {		 
+		return RandomHelper.nextDoubleFromTo(0,1);
+	}
+	
+	/**
+	 * Returns the "connections utility" as defined by "Jackson and Wolinsky, 1996"
+	 * @return utility
+	 */
+	public double getConnectionsUtility() {
+		double sigma = 0.5;
+		
+		double utility = 0;
+		
+		ShortestPath<Object> sp = new ShortestPath<Object>(getFirstParty().getNetwork());
+				
+		for(Object o: getFirstParty().getNetwork().getNodes()) {
+			if (!getFirstParty().equals(o)) {
+				utility += Math.pow(sigma, sp.getPathLength(getFirstParty(), o));
+			}
+		}	
+		
+		return utility;
+	}
+	
+	/**
+	 * Returns the "degree centrality utility", i.e an utility functions that is based on the
+	 * degree centrality of the second party 
+	 * @return utility
+	 */
+	public double getDegreeCentralityUtility() {
+		return getSecondParty().getNetwork().getDegree(getSecondParty());
+	}
+	
+	
+	/**
+	 * Returns the "betweenness centrality utility", i.e an utility functions that is based on the
+	 * betweenness centrality of the second party
+	 * @return utility
+	 */
+	public double getBetweennessCentralityUtility() {
+		//TODO: Needs to be implemented
+		return 0.0;
 	}
 	
 	/**
