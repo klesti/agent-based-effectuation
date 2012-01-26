@@ -4,6 +4,7 @@
 package EffectuationCausation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import repast.simphony.context.Context;
@@ -180,37 +181,29 @@ public class Effectuator extends Entrepreneur {
 			whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)	
 	public void chooseGoal() {
 	
-		//"Go for commitment" probability
-		//TODO: Later defined by an "utility function"
-		double prob = 0.5;
+		//Calculate utility of all prospective commitments
+		ArrayList<Double> utilities = new ArrayList<Double>();
 		
-		for (Commitment c: possibleCommitments) {
-			double p = RandomHelper.nextDoubleFromTo(0,1);
-			if (p >= prob) {
-				for  (Means m: c.getMeans()) {
-					addMeans(m);					
-				}
-				actualCommitment = c;
-				setGoal(c.getGoal());
-				// Create a direct connection between the involved parties if it is 
-				// not already there
-				if (!network.isAdjacent(this, c.getSecondParty())) {
-					network.addEdge(this, c.getSecondParty());
-				}
-				break;
-			}
+		for (int i = 0; i < possibleCommitments.size(); i++) {
+			//Using "random utility" initially
+			utilities.add(possibleCommitments.get(i).getRandomUtility());			
 		}
 		
-		if (actualCommitment == null) {
-			for (Goal g: getGoals()) {
-				double p = RandomHelper.nextDoubleFromTo(0,1);
-				if (p >= prob) {
-					setGoal(g);
-					break;
-				}				
-			}
+		//Go for the "potential commitment" with maximal utility
+		
+		double maxUtility = Collections.max(utilities);
+		actualCommitment = possibleCommitments.get(possibleCommitments.indexOf(maxUtility));
+
+		for  (Means m: actualCommitment.getMeans()) {
+			addMeans(m);					
 		}
 		
+		setGoal(actualCommitment.getGoal());
+		// Create a direct connection between the involved parties if it is 
+		// not already there
+		if (!network.isAdjacent(this, actualCommitment.getSecondParty())) {
+			network.addEdge(this, actualCommitment.getSecondParty());
+		}		
 	}
 	
 }
