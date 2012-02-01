@@ -67,7 +67,6 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 				continue;
 			}
 			
-						
 			ArrayList<Object> adjacentNodes = new ArrayList<Object>();
 			
 			for (Object o: network.getAdjacent(randomNode)) {
