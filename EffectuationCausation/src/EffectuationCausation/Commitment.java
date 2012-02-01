@@ -128,8 +128,7 @@ public class Commitment {
 	 * @return utility
 	 */
 	public double getBetweennessCentralityUtility() {
-		//TODO: Needs to be implemented
-		return 0.0;
+		return getSecondParty().getBetweennessCentrality();
 	}
 	
 	/**

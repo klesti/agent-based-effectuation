@@ -14,12 +14,14 @@ public class Agent {
 	protected String label;
 	protected Context<Object> context;
 	protected Network<Object> network;
+	protected double betweennessCentrality;
 	
 	
 	public Agent(Context<Object> context, Network<Object> network, String label) {
 		this.context = context;
 		this.network = network;
 		this.label = label;
+		this.betweennessCentrality = 0;
 	}
 	
 	/**
@@ -66,6 +68,20 @@ public class Agent {
 		this.network = network;
 	}
 	
+
+	/**
+	 * @return the betweennessCentrality
+	 */
+	public double getBetweennessCentrality() {
+		return betweennessCentrality;
+	}
+
+	/**
+	 * @param betweennessCentrality the betweennessCentrality to set
+	 */
+	public void setBetweennessCentrality(double betweennessCentrality) {
+		this.betweennessCentrality = betweennessCentrality;
+	}
 
 	public void step() {
 				

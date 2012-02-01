@@ -32,7 +32,7 @@ public class Effectuator extends Entrepreneur {
 		totalRemainingMeetings = RandomHelper.nextIntFromTo(EffectuationBuilder.minMeetings, 
 				EffectuationBuilder.maxMeetings);
 		setFinishedExpandingResources(false);
-		setActualCommitment(null);
+		setActualCommitment(null);		
 	}
 
 	/**

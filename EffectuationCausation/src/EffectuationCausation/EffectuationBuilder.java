@@ -7,12 +7,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
+import edu.uci.ics.jung.graph.Graph;
+
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
 import repast.simphony.random.RandomHelper;
+import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.RepastEdge;
 
 /**
  * @author klesti
@@ -81,6 +86,30 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		EffectuationBuilder.network = ng.createNetwork(EffectuationBuilder.network);
 		
 		return context;
+	}
+	
+	/**
+	 * Calculates the betweenness centrality for each node, using the JUNG implemented
+	 * betweenness centrality calculator algorithm 
+	 */
+	public static void calculateBetweennesCentralities() {
+		JungNetwork<Object> N = (JungNetwork<Object>)network;
+		
+		Graph<Object, RepastEdge<Object>> G = N.getGraph();
+		
+		BetweennessCentrality<Object, RepastEdge<Object>> ranker = 
+			new BetweennessCentrality<Object, RepastEdge<Object>>(G);
+		
+		ranker.evaluate();
+		
+		for (Object n: network.getNodes()) {
+			if (n instanceof Effectuator || n instanceof Customer || 
+					n instanceof Investor) {
+				Agent a = (Agent)n;
+				a.setBetweennessCentrality(ranker.getVertexRankScore(n));
+			}
+		}
+		
 	}
 
 }
