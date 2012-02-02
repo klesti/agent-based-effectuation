@@ -107,7 +107,7 @@ public class Causator extends Entrepreneur {
 		for (int i = 0; i < aggregatedSurveyResults.length; i++) {		
 			
 			if ( ((double)aggregatedSurveyResults[i] / (double)CausationBuilder.sampleSize) * 100 
-					> CausationBuilder.productElementChangeThreshold) {
+					>= Parameters.productElementChangeThreshold) {
 				
 				productVector[i] = (productVector[i] + 1) % 2;				
 			}

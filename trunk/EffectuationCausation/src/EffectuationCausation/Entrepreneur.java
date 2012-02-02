@@ -1,6 +1,7 @@
 package EffectuationCausation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import repast.simphony.context.Context;
@@ -112,5 +113,57 @@ public class Entrepreneur extends Agent {
 		goal = new Goal(context, network);
 		goal.generateRandomProductVector();
 		goal.setRequiredMeans(availableMeans);
+	}
+	
+	
+	
+	/**
+	 * Aggregate goal product vector based on the demand of the surrounding customers
+	 */
+	public void aggregateGoalProductVector() {
+		List<Customer> customers = new ArrayList<Customer>();
+		
+		for (Object o: network.getAdjacent(this)) {
+			if (o instanceof Customer) {
+				customers.add((Customer)o);
+			}
+		}
+		
+		if (customers.size() > 0) {
+			Collections.shuffle(customers);
+			
+			int sampleTotal = RandomHelper.nextIntFromTo(1, customers.size());
+			
+			//Survey random connected customers sample
+			
+			int[] surveyResults = new int[Parameters.vectorSpaceSize];
+			
+			for (int i = 0; i < surveyResults.length; i++) {
+				surveyResults[i] = 0;
+			}			
+			
+			for (int i = 0; i < sampleTotal; i++) {
+				int[] demandVector = customers.get(i).demandVector;
+				
+				for (int j = 0; j < demandVector.length; j++) {
+					surveyResults[j] += demandVector[j];
+				}
+			}
+			
+			//Refine product vector
+			
+			if (goal == null) {
+				generateGoal();
+			}
+			
+			int[] productVector = goal.getProductVector();
+			
+			for (int i = 0; i < surveyResults.length; i++) {				
+				if ( ((double)surveyResults[i] / (double)sampleTotal) * 100 
+						>= Parameters.productElementChangeThreshold) {					
+					productVector[i] = (productVector[i] + 1) % 2;				
+				}
+			}
+		}
 	}
 }

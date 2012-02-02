@@ -25,9 +25,7 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 	public static final int numberOfCustomers = 100;
 	public static final int sampleSizePercentage = 5; //Sample size in percentage
 	public static int sampleSize = 0; //Sample size in percentage
-	// The percentage of the customers sample that needs to have a product element as 1
-	// in order to change the initial value of the product elements vector
-	public static final int productElementChangeThreshold = 40; 
+
 	public static final int maxProviders = 10; // Maximum number of providers	
 	public static final int[] meansOfferedWeightRange = {1,10}; // Means offered weight range 
 	
