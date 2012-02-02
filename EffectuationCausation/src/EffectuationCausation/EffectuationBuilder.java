@@ -85,6 +85,20 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
 		EffectuationBuilder.network = ng.createNetwork(EffectuationBuilder.network);
 		
+		// Refine the product vector of the entrepreneurs based on the
+		// connected customers (randomly)
+		
+		double prob = RandomHelper.nextDoubleFromTo(0, 1);
+		
+		for (Object o: context.getObjects(Entrepreneur.class)) {
+			double r = RandomHelper.nextDoubleFromTo(0, 1);
+			
+			if (r >= prob) {
+				Entrepreneur e = (Entrepreneur)o;
+				e.aggregateGoalProductVector();
+			}
+		}
+		
 		return context;
 	}
 	
