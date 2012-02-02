@@ -12,10 +12,6 @@ import repast.simphony.space.graph.Network;
  * @author klesti
  *
  */
-/**
- * @author klesti
- *
- */
 public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected List<Customer> customers;

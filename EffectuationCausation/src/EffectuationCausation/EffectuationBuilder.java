@@ -19,6 +19,7 @@ import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.RepastEdge;
+import repast.simphony.space.graph.UndirectedJungNetwork;
 
 /**
  * @author klesti
@@ -124,6 +125,36 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 				a.setBetweennessCentrality(ranker.getVertexRankScore(n));
 			}
 		}		
+	}
+	
+	/**
+	 * Returns the "entrepreneurial network density"
+	 * density = 2 * number of edges / N * (N-1)
+	 * @return networkDensity
+	 */
+	public double getNetworkDensity() {
+		Network<Object> n = getEntrepreneurialNetwork();
+		return ( 2 * n.getDegree() ) / ( n.size() * (n.size()-1) );
+	}
+	
+	/**
+	 * Returns the network without means and goals
+	 * @return Network
+	 */
+	public JungNetwork<Object> getEntrepreneurialNetwork() {
+		JungNetwork<Object> n = new UndirectedJungNetwork<Object>("entrepreneurial network");
+		for (Object o: network.getNodes()) {
+			if (!(o instanceof Means) && !(o instanceof Goal)) {
+				n.addVertex(o);
+			}
+		}
+		
+		for (RepastEdge<Object> e: network.getEdges()) {
+			if (!(e.getTarget() instanceof Goal) &&  !(e.getTarget() instanceof Means)) {
+				n.addEdge(e);
+			}
+		}		
+		return n;
 	}
 	
 	/**
