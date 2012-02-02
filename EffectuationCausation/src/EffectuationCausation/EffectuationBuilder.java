@@ -14,6 +14,7 @@ import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
+import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
@@ -122,8 +123,41 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 				Agent a = (Agent)n;
 				a.setBetweennessCentrality(ranker.getVertexRankScore(n));
 			}
-		}
+		}		
+	}
+	
+	/**
+	 *  Evolves network during the simulation (adding new nodes randomly)
+	 */
+	@ScheduledMethod(start=1)
+	public static void evolveNetwork() {
+		double prob = RandomHelper.nextDoubleFromTo(0, 1);
 		
+		double r = RandomHelper.nextDoubleFromTo(0, 1);
+		
+		if (r >= prob) {
+			int i = RandomHelper.nextIntFromTo(1, 3);
+			
+			Object n;
+			
+			switch (i) {
+				default:
+					n = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
+					break;
+				case 2:
+					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
+					e.generateGoal();
+					n = e;
+					break;
+				case 3:
+					n = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+					break;
+			}
+			
+			BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
+			ng.setNetwork(network);
+			ng.attachNode(n);			
+		}
 	}
 
 }

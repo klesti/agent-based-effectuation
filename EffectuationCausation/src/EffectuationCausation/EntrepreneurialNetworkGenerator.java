@@ -15,7 +15,7 @@ public class EntrepreneurialNetworkGenerator {
 
 	public EntrepreneurialNetworkGenerator(Context<Object> context) {
 		this.context = context;
-		
+				
 		edgesPerStep = 0;
 		totalCustomers = 0;
 		totalEntrepreneuers = 0;

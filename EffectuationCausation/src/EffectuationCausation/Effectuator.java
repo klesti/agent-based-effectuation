@@ -133,7 +133,7 @@ public class Effectuator extends Entrepreneur {
 	 * Meet an entity (entrepreneur, investor, etc) and "negotiate" a commitment
 	 * @return Object An acquaintance
 	 */
-	public Object meet() {
+	public Object meet() {		
 		int depth = RandomHelper.nextIntFromTo(1, EffectuationBuilder.maxDepthForMeeting);
 		
 		int i = 0;

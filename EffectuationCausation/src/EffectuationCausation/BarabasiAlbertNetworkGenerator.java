@@ -58,7 +58,7 @@ public class BarabasiAlbertNetworkGenerator extends EntrepreneurialNetworkGenera
 	 * Preferential attachment
 	 * @param n Node to be attached
 	 */
-	public void attachNode(Agent n) {
+	public void attachNode(Object n) {
 		context.add(n);
 		for (int i = 0; i < edgesPerStep; i++) {
 			
