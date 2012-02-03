@@ -113,7 +113,7 @@ public class Causator extends Entrepreneur {
 			}
 		}
 		System.out.println("Product refined");
-		goal.setProductVector(productVector);
+		goal.setProductVectorCausation(productVector);
 		acquireMeans();
 	}
 	

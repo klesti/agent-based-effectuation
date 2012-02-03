@@ -16,7 +16,7 @@ import repast.simphony.space.graph.ShortestPath;
  * @author klesti
  *
  */
-public class Commitment {
+public class Commitment implements Comparable<Commitment> {
 	private Entrepreneur firstParty;
 	private Agent secondParty;
 	private Goal goal;
@@ -136,7 +136,7 @@ public class Commitment {
 	 */
 	public void buildCommitment() {
 	
-		if (secondParty.getClass().isAssignableFrom(Entrepreneur.class)) {
+		if (secondParty instanceof Entrepreneur || secondParty instanceof Investor) {
 			Entrepreneur e = (Entrepreneur)secondParty;
 			setMeans(e.getAvailableMeans());
 			setGoal(e.getGoal());
@@ -145,9 +145,18 @@ public class Commitment {
 		if (secondParty instanceof Customer) {
 			Customer c = (Customer)secondParty;
 			setGoal(new Goal(secondParty.getContext(), secondParty.getNetwork()));
-			getGoal().setProductVector(c.getDemandVector());			
+			getGoal().setProductVectorEffectuation(c.getDemandVector());			
 		}
 	}
-	
-	
+
+	@Override
+	public int compareTo(Commitment o) {
+		if (this.getRandomUtility() < o.getRandomUtility()) {
+			return -1;
+		} else if (this.getRandomUtility() > o.getBetweennessCentralityUtility()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }
