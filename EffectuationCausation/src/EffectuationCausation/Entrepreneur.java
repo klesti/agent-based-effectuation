@@ -67,10 +67,8 @@ public class Entrepreneur extends Agent {
 	public void setGoal(Goal goal) {		
 		if (this.goal != null) {
 			context.remove(this.goal);
-		}
-		if (context.getObjects(Goal.class).size() == 0) {
-			context.add(goal);
-		}
+		}	
+		context.add(goal);	
 		network.addEdge(this, goal);
 		this.goal = goal;
 	}
@@ -103,17 +101,19 @@ public class Entrepreneur extends Agent {
 	 *  @description Generate goal based on the available means (require all of them)
 	 */
 	public void generateGoal() {
+		goal = new Goal(context, network);
+		context.add(goal);
+		goal.generateRandomProductVector();
+
 		if (availableMeans.size() == 0) {
 			generateAvailableMeans();
-		}
-		goal = new Goal(context, network);
-		goal.generateRandomProductVector();
-		goal.setRequiredMeans(availableMeans);
+		}			
+		goal.setRequiredMeans(availableMeans);	
 	}
-	
-	
+		
 	
 	/**
+	 * Effectuation scenario:
 	 * Aggregate goal product vector based on the demand of the surrounding customers
 	 */
 	public void aggregateGoalProductVector() {

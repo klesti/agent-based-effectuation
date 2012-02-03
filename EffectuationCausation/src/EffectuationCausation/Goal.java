@@ -77,9 +77,10 @@ public class Goal {
 	
 
 	/**
+	 * Sets the product vector in the causation scenario
 	 * @param productVector the productVector to set
 	 */
-	public void setProductVector(int[] productVector) {
+	public void setProductVectorCausation(int[] productVector) {
 	
 		boolean changed = false;
 		
@@ -97,6 +98,15 @@ public class Goal {
 			generateRequiredMeans();
 		}
 	}
+	
+	/**
+	 * Sets the product vector in the effectuation scenario
+	 * @param productVector the productVector to set
+	 */
+	public void setProductVectorEffectuation(int[] productVector) {
+		this.productVector = productVector;
+	}
+	
 	
 	public String printProductVector() {
 		String s = "";

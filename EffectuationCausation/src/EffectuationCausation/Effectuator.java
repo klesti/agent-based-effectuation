@@ -12,6 +12,7 @@ import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.engine.watcher.Watch;
 import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
+import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 
 /**
@@ -31,6 +32,8 @@ public class Effectuator extends Entrepreneur {
 		goals = new ArrayList<Goal>();
 		totalRemainingMeetings = RandomHelper.nextIntFromTo(EffectuationBuilder.minMeetings, 
 				EffectuationBuilder.maxMeetings);
+		
+		possibleCommitments = new ArrayList<Commitment>();
 		setFinishedExpandingResources(false);
 		setActualCommitment(null);		
 	}
@@ -136,20 +139,23 @@ public class Effectuator extends Entrepreneur {
 	public Object meet() {		
 		int depth = RandomHelper.nextIntFromTo(1, EffectuationBuilder.maxDepthForMeeting);
 		
+		JungNetwork<Object> entrepreneurialNetwork = EffectuationBuilder.getEntrepreneurialNetwork();
+		
 		int i = 0;
 		Object o = this, acquaintance = this;
 		
 		while (i < depth && o != null) {
-			o = network.getRandomAdjacent(acquaintance);
-			if (o != null) {
+			o = entrepreneurialNetwork.getRandomAdjacent(acquaintance);
+			//do not meet customers
+			if (o != null && !(o instanceof Customer)) {
 				acquaintance = o;
 			}
 			i++;
 		}
 		
 		if (acquaintance == this) {
-			acquaintance = null;
-		}
+			acquaintance = null;			
+		} 
 		
 		return acquaintance;		
 	}
@@ -158,7 +164,7 @@ public class Effectuator extends Entrepreneur {
 	/**
 	 *  Expanding cycle of resources
 	 */
-	@ScheduledMethod(start=1 , interval=EffectuationBuilder.maxMeetings, duration=2.0)
+	@ScheduledMethod(start=1 , interval=1.0)
 	public void expandResources() {
 		if (totalRemainingMeetings == 0 && !finishedExpandingResources) {
 			setFinishedExpandingResources(true);
@@ -169,8 +175,8 @@ public class Effectuator extends Entrepreneur {
 		if (m != null) {
 			Commitment c = new Commitment(this, (Agent)m);
 			possibleCommitments.add(c);
+			totalRemainingMeetings--;			
 		}
-		totalRemainingMeetings--;
 	}
 	
 	
@@ -179,23 +185,15 @@ public class Effectuator extends Entrepreneur {
 	 */
 	@Watch(watcheeClassName = "EffectuationCausation.Effectuator", watcheeFieldNames = "finishedExpandingResources", 
 			whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)	
-	public void chooseGoal() {
-	
-		//Calculate utility of all prospective commitments
-		ArrayList<Double> utilities = new ArrayList<Double>();
+	public void chooseGoal() {	
+		actualCommitment = Collections.max(possibleCommitments);
+		System.out.println("Max utility:" + actualCommitment.getRandomUtility());
+		System.out.println("Possible commitments:" + possibleCommitments.size());
 		
-		for (int i = 0; i < possibleCommitments.size(); i++) {
-			//Using "random utility" initially
-			utilities.add(possibleCommitments.get(i).getRandomUtility());			
-		}
-		
-		//Go for the "potential commitment" with maximal utility
-		
-		double maxUtility = Collections.max(utilities);
-		actualCommitment = possibleCommitments.get(possibleCommitments.indexOf(maxUtility));
-
-		for  (Means m: actualCommitment.getMeans()) {
-			addMeans(m);					
+		if (actualCommitment.getMeans() != null) {
+			for  (Means m: actualCommitment.getMeans()) {
+				addMeans(m);					
+			}
 		}
 		
 		setGoal(actualCommitment.getGoal());
@@ -203,7 +201,8 @@ public class Effectuator extends Entrepreneur {
 		// not already there
 		if (!network.isAdjacent(this, actualCommitment.getSecondParty())) {
 			network.addEdge(this, actualCommitment.getSecondParty());
-		}		
+		}
+		System.out.println("The goal has been chosen.");
 	}
 	
 }

@@ -38,26 +38,33 @@ public class EntrepreneurialNetworkGenerator {
 		totalCustomers--;
 	
 		Entrepreneur e1 = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
+		context.add(e1);
 		e1.generateGoal();
 		totalEntrepreneuers--;
 		
 		Entrepreneur e2 = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
+		context.add(e2);
 		e2.generateGoal();
-		context.add(e2);		
+	
 		totalEntrepreneuers--;
 		
-		context.add(new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt())));
+		Investor i1 = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+		context.add(i1);
+		i1.generateGoal();		
 		totalInvestors--;
-		context.add(new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt())));
+		
+		Investor i2 = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+		context.add(i2);
+		i2.generateGoal();
 		totalInvestors--;
 		
 		//Initial wiring using a random network
 		for (Object i: network.getNodes()) {
 			for (Object j: network.getNodes()) {
 				double random = RandomHelper.nextDoubleFromTo(0, 1);
-				if (i.getClass().isAssignableFrom(Agent.class) &&
-						j.getClass().isAssignableFrom(Agent.class) &&
-						random >= p) {
+				if ( (i instanceof Customer || i instanceof Investor || i instanceof Entrepreneur) &&
+						(j instanceof Customer || j instanceof Investor || j instanceof Entrepreneur) &&
+							random >= p) {
 					network.addEdge(i, j);					
 				}
 			}

@@ -63,6 +63,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		for (int i = 0; i < totalInitialGoals; i++) {
 			
 			Goal g = new Goal(context, network);
+			context.add(g);
 			//First goal requires all available means
 			if (i == 0) {
 				g.setRequiredMeans(effectuator.getAvailableMeans());				
@@ -132,7 +133,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	 * density = 2 * number of edges / N * (N-1)
 	 * @return networkDensity
 	 */
-	public double getNetworkDensity() {
+	public static double getNetworkDensity() {
 		Network<Object> n = getEntrepreneurialNetwork();
 		return ( 2 * n.getDegree() ) / ( n.size() * (n.size()-1) );
 	}
@@ -141,7 +142,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	 * Returns the network without means and goals
 	 * @return Network
 	 */
-	public JungNetwork<Object> getEntrepreneurialNetwork() {
+	public static JungNetwork<Object> getEntrepreneurialNetwork() {
 		JungNetwork<Object> n = new UndirectedJungNetwork<Object>("entrepreneurial network");
 		for (Object o: network.getNodes()) {
 			if (!(o instanceof Means) && !(o instanceof Goal)) {
@@ -150,9 +151,12 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		}
 		
 		for (RepastEdge<Object> e: network.getEdges()) {
-			if (!(e.getTarget() instanceof Goal) &&  !(e.getTarget() instanceof Means)) {
-				n.addEdge(e);
+			if (e.getTarget() instanceof Goal ||  e.getTarget() instanceof Means 
+					|| e.getSource() instanceof Goal || e.getTarget() instanceof Means) {
+				//System.out.println("lala");
+				continue;				
 			}
+			n.addEdge(e);			
 		}		
 		return n;
 	}
@@ -160,34 +164,34 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	/**
 	 *  Evolves network during the simulation (adding new nodes randomly)
 	 */
-	@ScheduledMethod(start=1)
+	@ScheduledMethod(start=2)
 	public static void evolveNetwork() {
 		double prob = RandomHelper.nextDoubleFromTo(0, 1);
 		
 		double r = RandomHelper.nextDoubleFromTo(0, 1);
 		
 		if (r >= prob) {
-			int i = RandomHelper.nextIntFromTo(1, 3);
+			BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
+			ng.setNetwork(network);			
 			
-			Object n;
+			int random = RandomHelper.nextIntFromTo(1, 3);
 			
-			switch (i) {
+			switch (random) {
 				default:
-					n = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
+					Customer c = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
+					ng.attachNode(c);	
 					break;
 				case 2:
-					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
+					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));					
+					ng.attachNode(e);	
 					e.generateGoal();
-					n = e;
 					break;
 				case 3:
-					n = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+					Investor i = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+					ng.attachNode(i);
+					i.generateGoal();
 					break;
 			}
-			
-			BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
-			ng.setNetwork(network);
-			ng.attachNode(n);			
 		}
 	}
 

@@ -13,11 +13,7 @@ public class Investor extends Entrepreneur {
 	public Investor(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
 		availableMeans = new ArrayList<Means>();
-		goal = new Goal(context, network);
-		goal.generateRandomProductVector();
-		generateAvailableMeans();
 		generateAvailableMoney();
-		goal.setRequiredMeans(availableMeans);
 	}
 
 	/**
