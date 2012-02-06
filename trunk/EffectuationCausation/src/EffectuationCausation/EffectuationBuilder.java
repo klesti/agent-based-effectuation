@@ -106,7 +106,6 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			if (r >= prob) {
 				Entrepreneur e = (Entrepreneur)o;
 				e.aggregateGoalProductVector();
-				System.out.println("Aggregated");
 			}
 		}
 		
@@ -168,6 +167,26 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		}
 		
 		return entrepreneurialNetwork;
+	}
+	
+	/**
+	 * Recursively get all customer acquaintances of a node using a specified network depth.
+	 * @param n node
+	 * @param depth
+	 * @param List of customers acquaintances
+	 */
+	public static void getCustomerAcquiantances(Object n, int depth, List<Customer> customers) {
+		
+		JungNetwork<Object> entrepreneurialNetwork = EffectuationBuilder.getEntrepreneurialNetwork();
+		
+		for (Object o: entrepreneurialNetwork.getAdjacent(n)) {
+			if (o instanceof Customer) {
+				customers.add((Customer)o);
+			}
+			if (depth > 1) {
+				getCustomerAcquiantances(o, depth-1, customers);
+			}
+		}
 	}
 	
 	/**
