@@ -92,6 +92,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		//Network generation
 		
 		BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
+		//CopyingModelNetworkGenerator ng = new CopyingModelNetworkGenerator(context);
 		EffectuationBuilder.network = ng.createNetwork(EffectuationBuilder.network);
 		
 		// Refine the product vector of the entrepreneurs based on the
@@ -105,6 +106,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			if (r >= prob) {
 				Entrepreneur e = (Entrepreneur)o;
 				e.aggregateGoalProductVector();
+				System.out.println("Aggregated");
 			}
 		}
 		
@@ -175,10 +177,12 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	public static void evolveNetwork() {
 		double prob = RandomHelper.nextDoubleFromTo(0, 1);
 		
-		double r = RandomHelper.nextDoubleFromTo(0, 1);
+		double r = RandomHelper.nextDoubleFromTo(0, 1);		
 		
 		if (r >= prob) {
+			System.out.println("Added new node!");
 			BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
+			//CopyingModelNetworkGenerator ng = new CopyingModelNetworkGenerator(context);
 			ng.setNetwork(network);			
 			
 			int random = RandomHelper.nextIntFromTo(1, 3);
@@ -186,7 +190,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			switch (random) {
 				default:
 					Customer c = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
-					ng.attachNode(c);	
+					ng.attachNode(c);
 					break;
 				case 2:
 					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));					

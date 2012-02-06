@@ -26,7 +26,6 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 	@Override
 	public Network<Object> createNetwork(Network<Object> network) {
 		this.network = network;
-		
 		initializeNetwork(0.3);	
 		
 		// Evolve network using a "copy model"
@@ -34,23 +33,20 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 		while (totalCustomers > 0 || totalEntrepreneuers > 0 || totalInvestors > 0) {
 			if (totalCustomers > 0) {
 				Customer c = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
-				context.add(c);
-				rewireNode(c);				
+				attachNode(c);
 				totalCustomers--;
 			}
 			
 			if (totalEntrepreneuers > 0) {
 				Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
-				context.add(e);
-				rewireNode(e);
+				attachNode(e);
 				e.generateGoal();
 				totalEntrepreneuers--;
 			}
 			
 			if (totalInvestors > 0) {
 				Investor i = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
-				context.add(i);				
-				rewireNode(i);
+				attachNode(i);
 				i.generateGoal();
 				totalInvestors--;
 			}
@@ -59,14 +55,14 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 		return network;
 	}
 	
-	public void rewireNode(Agent n) {
-		
+	public void rewireNode(Object n) {
 		JungNetwork<Object> entrepreneurialNetwork = EffectuationBuilder.getEntrepreneurialNetwork();
 		
 		int attached = 0;
 		ArrayList<Object> alreadyWired = new ArrayList<Object>();
 		
 		while (attached != getEdgesPerStep()) {
+			
 			Object randomNode = getRandomNode();
 			
 			if (alreadyWired.indexOf(randomNode) != -1) {
@@ -82,14 +78,19 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 			Collections.shuffle(adjacentNodes);
 			
 			int i = 0;
-			
-			while (i < attached && attached != getEdgesPerStep()) {
+						
+			while (i < adjacentNodes.size() && attached != getEdgesPerStep()) {
 				entrepreneurialNetwork.addEdge(n, adjacentNodes.get(i));
 				network.addEdge(n, adjacentNodes.get(i));								
 				i++;
 				attached++;
 			}
 		}		
+	}
+	
+	public void attachNode(Object n) {
+		context.add(n);
+		rewireNode(n);
 	}
 	
 	/**
