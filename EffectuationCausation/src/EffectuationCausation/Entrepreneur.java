@@ -6,6 +6,7 @@ import java.util.List;
 
 import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
+import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 
 /**
@@ -110,20 +111,17 @@ public class Entrepreneur extends Agent {
 		}			
 		goal.setRequiredMeans(availableMeans);	
 	}
-		
 	
 	/**
 	 * Effectuation scenario:
 	 * Aggregate goal product vector based on the demand of the surrounding customers
 	 */
 	public void aggregateGoalProductVector() {
-		List<Customer> customers = new ArrayList<Customer>();
+		int depth = RandomHelper.nextIntFromTo(1, EffectuationBuilder.maxDepthForMeeting);
 		
-		for (Object o: network.getAdjacent(this)) {
-			if (o instanceof Customer) {
-				customers.add((Customer)o);
-			}
-		}
+		List<Customer> customers = new ArrayList<Customer>(); 
+		
+		EffectuationBuilder.getCustomerAcquiantances(this, depth, customers);		
 		
 		if (customers.size() > 0) {
 			Collections.shuffle(customers);
