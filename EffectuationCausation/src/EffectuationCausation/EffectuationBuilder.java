@@ -37,6 +37,12 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	public static Context<Object> context;
 	public static Network<Object> network;	
 	
+	//Entrepreneurial network caching
+	
+	private static int cachedTotalENNodes = 0;
+	private static int cachedTotalENEdges = 0;
+	private static JungNetwork<Object> entrepreneurialNetwork;
+	
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
@@ -143,22 +149,26 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	 * @return Network
 	 */
 	public static JungNetwork<Object> getEntrepreneurialNetwork() {
-		JungNetwork<Object> n = new UndirectedJungNetwork<Object>("entrepreneurial network");
-		for (Object o: network.getNodes()) {
-			if (!(o instanceof Means) && !(o instanceof Goal)) {
-				n.addVertex(o);
+		
+		//Update cache if needed
+		if (cachedTotalENNodes != network.size() || cachedTotalENEdges != network.numEdges()) {			
+			entrepreneurialNetwork = new UndirectedJungNetwork<Object>("entrepreneurial network");
+			for (Object o: network.getNodes()) {
+				if (!(o instanceof Means) && !(o instanceof Goal)) {
+					entrepreneurialNetwork.addVertex(o);
+				}
+			}
+			
+			for (RepastEdge<Object> e: network.getEdges()) {
+				if (e.getTarget() instanceof Goal ||  e.getTarget() instanceof Means 
+						|| e.getSource() instanceof Goal || e.getTarget() instanceof Means) {					
+					continue;				
+				}
+				entrepreneurialNetwork.addEdge(e);			
 			}
 		}
 		
-		for (RepastEdge<Object> e: network.getEdges()) {
-			if (e.getTarget() instanceof Goal ||  e.getTarget() instanceof Means 
-					|| e.getSource() instanceof Goal || e.getTarget() instanceof Means) {
-				//System.out.println("lala");
-				continue;				
-			}
-			n.addEdge(e);			
-		}		
-		return n;
+		return entrepreneurialNetwork;
 	}
 	
 	/**

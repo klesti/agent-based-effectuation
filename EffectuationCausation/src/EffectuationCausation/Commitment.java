@@ -6,6 +6,7 @@ package EffectuationCausation;
 import java.util.List;
 
 import repast.simphony.random.RandomHelper;
+import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.ShortestPath;
 
 /**
@@ -101,9 +102,11 @@ public class Commitment implements Comparable<Commitment> {
 		
 		double utility = 0;
 		
-		ShortestPath<Object> sp = new ShortestPath<Object>(getFirstParty().getNetwork());
+		JungNetwork<Object> network = EffectuationBuilder.getEntrepreneurialNetwork(); 
+		
+		ShortestPath<Object> sp = new ShortestPath<Object>(network);
 				
-		for(Object o: getFirstParty().getNetwork().getNodes()) {
+		for(Object o: network.getNodes()) {
 			if (!getFirstParty().equals(o)) {
 				utility += Math.pow(sigma, sp.getPathLength(getFirstParty(), o));
 			}
@@ -118,7 +121,9 @@ public class Commitment implements Comparable<Commitment> {
 	 * @return utility
 	 */
 	public double getDegreeCentralityUtility() {
-		return getSecondParty().getNetwork().getDegree(getSecondParty());
+		JungNetwork<Object> network = EffectuationBuilder.getEntrepreneurialNetwork();
+		
+		return network.getDegree(getSecondParty());
 	}
 	
 	
