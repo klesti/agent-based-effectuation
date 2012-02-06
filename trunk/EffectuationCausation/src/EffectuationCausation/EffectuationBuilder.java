@@ -116,7 +116,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	 * betweenness centrality calculator algorithm 
 	 */
 	public static void calculateBetweennesCentralities() {
-		JungNetwork<Object> N = (JungNetwork<Object>)network;
+		JungNetwork<Object> N = EffectuationBuilder.getEntrepreneurialNetwork();
 		
 		Graph<Object, RepastEdge<Object>> G = N.getGraph();
 		
@@ -125,13 +125,10 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		
 		ranker.evaluate();
 		
-		for (Object n: network.getNodes()) {
-			if (n instanceof Effectuator || n instanceof Customer || 
-					n instanceof Investor) {
-				Agent a = (Agent)n;
-				a.setBetweennessCentrality(ranker.getVertexRankScore(n));
-			}
-		}		
+		for (Object n: N.getNodes()) {
+			Agent a = (Agent)n;
+			a.setBetweennessCentrality(ranker.getVertexRankScore(n));
+		}	
 	}
 	
 	/**
