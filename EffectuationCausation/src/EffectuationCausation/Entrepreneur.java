@@ -6,7 +6,6 @@ import java.util.List;
 
 import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 
 /**
@@ -33,7 +32,9 @@ public class Entrepreneur extends Agent {
 			context.remove(c);
 		}
 		for (Customer c: customers) {
-			context.add(c);
+			if (!context.contains(c)) {
+				context.add(c);
+			}
 			network.addEdge(this, c);
 		}
 		this.customers = customers;
@@ -48,7 +49,9 @@ public class Entrepreneur extends Agent {
 			context.remove(m);
 		}
 		for (Means m: availableMeans) {
-			context.add(m);
+			if (!context.contains(m)) {
+				context.add(m);
+			}
 			network.addEdge(this, m);
 		}
 		this.availableMeans = availableMeans;
@@ -68,14 +71,18 @@ public class Entrepreneur extends Agent {
 	public void setGoal(Goal goal) {		
 		if (this.goal != null) {
 			context.remove(this.goal);
-		}	
-		context.add(goal);	
+		}
+		if (!context.contains(goal)) {
+			context.add(goal);
+		}
 		network.addEdge(this, goal);
 		this.goal = goal;
 	}
 	
 	public void addMeans(Means m) {
-		context.add(m);
+		if (!context.contains(m)) {
+			context.add(m);
+		}
 		network.addEdge(this, m);
 		availableMeans.add(m);
 	}
@@ -109,7 +116,8 @@ public class Entrepreneur extends Agent {
 		if (availableMeans.size() == 0) {
 			generateAvailableMeans();
 		}			
-		goal.setRequiredMeans(availableMeans);	
+		goal.setRequiredMeans(availableMeans);
+		network.addEdge(this, goal);
 	}
 	
 	/**

@@ -82,8 +82,8 @@ public class Agent {
 	public void setBetweennessCentrality(double betweennessCentrality) {
 		this.betweennessCentrality = betweennessCentrality;
 	}
-
+	
 	public void step() {
-				
+		
 	}
 }

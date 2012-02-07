@@ -37,7 +37,9 @@ public class Causator extends Entrepreneur {
 		}
 		
 		for (MarketResearcher m: marketResearchers) {
-			context.add(m);
+			if (!context.contains(m)) {
+				context.add(m);
+			}
 			network.addEdge(this, m);
 		}
 		this.marketResearchers = marketResearchers;

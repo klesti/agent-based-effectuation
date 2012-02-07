@@ -28,7 +28,7 @@ import repast.simphony.space.graph.UndirectedJungNetwork;
 public class EffectuationBuilder extends DefaultContext<Object> implements ContextBuilder<Object> {
 
 	//Parameters, later will be prodived by the user interface
-	public static final int numberOfCustomers = 100;	
+	public static final int numberOfCustomers = 50;	
 	public static final int maxInitialGoals = 3;
 	public static final int maxInitalMeans = 3;
 	public static final int maxDepthForMeeting = 3;
