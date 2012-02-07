@@ -40,6 +40,18 @@ public class Provider extends Agent {
 	 * @param offeredMeans the offeredMeans to set
 	 */
 	public void setOfferedMeans(List<Means> offeredMeans) {
+		for (Means m: this.offeredMeans) {
+			context.remove(m);
+		}
+		offeredMeans.clear();
+		
+		for (Means m: offeredMeans) {
+			if (!context.contains(m)) {
+				context.add(m);
+				network.addEdge(this, m);
+			}
+		}
+		
 		this.offeredMeans = offeredMeans;
 	}
 

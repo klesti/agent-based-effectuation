@@ -53,7 +53,9 @@ public class Effectuator extends Entrepreneur {
 			context.remove(g);
 		}
 		for (Goal g: goals) {
-			context.add(g);
+			if (!context.contains(g)) {
+				context.add(g);
+			}
 			network.addEdge(this, g);
 		}		
 		this.goals = goals;
@@ -127,8 +129,10 @@ public class Effectuator extends Entrepreneur {
 	 */
 	public void addGoal(Goal g) {
 		goals.add(g);
-		context.add(g);
-		network.addEdge(this, g);		
+		if (!context.contains(g)) {
+			context.add(g);
+		}
+		network.addEdge(this, g);
 	}
 	
 	

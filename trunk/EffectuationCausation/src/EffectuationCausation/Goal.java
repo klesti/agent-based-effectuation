@@ -62,7 +62,9 @@ public class Goal {
 	public void setRequiredMeans(List<Means> requiredMeans) {
 		clearRequiredMeans();
 		for (Means m: requiredMeans) {
-			context.add(m);
+			if (!context.contains(m)) {
+				context.add(m);
+			}
 			network.addEdge(this, m);
 		}
 		this.requiredMeans = requiredMeans;
