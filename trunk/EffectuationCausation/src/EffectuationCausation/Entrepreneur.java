@@ -92,7 +92,7 @@ public class Entrepreneur extends Agent {
 	 * To be called only in the effectuation scenario 
 	 */
 	public void generateAvailableMeans() {
-		int totalMeans = RandomHelper.nextIntFromTo(1, EffectuationBuilder.maxInitalMeans);
+		int totalMeans = RandomHelper.nextIntFromTo(1, Parameters.maxInitalMeans);
 		
 		for (int i = 0; i < totalMeans; i++) {
 			Means m = new Means("Means" + RandomHelper.nextInt());
@@ -125,7 +125,7 @@ public class Entrepreneur extends Agent {
 	 * Aggregate goal product vector based on the demand of the surrounding customers
 	 */
 	public void aggregateGoalProductVector() {
-		int depth = RandomHelper.nextIntFromTo(1, EffectuationBuilder.maxDepthForMeeting);
+		int depth = RandomHelper.nextIntFromTo(1, Parameters.maxDepthForMeeting);
 		
 		List<Customer> customers = new ArrayList<Customer>(); 
 		

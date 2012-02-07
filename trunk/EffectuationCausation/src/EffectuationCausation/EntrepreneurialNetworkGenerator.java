@@ -1,10 +1,11 @@
 package EffectuationCausation;
 
 import repast.simphony.context.Context;
+import repast.simphony.context.space.graph.NetworkGenerator;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
-public class EntrepreneurialNetworkGenerator {
+public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerator<Object> {
 
 	protected int edgesPerStep;
 	protected int totalCustomers;
@@ -162,4 +163,13 @@ public class EntrepreneurialNetworkGenerator {
 		this.network = network;
 	}
 
+
+	@Override
+	public Network<Object> createNetwork(Network<Object> network) {
+		return network;
+	}
+	
+	public void attachNode(Object n) {
+		
+	}
 }
