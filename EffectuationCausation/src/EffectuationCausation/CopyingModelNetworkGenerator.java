@@ -16,7 +16,7 @@ import repast.simphony.space.graph.Network;
  * @author klesti
  *
  */
-public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerator implements NetworkGenerator<Object> {	
+public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerator {	
 	
 
 	public CopyingModelNetworkGenerator(Context<Object> context) {

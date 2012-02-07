@@ -27,15 +27,9 @@ import repast.simphony.space.graph.UndirectedJungNetwork;
  */
 public class EffectuationBuilder extends DefaultContext<Object> implements ContextBuilder<Object> {
 
-	//Parameters, later will be prodived by the user interface
-	public static final int numberOfCustomers = 50;	
-	public static final int maxInitialGoals = 3;
-	public static final int maxInitalMeans = 3;
-	public static final int maxDepthForMeeting = 3;
-	public static final int minMeetings = 3;
-	public static final int maxMeetings = 10;
 	public static Context<Object> context;
 	public static Network<Object> network;	
+	private static EntrepreneurialNetworkGenerator networkGenerator;
 	
 	//Entrepreneurial network caching
 	
@@ -46,10 +40,12 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
+		Parameters.initialize();
 		
 		context.setId("effectuation");
 				
 		EffectuationBuilder.context = context;
+		
 		
 		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("effectuation network",
 				context, true);
@@ -64,7 +60,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		
 		// Generate initial goal(s) based on the available means	
 			
-		int totalInitialGoals = RandomHelper.nextIntFromTo(1, maxInitialGoals);
+		int totalInitialGoals = RandomHelper.nextIntFromTo(1, Parameters.maxInitialGoals);
 		
 		for (int i = 0; i < totalInitialGoals; i++) {
 			
@@ -91,9 +87,13 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 						
 		//Network generation
 		
-		BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
-		//CopyingModelNetworkGenerator ng = new CopyingModelNetworkGenerator(context);
-		EffectuationBuilder.network = ng.createNetwork(EffectuationBuilder.network);
+		if (Parameters.networkGenerator.equals("BarabasiAlbert")) {
+			networkGenerator = new BarabasiAlbertNetworkGenerator(context);
+		} else if (Parameters.networkGenerator.equals("CopyModel")) {
+			networkGenerator = new CopyingModelNetworkGenerator(context);
+		}
+		
+		EffectuationBuilder.network = networkGenerator.createNetwork(EffectuationBuilder.network);
 		
 		// Refine the product vector of the entrepreneurs based on the
 		// connected customers (randomly)
@@ -200,25 +200,25 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		
 		if (r >= prob) {
 			System.out.println("Added new node!");
-			BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
+			//BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
 			//CopyingModelNetworkGenerator ng = new CopyingModelNetworkGenerator(context);
-			ng.setNetwork(network);			
+			//ng.setNetwork(network);			
 			
 			int random = RandomHelper.nextIntFromTo(1, 3);
 			
 			switch (random) {
 				default:
 					Customer c = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
-					ng.attachNode(c);
+					networkGenerator.attachNode(c);
 					break;
 				case 2:
 					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));					
-					ng.attachNode(e);	
+					networkGenerator.attachNode(e);	
 					e.generateGoal();
 					break;
 				case 3:
 					Investor i = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
-					ng.attachNode(i);
+					networkGenerator.attachNode(i);
 					i.generateGoal();
 					break;
 			}

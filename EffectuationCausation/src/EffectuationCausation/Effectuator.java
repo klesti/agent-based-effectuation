@@ -30,8 +30,8 @@ public class Effectuator extends Entrepreneur {
 	public Effectuator(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
 		goals = new ArrayList<Goal>();
-		totalRemainingMeetings = RandomHelper.nextIntFromTo(EffectuationBuilder.minMeetings, 
-				EffectuationBuilder.maxMeetings);
+		totalRemainingMeetings = RandomHelper.nextIntFromTo(Parameters.minMeetings, 
+				Parameters.maxMeetings);
 		
 		possibleCommitments = new ArrayList<Commitment>();
 		setFinishedExpandingResources(false);
@@ -141,7 +141,7 @@ public class Effectuator extends Entrepreneur {
 	 * @return Object An acquaintance
 	 */
 	public Object meet() {		
-		int depth = RandomHelper.nextIntFromTo(1, EffectuationBuilder.maxDepthForMeeting);
+		int depth = RandomHelper.nextIntFromTo(1, Parameters.maxDepthForMeeting);
 		
 		JungNetwork<Object> entrepreneurialNetwork = EffectuationBuilder.getEntrepreneurialNetwork();
 		
