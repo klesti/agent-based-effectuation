@@ -93,10 +93,27 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			networkGenerator = new CopyingModelNetworkGenerator(context);
 		}
 		
+		networkGenerator.setTotalCustomers(Parameters.numberOfCustomers);
+		networkGenerator.setTotalEntrepreneuers(Parameters.numberOfEntrepreneurs);
+		networkGenerator.setTotalInvestors(Parameters.numberOfInvestors);
+		networkGenerator.seEdgesPerStep(Parameters.edgesPerStep);
+		
 		EffectuationBuilder.network = networkGenerator.createNetwork(EffectuationBuilder.network);
 		
-		// Refine the product vector of the entrepreneurs based on the
-		// connected customers (randomly)
+		aggregateProductVectors();		
+		
+		return context;
+	}
+
+	/**
+	 * Refine the product vector of the entrepreneurs based on the
+	 * connected customers (randomly)
+	 */
+	public static void aggregateProductVectors() {
+		
+		if (!Parameters.aggregateProductVector) {
+			return;
+		}
 		
 		double prob = RandomHelper.nextDoubleFromTo(0, 1);
 		
@@ -107,15 +124,14 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 				Entrepreneur e = (Entrepreneur)o;
 				e.aggregateGoalProductVector();
 			}
-		}
-		
-		return context;
+		}		
 	}
 	
 	/**
 	 * Calculates the betweenness centrality for each node, using the JUNG implemented
 	 * betweenness centrality calculator algorithm 
 	 */
+		
 	public static void calculateBetweennesCentralities() {
 		JungNetwork<Object> N = EffectuationBuilder.getEntrepreneurialNetwork();
 		
@@ -124,6 +140,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		BetweennessCentrality<Object, RepastEdge<Object>> ranker = 
 			new BetweennessCentrality<Object, RepastEdge<Object>>(G);
 		
+		ranker.setRemoveRankScoresOnFinalize(false);
 		ranker.evaluate();
 		
 		for (Object n: N.getNodes()) {
@@ -164,6 +181,9 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 				}
 				entrepreneurialNetwork.addEdge(e);			
 			}
+			cachedTotalENEdges = network.numEdges();
+			cachedTotalENNodes = network.size();
+			calculateBetweennesCentralities();			
 		}
 		
 		return entrepreneurialNetwork;
@@ -200,9 +220,6 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		
 		if (r >= prob) {
 			System.out.println("Added new node!");
-			//BarabasiAlbertNetworkGenerator ng = new BarabasiAlbertNetworkGenerator(context);
-			//CopyingModelNetworkGenerator ng = new CopyingModelNetworkGenerator(context);
-			//ng.setNetwork(network);			
 			
 			int random = RandomHelper.nextIntFromTo(1, 3);
 			
@@ -222,7 +239,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 					i.generateGoal();
 					break;
 			}
-		}
+			aggregateProductVectors();			
+		}		
 	}
-
 }
