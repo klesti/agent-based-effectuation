@@ -12,14 +12,16 @@ public class Parameters {
 	public static repast.simphony.parameter.Parameters params 
 					= RunEnvironment.getInstance().getParameters();	
 	
+	//Common parameters
+	
 	public static int vectorSpaceSize;
 	
 	// The percentage of the customers sample that needs to have a product element as 1
 	// in order to change the initial value of the product elements vector
 	public static int productElementChangeThreshold;
+	public static int numberOfCustomers;
 	
 	//Effectuation scenario
-	public static int numberOfCustomers;
 	public static int numberOfEntrepreneurs;
 	public static int numberOfInvestors;
 	public static int maxInitialGoals;
@@ -31,12 +33,24 @@ public class Parameters {
 	public static int edgesPerStep;	
 	public static String utilityFunction;
 	public static boolean aggregateProductVector;
+
+	//Causation scenario
+
+	public static int sampleSizePercentage; //Sample size in percentage
+	public static int maxProviders; // Maximum number of providers	
+	public static int meansOfferedWeightMin; // Means offered weight min 
+	public static int meansOfferedWeightMax; // Means offered weight max
 	
-	public static void initialize() {
-		vectorSpaceSize = (Integer)params.getValue("vectorSpaceSize");
-		productElementChangeThreshold = (Integer)params.getValue("productElementChangeThreshold");
-		
-		numberOfCustomers = (Integer)params.getValue("numberOfCustomers");
+	public static void initializeCausation() {
+		commonInitialize();
+		sampleSizePercentage = (Integer)params.getValue("sampleSizePercentage");
+		maxProviders = (Integer)params.getValue("maxProviders");
+		meansOfferedWeightMin = (Integer)params.getValue("meansOfferedWeightMin");
+		meansOfferedWeightMax = (Integer)params.getValue("meansOfferedWeightMax");		
+	}
+	
+	public static void initializeEffectuation() {
+		commonInitialize();
 		numberOfEntrepreneurs = (Integer)params.getValue("numberOfEntrepreneurs");
 		numberOfInvestors = (Integer)params.getValue("numberOfInvestors");		
 		maxInitialGoals = (Integer)params.getValue("maxInitialGoals");
@@ -48,6 +62,12 @@ public class Parameters {
 		edgesPerStep = (Integer)params.getValue("edgesPerStep");
 		utilityFunction = (String)params.getValue("utilityFunction");
 		aggregateProductVector = (Boolean)params.getValue("aggregateProductVector");
+	}
+	
+	public static void commonInitialize() {				
+		vectorSpaceSize = (Integer)params.getValue("vectorSpaceSize");
+		productElementChangeThreshold = (Integer)params.getValue("productElementChangeThreshold");		
+		numberOfCustomers = (Integer)params.getValue("numberOfCustomers");
 	}
 	
 }

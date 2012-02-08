@@ -58,7 +58,7 @@ public class Causator extends Entrepreneur {
 	}
 	
 	public void selectAndSpreadMarketSample() {		
-		int sampleSize = (int) Math.ceil((CausationBuilder.sampleSizePercentage * CausationBuilder.numberOfCustomers / 100));
+		int sampleSize = (int) Math.ceil((Parameters.sampleSizePercentage * Parameters.numberOfCustomers / 100));
 		
 		CausationBuilder.sampleSize = sampleSize;
 		
@@ -126,7 +126,7 @@ public class Causator extends Entrepreneur {
 	public void acquireMeans() {
 					
 		for (Means m: goal.getRequiredMeans()) {
-			double minWeight = 1000 * CausationBuilder.meansOfferedWeightRange[1];
+			double minWeight = 1000 * Parameters.meansOfferedWeightMax;
 			Provider provider = new Provider(context, network, "p");
 			//Get the means from the provider that offers it with lowest "weight"
 			for (Object o: network.getAdjacent(m)) {

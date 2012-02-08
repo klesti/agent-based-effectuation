@@ -40,7 +40,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
-		Parameters.initialize();
+		Parameters.initializeEffectuation();
 		
 		context.setId("effectuation");
 				
