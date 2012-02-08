@@ -107,8 +107,8 @@ public class Commitment implements Comparable<Commitment> {
 		ShortestPath<Object> sp = new ShortestPath<Object>(network);
 				
 		for(Object o: network.getNodes()) {
-			if (!getFirstParty().equals(o)) {
-				utility += Math.pow(sigma, sp.getPathLength(getFirstParty(), o));
+			if (!getSecondParty().equals(o)) {
+				utility += Math.pow(sigma, sp.getPathLength(getSecondParty(), o));
 			}
 		}	
 		
@@ -155,10 +155,27 @@ public class Commitment implements Comparable<Commitment> {
 	}
 
 	@Override
-	public int compareTo(Commitment o) {
-		if (this.getRandomUtility() < o.getRandomUtility()) {
+	public int compareTo(Commitment c) {
+		double ownUtility;
+		double othersUtility;
+		
+		if (Parameters.utilityFunction.equals("ConnectionsUtility")) {
+			ownUtility = this.getConnectionsUtility();
+			othersUtility = c.getConnectionsUtility();
+		} else if (Parameters.utilityFunction.equals("DegreeCentrality")) {
+			ownUtility = this.getDegreeCentralityUtility();
+			othersUtility = c.getDegreeCentralityUtility();
+		} else if(Parameters.utilityFunction.equals("BetweennessCentrality")) {
+			ownUtility = this.getBetweennessCentralityUtility();
+			othersUtility = c.getBetweennessCentralityUtility();
+		} else { //Random utility
+			ownUtility = this.getRandomUtility();
+			othersUtility = c.getRandomUtility();
+		}
+		
+		if (ownUtility < othersUtility) {
 			return -1;
-		} else if (this.getRandomUtility() > o.getBetweennessCentralityUtility()) {
+		} else if (ownUtility > othersUtility) {
 			return 1;
 		} else {
 			return 0;

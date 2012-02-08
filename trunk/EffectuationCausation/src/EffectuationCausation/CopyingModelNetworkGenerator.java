@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import repast.simphony.context.Context;
-import repast.simphony.context.space.graph.NetworkGenerator;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
