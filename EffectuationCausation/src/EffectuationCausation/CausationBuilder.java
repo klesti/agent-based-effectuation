@@ -20,14 +20,7 @@ import repast.simphony.space.graph.Network;
  *
  */
 public class CausationBuilder extends DefaultContext<Object> implements ContextBuilder<Object>	 {
-
-	//Parameters, later will be prodived by the user interface
-	public static final int numberOfCustomers = 100;
-	public static final int sampleSizePercentage = 5; //Sample size in percentage
 	public static int sampleSize = 0; //Sample size in percentage
-
-	public static final int maxProviders = 10; // Maximum number of providers	
-	public static final int[] meansOfferedWeightRange = {1,10}; // Means offered weight range 
 	
 	public static Context<Object> context;
 	public static Network<Object> network;
@@ -35,6 +28,8 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 
 	@Override
 	public Context<Object> build(Context<Object> context) {		
+		Parameters.initializeCausation();
+		
 		context.setId("causation");
 		
 		CausationBuilder.context = context;
@@ -60,7 +55,7 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 		
 		//Add the customers to the network	
 		
-		for (int i = 0; i < numberOfCustomers; i++) {
+		for (int i = 0; i < Parameters.numberOfCustomers; i++) {
 			Customer c = new Customer(context, network, "Customer" + String.valueOf(i));
 			context.add(c);
 		}
@@ -68,7 +63,7 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 		
 		//Add the providers to the network
 		
-		int numberOfProviders = RandomHelper.nextIntFromTo(3, maxProviders);
+		int numberOfProviders = RandomHelper.nextIntFromTo(3, Parameters.maxProviders);
 		
 		for (int i = 0; i < numberOfProviders; i++) {
 			Provider p = new Provider(context, network, "Provider" + String.valueOf(i));

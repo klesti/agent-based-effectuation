@@ -84,8 +84,8 @@ public class Provider extends Agent {
 			//Add an edge with a random weight (price, time, etc) between the offered means and the 
 			// provider
 			RepastEdge<Object> edge = new RepastEdge<Object>(m, this, true, 
-					RandomHelper.nextIntFromTo(CausationBuilder.meansOfferedWeightRange[0], 
-							CausationBuilder.meansOfferedWeightRange[1]));
+					RandomHelper.nextIntFromTo(Parameters.meansOfferedWeightMin, 
+							Parameters.meansOfferedWeightMax));
 			network.addEdge(edge);	
 		}		
 		assureAllMeansAreOffered(CausationBuilder.context, network);
@@ -124,8 +124,8 @@ public class Provider extends Agent {
 				int j = RandomHelper.nextIntFromTo(0, providers.size()-1);
 				providers.get(j).getOfferedMeans().add(m);
 				RepastEdge<Object> edge = new RepastEdge<Object>(m, providers.get(j), true, 
-						RandomHelper.nextIntFromTo(CausationBuilder.meansOfferedWeightRange[0], 
-								CausationBuilder.meansOfferedWeightRange[1]));
+						RandomHelper.nextIntFromTo(Parameters.meansOfferedWeightMin, 
+								Parameters.meansOfferedWeightMax));
 				network.addEdge(edge);
 			}
 		}
