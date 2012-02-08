@@ -18,6 +18,12 @@
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
+				<parameter name="maxMarketResearchers" displayName="Max market researchers" type="int" 
+						defaultValue="5" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
+									
+		/>
 				<parameter name="maxProviders" displayName="Max providers" type="int" 
 						defaultValue="10" 
 						isReadOnly="false" 

@@ -40,13 +40,15 @@ public class Parameters {
 	public static int maxProviders; // Maximum number of providers	
 	public static int meansOfferedWeightMin; // Means offered weight min 
 	public static int meansOfferedWeightMax; // Means offered weight max
+	public static int maxMarketResearchers;
 	
 	public static void initializeCausation() {
 		commonInitialize();
 		sampleSizePercentage = (Integer)params.getValue("sampleSizePercentage");
 		maxProviders = (Integer)params.getValue("maxProviders");
 		meansOfferedWeightMin = (Integer)params.getValue("meansOfferedWeightMin");
-		meansOfferedWeightMax = (Integer)params.getValue("meansOfferedWeightMax");		
+		meansOfferedWeightMax = (Integer)params.getValue("meansOfferedWeightMax");
+		maxMarketResearchers = (Integer)params.getValue("maxMarketResearchers");
 	}
 	
 	public static void initializeEffectuation() {

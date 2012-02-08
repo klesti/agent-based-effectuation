@@ -46,7 +46,7 @@ public class Causator extends Entrepreneur {
 	}
 	
 	public void hireMarketResearchers() {		
-		int numberOfMarketResearchers = RandomHelper.nextIntFromTo(1, 5);
+		int numberOfMarketResearchers = RandomHelper.nextIntFromTo(1, Parameters.maxMarketResearchers);
 		
 		for (int i = 0; i < numberOfMarketResearchers; i++) {
 			MarketResearcher m = new MarketResearcher(context, network, "MarketResearcher" + String.valueOf(i));			

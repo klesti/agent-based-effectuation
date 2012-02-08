@@ -78,6 +78,8 @@ public class MarketResearcher extends Agent {
 			if (workingSample.size() == 0) {
 				finishedMarketResearch = true;
 			}
+		} else if (!finishedMarketResearch && workingSample.size() == 0) {
+			finishedMarketResearch = true;
 		}
 	}
 	
