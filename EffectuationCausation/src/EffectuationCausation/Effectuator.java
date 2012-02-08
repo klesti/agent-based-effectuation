@@ -191,7 +191,6 @@ public class Effectuator extends Entrepreneur {
 			whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)	
 	public void chooseGoal() {	
 		actualCommitment = Collections.max(possibleCommitments);
-		System.out.println("Max utility:" + actualCommitment.getBetweennessCentralityUtility());
 		System.out.println("Possible commitments:" + possibleCommitments.size());
 		
 		if (actualCommitment.getMeans() != null) {
