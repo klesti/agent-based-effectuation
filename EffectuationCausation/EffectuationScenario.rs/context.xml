@@ -1,0 +1,7 @@
+<context id="effectuation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context"
+	class="EffectuationCausation.EffectuationBuilder"><projection type="network" id="effectuation network"></projection>
+	
+
+</context>
