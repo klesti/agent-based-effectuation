@@ -232,6 +232,7 @@ public class Effectuator extends Entrepreneur {
 			//Highlight new connection
 			NetworkEdge e = (NetworkEdge)network.getEdge(this, actualCommitment.getSecondParty());
 			e.setThickness(4.0);
+			System.out.println("A new connection has been used!");
 		}
 		
 		highlightCommitment();

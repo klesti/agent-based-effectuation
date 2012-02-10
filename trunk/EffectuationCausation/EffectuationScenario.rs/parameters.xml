@@ -28,7 +28,7 @@
 						defaultValue="Random" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter"
-									values="Random ConnectionsUtility DegreeCentrality BetweennessCentrality "
+									values="Random ConnectionsUtility DegreeCentrality BetweennessCentrality Mixed"
 						
 		/>
 				<parameter name="vectorSpaceSize" displayName="Vector Space Size" type="int" 
@@ -81,13 +81,13 @@
 									values="true false "
 						
 		/>
-				<parameter name="maxInitialGoals" displayName="Max Initial Goals (Effectuation)" type="int" 
+				<parameter name="maxInitialGoals" displayName="Max Initial Goals" type="int" 
 						defaultValue="3" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
-				<parameter name="maxInitialMeans" displayName="Max Initial Means (Effectuator)" type="int" 
+				<parameter name="maxInitialMeans" displayName="Max Initial Means" type="int" 
 						defaultValue="5" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
