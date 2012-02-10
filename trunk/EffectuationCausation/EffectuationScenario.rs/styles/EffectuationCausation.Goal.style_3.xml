@@ -3,9 +3,8 @@
   <size>11.0</size>
   <sizeMax>15.0</sizeMax>
   <sizeMin>1.0</sizeMin>
-  <sizeScale>15.0</sizeScale>
+  <sizeScale>12.0</sizeScale>
   <sizeMethodName>getGraphicsSize</sizeMethodName>
-  <sizeScaleMethodName>getGraphicsSize</sizeScaleMethodName>
   <label></label>
   <labelPosition>bottom</labelPosition>
   <labelPrecision>3</labelPrecision>

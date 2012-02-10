@@ -16,6 +16,7 @@ import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
+import repast.simphony.space.graph.EdgeCreator;
 import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.RepastEdge;
@@ -48,10 +49,23 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		
 		
 		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("effectuation network",
-				context, true);
+				context, false);
 		
-		EffectuationBuilder.network  = netBuilder.buildNetwork();	
-		 
+		netBuilder.setEdgeCreator(new EdgeCreator<NetworkEdge, Object>(
+				
+				) {
+					public Class<NetworkEdge> getEdgeType() {
+						return NetworkEdge.class;
+					}
+
+					@Override
+					public NetworkEdge createEdge(Object source, Object target,
+							boolean isDirected, double weight) {
+						return new NetworkEdge(source, target, true, 0);
+					}
+		});
+		
+		EffectuationBuilder.network  = netBuilder.buildNetwork();			 
 		
 		//Add the effectuator entrepreneur and it's initial available means
 		Effectuator effectuator = new Effectuator(context, network, "Effectuator");
