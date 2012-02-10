@@ -159,13 +159,19 @@ public class Commitment implements Comparable<Commitment> {
 		double ownUtility;
 		double othersUtility;
 		
-		if (Parameters.utilityFunction.equals("ConnectionsUtility")) {
+		int mixed = 0;
+		
+		if (Parameters.utilityFunction.equals("Mixed")) {
+			mixed = RandomHelper.nextIntFromTo(1, 4);
+		}
+		
+		if (Parameters.utilityFunction.equals("ConnectionsUtility") || mixed == 1) {
 			ownUtility = this.getConnectionsUtility();
 			othersUtility = c.getConnectionsUtility();
-		} else if (Parameters.utilityFunction.equals("DegreeCentrality")) {
+		} else if (Parameters.utilityFunction.equals("DegreeCentrality") || mixed == 2) {
 			ownUtility = this.getDegreeCentralityUtility();
 			othersUtility = c.getDegreeCentralityUtility();
-		} else if(Parameters.utilityFunction.equals("BetweennessCentrality")) {
+		} else if(Parameters.utilityFunction.equals("BetweennessCentrality") || mixed == 3) {
 			ownUtility = this.getBetweennessCentralityUtility();
 			othersUtility = c.getBetweennessCentralityUtility();
 		} else { //Random utility
