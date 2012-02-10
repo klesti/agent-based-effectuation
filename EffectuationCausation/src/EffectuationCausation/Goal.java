@@ -7,7 +7,7 @@ import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
-public class Goal {
+public class Goal extends NetworkNode {
 	private List<Means> requiredMeans;
 	private int[] productVector;
 	private Context<Object> context;
@@ -16,11 +16,12 @@ public class Goal {
 	public Goal(Context<Object> context, Network<Object> network) {
 		this.context = context;
 		this.network = network;
+		setGraphicsSize(12);
 		
 		requiredMeans = new ArrayList<Means>();
 		productVector = new int[Parameters.vectorSpaceSize];
 		
-		generateRandomProductVector();		
+		generateRandomProductVector();	
 	}
 	
 	/**
@@ -77,8 +78,9 @@ public class Goal {
 		return productVector;
 	}
 	
+	
 
-	/**
+/**
 	 * Sets the product vector in the causation scenario
 	 * @param productVector the productVector to set
 	 */
