@@ -78,28 +78,28 @@
   <layoutInterval>4</layoutInterval>
   <layerOrder>
     <entry>
-      <string>EffectuationCausation.Customer</string>
-      <int>3</int>
-    </entry>
-    <entry>
       <string>EffectuationCausation.Means</string>
       <int>0</int>
     </entry>
     <entry>
-      <string>EffectuationCausation.Effectuator</string>
-      <int>5</int>
+      <string>EffectuationCausation.Customer</string>
+      <int>3</int>
     </entry>
     <entry>
-      <string>EffectuationCausation.Entrepreneur</string>
-      <int>4</int>
+      <string>EffectuationCausation.Goal</string>
+      <int>1</int>
     </entry>
     <entry>
       <string>EffectuationCausation.Investor</string>
       <int>2</int>
     </entry>
     <entry>
-      <string>EffectuationCausation.Goal</string>
-      <int>1</int>
+      <string>EffectuationCausation.Entrepreneur</string>
+      <int>4</int>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Effectuator</string>
+      <int>5</int>
     </entry>
   </layerOrder>
   <projections>
