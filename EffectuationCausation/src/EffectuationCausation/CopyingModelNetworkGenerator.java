@@ -5,6 +5,7 @@ package EffectuationCausation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
 import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
@@ -31,20 +32,23 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 		
 		while (totalCustomers > 0 || totalEntrepreneuers > 0 || totalInvestors > 0) {
 			if (totalCustomers > 0) {
-				Customer c = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
+				Customer c = new Customer(context, network, "Customer" + 
+						UUID.randomUUID().toString().subSequence(0, 7));
 				attachNode(c);
 				totalCustomers--;
 			}
 			
 			if (totalEntrepreneuers > 0) {
-				Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
+				Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + 
+						UUID.randomUUID().toString().subSequence(0, 7));
 				attachNode(e);
 				e.generateGoal();
 				totalEntrepreneuers--;
 			}
 			
 			if (totalInvestors > 0) {
-				Investor i = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+				Investor i = new Investor(context, network, "Investor" + 
+						UUID.randomUUID().toString().subSequence(0, 7));
 				attachNode(i);
 				i.generateGoal();
 				totalInvestors--;

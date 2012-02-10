@@ -5,6 +5,7 @@ package EffectuationCausation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
@@ -56,7 +57,8 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 		//Add the customers to the network	
 		
 		for (int i = 0; i < Parameters.numberOfCustomers; i++) {
-			Customer c = new Customer(context, network, "Customer" + String.valueOf(i));
+			Customer c = new Customer(context, network, "Customer" + 
+					UUID.randomUUID().toString().subSequence(0, 7));
 			context.add(c);
 		}
 	
@@ -66,7 +68,8 @@ public class CausationBuilder extends DefaultContext<Object> implements ContextB
 		int numberOfProviders = RandomHelper.nextIntFromTo(3, Parameters.maxProviders);
 		
 		for (int i = 0; i < numberOfProviders; i++) {
-			Provider p = new Provider(context, network, "Provider" + String.valueOf(i));
+			Provider p = new Provider(context, network, "Provider" +
+					UUID.randomUUID().toString().subSequence(0, 7));
 			context.add(p);
 			p.generateOfferedMeans();
 		}

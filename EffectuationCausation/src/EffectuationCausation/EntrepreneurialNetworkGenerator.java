@@ -1,5 +1,7 @@
 package EffectuationCausation;
 
+import java.util.UUID;
+
 import repast.simphony.context.Context;
 import repast.simphony.context.space.graph.NetworkGenerator;
 import repast.simphony.random.RandomHelper;
@@ -33,28 +35,34 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			initializeParametersRandomly();
 		}
 		
-		context.add(new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt())));
+		context.add(new Customer(context, network, "Customer" + 
+				UUID.randomUUID().toString().subSequence(0, 7)));
 		totalCustomers--;
-		context.add(new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt())));
+		context.add(new Customer(context, network, "Customer" + 
+				UUID.randomUUID().toString().subSequence(0, 7)));
 		totalCustomers--;
 	
-		Entrepreneur e1 = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
+		Entrepreneur e1 = new Entrepreneur(context, network, "Entrepreneur" + 
+				UUID.randomUUID().toString().subSequence(0, 7));
 		context.add(e1);
 		e1.generateGoal();
 		totalEntrepreneuers--;
 		
-		Entrepreneur e2 = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));
+		Entrepreneur e2 = new Entrepreneur(context, network, "Entrepreneur" + 
+				UUID.randomUUID().toString().subSequence(0, 7));
 		context.add(e2);
 		e2.generateGoal();
 	
 		totalEntrepreneuers--;
 		
-		Investor i1 = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+		Investor i1 = new Investor(context, network, "Investor" + 
+				UUID.randomUUID().toString().subSequence(0, 7));
 		context.add(i1);
 		i1.generateGoal();		
 		totalInvestors--;
 		
-		Investor i2 = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+		Investor i2 = new Investor(context, network, "Investor" + 
+				UUID.randomUUID().toString().subSequence(0, 7));
 		context.add(i2);
 		i2.generateGoal();
 		totalInvestors--;

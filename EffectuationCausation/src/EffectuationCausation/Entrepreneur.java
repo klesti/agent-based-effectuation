@@ -3,6 +3,7 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
@@ -95,7 +96,8 @@ public class Entrepreneur extends Agent {
 		int totalMeans = RandomHelper.nextIntFromTo(1, Parameters.maxInitalMeans);
 		
 		for (int i = 0; i < totalMeans; i++) {
-			Means m = new Means("Means" + RandomHelper.nextInt());
+			Means m = new Means("Means" +
+					UUID.randomUUID().toString().subSequence(0, 7));
 			availableMeans.add(m);
 			context.add(m);
 			network.addEdge(this, m);

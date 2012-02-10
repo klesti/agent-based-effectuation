@@ -2,6 +2,7 @@ package EffectuationCausation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import repast.simphony.context.Context;
 import repast.simphony.engine.watcher.Watch;
@@ -49,7 +50,8 @@ public class Causator extends Entrepreneur {
 		int numberOfMarketResearchers = RandomHelper.nextIntFromTo(1, Parameters.maxMarketResearchers);
 		
 		for (int i = 0; i < numberOfMarketResearchers; i++) {
-			MarketResearcher m = new MarketResearcher(context, network, "MarketResearcher" + String.valueOf(i));			
+			MarketResearcher m = new MarketResearcher(context, network, "MarketResearcher" + 
+					UUID.randomUUID().toString().subSequence(0, 7));			
 			marketResearchers.add(m);
 			context.add(m);			
 			network.addEdge(this, m);

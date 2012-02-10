@@ -2,6 +2,7 @@ package EffectuationCausation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
@@ -33,7 +34,8 @@ public class Goal extends NetworkNode {
 		
 		int possibleMeans = RandomHelper.nextIntFromTo(2, 10);		
 		for (int i = 0; i < possibleMeans; i++) {
-			Means m = new Means("Means" + String.valueOf(i));
+			Means m = new Means("Means" + 
+					UUID.randomUUID().toString().subSequence(0, 7));
 			requiredMeans.add(m);
 			//Add the required means to the network
 			context.add(m);
