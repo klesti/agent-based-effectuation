@@ -9,7 +9,7 @@ package EffectuationCausation;
  */
 public class NetworkNode {
 	protected String label;
-	protected int graphicsSize;
+	protected double graphicsSize;
 	
 	public NetworkNode() {
 		
@@ -19,7 +19,7 @@ public class NetworkNode {
 		this.label = label;
 	}
 	
-	public NetworkNode(String label, int graphicsSize) {
+	public NetworkNode(String label, double graphicsSize) {
 		this.label = label;
 		this.graphicsSize = graphicsSize;
 	}
@@ -27,14 +27,14 @@ public class NetworkNode {
 	/**
 	 * @return the graphicsSize
 	 */
-	public int getGraphicsSize() {
+	public double getGraphicsSize() {
 		return graphicsSize;
 	}
 
 	/**
 	 * @param graphicsSize the graphicsSize to set
 	 */
-	public void setGraphicsSize(int graphicsSize) {
+	public void setGraphicsSize(double graphicsSize) {
 		this.graphicsSize = graphicsSize;
 	}
 

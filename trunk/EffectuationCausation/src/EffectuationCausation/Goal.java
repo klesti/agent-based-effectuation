@@ -16,7 +16,7 @@ public class Goal extends NetworkNode {
 	public Goal(Context<Object> context, Network<Object> network) {
 		this.context = context;
 		this.network = network;
-		setGraphicsSize(12);
+		setGraphicsSize(12.0);
 		
 		requiredMeans = new ArrayList<Means>();
 		productVector = new int[Parameters.vectorSpaceSize];
