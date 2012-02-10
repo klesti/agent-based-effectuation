@@ -37,4 +37,5 @@
     <float>1.0</float>
     <float>1.0</float>
   </colorScale>
+  <iconFile2D>icons/investor.png</iconFile2D>
 </repast.simphony.visualization.editedStyle.DefaultEditedStyleData2D>
