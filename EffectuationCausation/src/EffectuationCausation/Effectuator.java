@@ -14,6 +14,7 @@ import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.RepastEdge;
 
 /**
  * @author klesti
@@ -135,6 +136,30 @@ public class Effectuator extends Entrepreneur {
 		network.addEdge(this, g);
 	}
 	
+	/**
+	 *  Graphically highlight the actual commitment
+	 */
+	public void highlightCommitment() {
+		if (actualCommitment != null) {
+			
+			for (Means m: actualCommitment.getMeans()) {
+				m.setGraphicsSize(25);
+				for (RepastEdge<Object> edge: network.getEdges(m)) {
+					((NetworkEdge) edge).setThickness(3.0); 
+				}				
+			}
+			
+			actualCommitment.getGoal().setGraphicsSize(25);
+			
+			for (RepastEdge<Object> edge: network.getEdges(actualCommitment.getGoal())) {
+				((NetworkEdge) edge).setThickness(3.0); 
+			}
+			
+			NetworkEdge e = (NetworkEdge)
+					network.getEdge(actualCommitment.getFirstParty(), actualCommitment.getSecondParty());
+			e.setThickness(3.0);
+		}
+	}
 	
 	/**
 	 * Meet an entity (entrepreneur, investor, etc) and "negotiate" a commitment
@@ -190,7 +215,7 @@ public class Effectuator extends Entrepreneur {
 	@Watch(watcheeClassName = "EffectuationCausation.Effectuator", watcheeFieldNames = "finishedExpandingResources", 
 			whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)	
 	public void chooseGoal() {	
-		actualCommitment = Collections.max(possibleCommitments);
+		setActualCommitment(Collections.max(possibleCommitments));
 		System.out.println("Possible commitments:" + possibleCommitments.size());
 		
 		if (actualCommitment.getMeans() != null) {
@@ -204,7 +229,13 @@ public class Effectuator extends Entrepreneur {
 		// not already there
 		if (!network.isAdjacent(this, actualCommitment.getSecondParty())) {
 			network.addEdge(this, actualCommitment.getSecondParty());
+			//Highlight new connection
+			NetworkEdge e = (NetworkEdge)network.getEdge(this, actualCommitment.getSecondParty());
+			e.setThickness(4.0);
 		}
+		
+		highlightCommitment();
+		
 		System.out.println("The goal has been chosen.");
 	}
 	
