@@ -6,6 +6,7 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
 import edu.uci.ics.jung.graph.Graph;
@@ -239,16 +240,19 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			
 			switch (random) {
 				default:
-					Customer c = new Customer(context, network, "Customer" + String.valueOf(RandomHelper.nextInt()));
+					Customer c = new Customer(context, network, "Customer" +
+							UUID.randomUUID().toString().subSequence(0, 7));
 					networkGenerator.attachNode(c);
 					break;
 				case 2:
-					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + String.valueOf(RandomHelper.nextInt()));					
+					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + 
+							UUID.randomUUID().toString().subSequence(0, 7));					
 					networkGenerator.attachNode(e);	
 					e.generateGoal();
 					break;
 				case 3:
-					Investor i = new Investor(context, network, "Investor" + String.valueOf(RandomHelper.nextInt()));
+					Investor i = new Investor(context, network, "Investor" + 
+							UUID.randomUUID().toString().subSequence(0, 7));
 					networkGenerator.attachNode(i);
 					i.generateGoal();
 					break;
