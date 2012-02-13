@@ -229,18 +229,23 @@ public class Effectuator extends Entrepreneur {
 		}
 		
 		setGoal(actualCommitment.getGoal());
-		// Create a direct connection between the involved parties if it is 
+		
+		 // Create a direct connection between the involved parties if it is 
 		// not already there
+		NetworkEdge new_edge = null;
 		if (!network.isAdjacent(this, actualCommitment.getSecondParty())) {
 			network.addEdge(this, actualCommitment.getSecondParty());
-			//Highlight new connection
-			NetworkEdge e = (NetworkEdge)network.getEdge(this, actualCommitment.getSecondParty());
-			e.setThickness(2.0);
-			e.setColor(Color.red);
+			new_edge = (NetworkEdge)network.getEdge(this, actualCommitment.getSecondParty());
 			System.out.println("A new connection has been used!");
 		}
 		
 		highlightCommitment();
+
+		//Highlight new connection
+		if (new_edge != null) {
+			new_edge.setThickness(2.0);
+			new_edge.setColor(Color.red);			
+		}
 		
 		System.out.println("The goal has been chosen.");
 		repast.simphony.engine.environment.RunEnvironment.getInstance().endRun();
