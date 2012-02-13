@@ -118,7 +118,7 @@ public class Causator extends Entrepreneur {
 		}
 		System.out.println("Product refined");
 		goal.setProductVectorCausation(productVector);
-		acquireMeans();
+		acquireMeans();		
 	}
 	
 	/**
@@ -147,6 +147,8 @@ public class Causator extends Entrepreneur {
 			ProvidesTo providesTo = new ProvidesTo(this, m);
 			provider.getProvidesToList().add(providesTo);
 		}		
+		System.out.println("Means acquired!");
+		repast.simphony.engine.environment.RunEnvironment.getInstance().endRun();
 	}
 	
 	public int getNumberOfMarketResearchers() {

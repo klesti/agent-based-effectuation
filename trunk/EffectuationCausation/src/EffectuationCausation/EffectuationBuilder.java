@@ -3,6 +3,7 @@
  */
 package EffectuationCausation;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -229,6 +230,11 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	 */
 	@ScheduledMethod(start=2)
 	public static void evolveNetwork() {
+		
+		if (!Parameters.evolveNetwork) {
+			return;
+		}
+		
 		double prob = RandomHelper.nextDoubleFromTo(0, 1);
 		
 		double r = RandomHelper.nextDoubleFromTo(0, 1);		
@@ -238,26 +244,39 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			
 			int random = RandomHelper.nextIntFromTo(1, 3);
 			
+			Object attached;
+			
 			switch (random) {
 				default:
 					Customer c = new Customer(context, network, "Customer" +
 							UUID.randomUUID().toString().subSequence(0, 7));
 					networkGenerator.attachNode(c);
+					attached = c;					
 					break;
 				case 2:
 					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + 
 							UUID.randomUUID().toString().subSequence(0, 7));					
 					networkGenerator.attachNode(e);	
 					e.generateGoal();
+					attached = e;
 					break;
 				case 3:
 					Investor i = new Investor(context, network, "Investor" + 
 							UUID.randomUUID().toString().subSequence(0, 7));
 					networkGenerator.attachNode(i);
 					i.generateGoal();
+					attached = i;
 					break;
 			}
-			aggregateProductVectors();			
+			aggregateProductVectors();	
+			
+			for (RepastEdge<Object> edge: network.getEdges(attached)) {
+				if (edge.getTarget() instanceof Means || edge.getTarget() instanceof Goal) {
+					continue;
+				}
+				((NetworkEdge) edge).setThickness(2.0); 
+				((NetworkEdge) edge).setColor(Color.red);
+			}
 		}		
 	}
 }

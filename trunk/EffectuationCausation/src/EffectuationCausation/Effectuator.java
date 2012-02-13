@@ -3,6 +3,7 @@
  */
 package EffectuationCausation;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -145,19 +146,22 @@ public class Effectuator extends Entrepreneur {
 			for (Means m: actualCommitment.getMeans()) {
 				m.setGraphicsSize(25);
 				for (RepastEdge<Object> edge: network.getEdges(m)) {
-					((NetworkEdge) edge).setThickness(3.0); 
+					((NetworkEdge) edge).setThickness(2.0); 
+					((NetworkEdge) edge).setColor(Color.blue);
 				}				
 			}
 			
 			actualCommitment.getGoal().setGraphicsSize(25);
 			
 			for (RepastEdge<Object> edge: network.getEdges(actualCommitment.getGoal())) {
-				((NetworkEdge) edge).setThickness(3.0); 
+				((NetworkEdge) edge).setThickness(2.0); 
+				((NetworkEdge) edge).setColor(Color.blue);				
 			}
 			
 			NetworkEdge e = (NetworkEdge)
 					network.getEdge(actualCommitment.getFirstParty(), actualCommitment.getSecondParty());
-			e.setThickness(3.0);
+			e.setThickness(2.0);
+			e.setColor(Color.blue);
 		}
 	}
 	
@@ -231,13 +235,15 @@ public class Effectuator extends Entrepreneur {
 			network.addEdge(this, actualCommitment.getSecondParty());
 			//Highlight new connection
 			NetworkEdge e = (NetworkEdge)network.getEdge(this, actualCommitment.getSecondParty());
-			e.setThickness(4.0);
+			e.setThickness(2.0);
+			e.setColor(Color.red);
 			System.out.println("A new connection has been used!");
 		}
 		
 		highlightCommitment();
 		
 		System.out.println("The goal has been chosen.");
+		repast.simphony.engine.environment.RunEnvironment.getInstance().endRun();
 	}
 	
 }
