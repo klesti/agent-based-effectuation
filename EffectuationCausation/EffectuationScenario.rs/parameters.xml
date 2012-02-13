@@ -28,7 +28,7 @@
 						defaultValue="Random" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter"
-									values="Random ConnectionsUtility DegreeCentrality BetweennessCentrality Mixed"
+									values="Random ConnectionsUtility DegreeCentrality BetweennessCentrality Mixed "
 						
 		/>
 				<parameter name="vectorSpaceSize" displayName="Vector Space Size" type="int" 
@@ -92,6 +92,13 @@
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
+		/>
+				<parameter name="evolveNetwork" displayName="Evolve Network" type="boolean" 
+						defaultValue="true" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$BooleanConverter"
+									values="true false "
+						
 		/>
 		</parameters>
 

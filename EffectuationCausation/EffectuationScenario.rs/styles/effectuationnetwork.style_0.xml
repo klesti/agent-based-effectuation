@@ -10,6 +10,9 @@
     <float>0.2</float>
     <float>0.0</float>
   </color>
+  <redMethodName>getRed</redMethodName>
+  <greenMethodName>getGreen</greenMethodName>
+  <blueMethodName>getBlue</blueMethodName>
   <colorMax>
     <float>10.0</float>
     <float>10.0</float>
@@ -21,8 +24,8 @@
     <float>0.0</float>
   </colorMin>
   <colorScale>
-    <float>1.0</float>
-    <float>1.0</float>
-    <float>1.0</float>
+    <float>10.0</float>
+    <float>10.0</float>
+    <float>10.0</float>
   </colorScale>
 </repast.simphony.visualization.editedStyle.DefaultEditedEdgeStyleData2D>
