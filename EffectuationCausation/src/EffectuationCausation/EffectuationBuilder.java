@@ -7,9 +7,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
+import edu.uci.ics.jung.algorithms.metrics.Metrics;
 import edu.uci.ics.jung.graph.Graph;
 
 import repast.simphony.context.Context;
@@ -24,6 +26,10 @@ import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.RepastEdge;
 import repast.simphony.space.graph.UndirectedJungNetwork;
 
+/**
+ * @author klesti
+ *
+ */
 /**
  * @author klesti
  *
@@ -173,6 +179,42 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	public static double getNetworkDensity() {
 		Network<Object> n = getEntrepreneurialNetwork();
 		return ( 2 * n.getDegree() ) / ( n.size() * (n.size()-1) );
+	}
+	
+	/**
+	 * Returns the average clustering coefficient of the "entrepreneurial network" 
+	 * (as calculated by Watts and Strogatz)
+	 * @return C
+	 */
+	public static double getClusteringCoefficient() {
+		double C = 0;
+		
+		
+		Map<Object, Double> cc = Metrics.clusteringCoefficients(getEntrepreneurialNetwork().getGraph());
+		
+		for (Object n: getEntrepreneurialNetwork().getNodes()) {
+			C += cc.get(n) / getEntrepreneurialNetwork().size();
+		}
+		
+		return C;
+	}
+	
+	/**
+	 * Returns the effectuator's betweenness centrality in the entrepreneurial network
+	 * @return betweennessCentrality
+	 */
+	public static double getEffectuatorsBetweennessCentrality() {
+		Effectuator e =(Effectuator)context.getObjects(Effectuator.class).iterator().next(); 
+		return e.getBetweennessCentrality();
+	}
+
+	/**
+	 * Returns the effectuator's degree centrality in the entrepreneurial network
+	 * @return degreeCentrality
+	 */	
+	public static double getEffectuatorsDegreeCentrality() {
+		Effectuator e =(Effectuator)context.getObjects(Effectuator.class).iterator().next();
+		return entrepreneurialNetwork.getDegree(e);		
 	}
 	
 	/**
