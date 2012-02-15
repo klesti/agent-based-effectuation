@@ -84,7 +84,10 @@ public class BarabasiAlbertNetworkGenerator extends EntrepreneurialNetworkGenera
 					continue;
 				}
 				
-				double prob = entrepreneurialNetwork.getDegree(o) / totalDegree;
+				//double prob = entrepreneurialNetwork.getDegree(o) / totalDegree;
+				double prob = (entrepreneurialNetwork.getDegree(o) + 1) /
+								(totalDegree 
+										+ entrepreneurialNetwork.size() - 1);
 				
 				if (prob > 0.0 && RandomHelper.nextDoubleFromTo(0,1) >= prob) {
 					entrepreneurialNetwork.addEdge(n, o);
