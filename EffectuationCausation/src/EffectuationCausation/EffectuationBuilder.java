@@ -116,6 +116,10 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			networkGenerator = new BarabasiAlbertNetworkGenerator(context);
 		} else if (Parameters.networkGenerator.equals("CopyModel")) {
 			networkGenerator = new CopyingModelNetworkGenerator(context);
+		} else if (Parameters.networkGenerator.equals("RandomNetwork")) {
+			networkGenerator = new RandomNetworkGenerator(context);
+		} else if (Parameters.networkGenerator.equals("SmallWorld")) {
+			networkGenerator = new SmallWorldNetworkGenerator(context);
 		}
 		
 		networkGenerator.setTotalCustomers(Parameters.numberOfCustomers);
