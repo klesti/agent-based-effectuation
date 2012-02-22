@@ -62,6 +62,14 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 		i2.generateGoal();
 		totalInvestors--;
 		
+		randomWire(p);
+	}
+
+
+	/**
+	 * @param p
+	 */
+	public void randomWire(double p) {
 		//Initial wiring using a random network
 		for (Object i: network.getNodes()) {
 			for (Object j: network.getNodes()) {
