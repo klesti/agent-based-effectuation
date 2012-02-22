@@ -35,34 +35,29 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			initializeParametersRandomly();
 		}
 		
-		context.add(new Customer(context, network, "Customer" + 
-				UUID.randomUUID().toString().subSequence(0, 7)));
+		context.add(new Customer(context, network, EffectuationBuilder.nextId("C")));
 		totalCustomers--;
 		context.add(new Customer(context, network, "Customer" + 
 				UUID.randomUUID().toString().subSequence(0, 7)));
 		totalCustomers--;
 	
-		Entrepreneur e1 = new Entrepreneur(context, network, "Entrepreneur" + 
-				UUID.randomUUID().toString().subSequence(0, 7));
+		Entrepreneur e1 = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
 		context.add(e1);
 		e1.generateGoal();
 		totalEntrepreneuers--;
 		
-		Entrepreneur e2 = new Entrepreneur(context, network, "Entrepreneur" + 
-				UUID.randomUUID().toString().subSequence(0, 7));
+		Entrepreneur e2 = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
 		context.add(e2);
 		e2.generateGoal();
 	
 		totalEntrepreneuers--;
 		
-		Investor i1 = new Investor(context, network, "Investor" + 
-				UUID.randomUUID().toString().subSequence(0, 7));
+		Investor i1 = new Investor(context, network, EffectuationBuilder.nextId("I"));
 		context.add(i1);
 		i1.generateGoal();		
 		totalInvestors--;
 		
-		Investor i2 = new Investor(context, network, "Investor" + 
-				UUID.randomUUID().toString().subSequence(0, 7));
+		Investor i2 = new Investor(context, network, EffectuationBuilder.nextId("I"));
 		context.add(i2);
 		i2.generateGoal();
 		totalInvestors--;

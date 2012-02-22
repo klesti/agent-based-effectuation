@@ -6,9 +6,9 @@ package EffectuationCausation;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
 import edu.uci.ics.jung.algorithms.metrics.Metrics;
@@ -39,6 +39,7 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	public static Context<Object> context;
 	public static Network<Object> network;	
 	private static EntrepreneurialNetworkGenerator networkGenerator;
+	private static HashMap<String, Integer> lastIds;
 	
 	//Entrepreneurial network caching
 	
@@ -50,6 +51,8 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 	@Override
 	public Context<Object> build(Context<Object> context) {
 		Parameters.initializeEffectuation();
+		
+		lastIds = new HashMap<String, Integer>();
 		
 		context.setId("effectuation");
 				
@@ -125,6 +128,25 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 		aggregateProductVectors();		
 		
 		return context;
+	}
+	
+	/**
+	 * Returns the next Id of a node, also by specifying a certain prefix
+	 * @param prefix
+	 * @return nextId
+	 */
+	public static String nextId(String prefix) {
+		int nextId;
+		
+		if (lastIds.containsKey(prefix)) {
+			nextId = lastIds.get(prefix) + 1;
+			lastIds.put(prefix, nextId);
+		} else {
+			nextId = 1;
+			lastIds.put(prefix, nextId);
+		}
+		
+		return prefix + String.valueOf(nextId);
 	}
 
 	/**
@@ -290,21 +312,18 @@ public class EffectuationBuilder extends DefaultContext<Object> implements Conte
 			
 			switch (random) {
 				default:
-					Customer c = new Customer(context, network, "Customer" +
-							UUID.randomUUID().toString().subSequence(0, 7));
+					Customer c = new Customer(context, network, EffectuationBuilder.nextId("C"));
 					networkGenerator.attachNode(c);
 					attached = c;					
 					break;
 				case 2:
-					Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" + 
-							UUID.randomUUID().toString().subSequence(0, 7));					
+					Entrepreneur e = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));					
 					networkGenerator.attachNode(e);	
 					e.generateGoal();
 					attached = e;
 					break;
 				case 3:
-					Investor i = new Investor(context, network, "Investor" + 
-							UUID.randomUUID().toString().subSequence(0, 7));
+					Investor i = new Investor(context, network, EffectuationBuilder.nextId("I"));
 					networkGenerator.attachNode(i);
 					i.generateGoal();
 					attached = i;

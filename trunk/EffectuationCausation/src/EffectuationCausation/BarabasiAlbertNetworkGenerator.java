@@ -3,8 +3,6 @@
  */
 package EffectuationCausation;
 
-import java.util.UUID;
-
 import repast.simphony.context.Context;
 import repast.simphony.context.space.graph.NetworkGenerator;
 import repast.simphony.random.RandomHelper;
@@ -36,22 +34,19 @@ public class BarabasiAlbertNetworkGenerator extends EntrepreneurialNetworkGenera
 		
 		while (totalCustomers > 0 || totalEntrepreneuers > 0 || totalInvestors > 0) {
 			if (totalCustomers > 0) {
-				attachNode(new Customer(context, network, "Customer" + 
-						UUID.randomUUID().toString().subSequence(0, 7)));
+				attachNode(new Customer(context, network, EffectuationBuilder.nextId("C")));
 				totalCustomers--;
 			}
 			
 			if (totalEntrepreneuers > 0) {
-				Entrepreneur e = new Entrepreneur(context, network, "Entrepreneur" +  
-						UUID.randomUUID().toString().subSequence(0, 7));
+				Entrepreneur e = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
 				attachNode(e);
 				e.generateGoal();				
 				totalEntrepreneuers--;
 			}
 			
 			if (totalInvestors > 0) {
-				Investor i = new Investor(context, network, "Investor" + 
-						UUID.randomUUID().toString().subSequence(0, 7));
+				Investor i = new Investor(context, network, EffectuationBuilder.nextId("I"));
 				attachNode(i);
 				i.generateGoal();
 				totalInvestors--;
