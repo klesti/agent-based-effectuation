@@ -1,0 +1,105 @@
+<repast.simphony.visualization.engine.DefaultDisplayDescriptor>
+  <name>Entrepreneurial network</name>
+  <type>TWO_D</type>
+  <styles>
+    <entry>
+      <string>EffectuationCausation.Causator</string>
+      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Customer</string>
+      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Effectuator</string>
+      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Entrepreneur</string>
+      <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
+    </entry>
+  </styles>
+  <editedStyles>
+    <entry>
+      <string>EffectuationCausation.Causator</string>
+      <string>EffectuationCausation.Causator.style_0.xml</string>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Customer</string>
+      <string>EffectuationCausation.Customer.style_0.xml</string>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Effectuator</string>
+      <string>EffectuationCausation.Effectuator.style_0.xml</string>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Entrepreneur</string>
+      <string>EffectuationCausation.Entrepreneur.style_0.xml</string>
+    </entry>
+  </editedStyles>
+  <netStyles>
+    <entry>
+      <string>entrepreneurial network</string>
+      <string>repast.simphony.visualization.editedStyle.EditedEdgeStyle2D</string>
+    </entry>
+  </netStyles>
+  <editedNetStyles>
+    <entry>
+      <string>entrepreneurial network</string>
+      <string>entrepreneurialnetwork.style_0.xml</string>
+    </entry>
+  </editedNetStyles>
+  <frequency>AT_INTERVAL</frequency>
+  <schedParams>
+    <start>1.0</start>
+    <interval>1.0</interval>
+    <priority>-Infinity</priority>
+    <duration>-1.0</duration>
+    <frequency>REPEAT</frequency>
+  </schedParams>
+  <layoutClassName>repast.simphony.visualization.visualization2D.layout.FRLayout2D</layoutClassName>
+  <layoutProjection>entrepreneurial network</layoutProjection>
+  <layoutInterval>4</layoutInterval>
+  <layerOrder>
+    <entry>
+      <string>EffectuationCausation.Causator</string>
+      <int>2</int>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Customer</string>
+      <int>0</int>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Entrepreneur</string>
+      <int>1</int>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Effectuator</string>
+      <int>3</int>
+    </entry>
+  </layerOrder>
+  <projections>
+    <repast.simphony.scenario.data.ProjectionData>
+      <id>entrepreneurial network</id>
+      <attributes/>
+      <type>NETWORK</type>
+    </repast.simphony.scenario.data.ProjectionData>
+  </projections>
+  <valueLayers/>
+  <projectionDescriptors>
+    <entry>
+      <string>entrepreneurial network</string>
+      <repast.simphony.visualization.engine.DefaultProjectionDescriptor>
+        <proj reference="../../../../projections/repast.simphony.scenario.data.ProjectionData"/>
+        <props/>
+      </repast.simphony.visualization.engine.DefaultProjectionDescriptor>
+    </entry>
+  </projectionDescriptors>
+  <props/>
+  <backgroundColor>
+    <red>255</red>
+    <green>255</green>
+    <blue>255</blue>
+    <alpha>255</alpha>
+  </backgroundColor>
+</repast.simphony.visualization.engine.DefaultDisplayDescriptor>
