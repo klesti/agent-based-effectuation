@@ -65,7 +65,7 @@
 						defaultValue="BarabasiAlbert" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter"
-									values="BarabasiAlbert CopyModel "
+									values="BarabasiAlbert CopyModel RandomNetwork SmallWorld "
 						
 		/>
 				<parameter name="edgesPerStep" displayName="Network Generator Edges per step" type="int" 
