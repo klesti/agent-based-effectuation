@@ -6,7 +6,6 @@ package EffectuationCausation;
 import repast.simphony.context.Context;
 import repast.simphony.context.space.graph.NetworkGenerator;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 
 
@@ -27,36 +26,15 @@ public class BarabasiAlbertNetworkGenerator extends EntrepreneurialNetworkGenera
 	public Network<Object> createNetwork(Network<Object> network) {		
 		this.network = network;
 		
-		initializeNetwork(0.3);	
-		
+		initializeNetwork(0.3);		
 
 		// Evolve network using preferential attachment
 		
-		while (totalCustomers > 0 || totalEntrepreneuers > 0 || totalInvestors > 0) {
-			if (totalCustomers > 0) {
-				attachNode(new Customer(context, network, EffectuationBuilder.nextId("C")));
-				totalCustomers--;
-			}
-			
-			if (totalEntrepreneuers > 0) {
-				Entrepreneur e = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
-				attachNode(e);
-				e.generateGoal();				
-				totalEntrepreneuers--;
-			}
-			
-			if (totalInvestors > 0) {
-				Investor i = new Investor(context, network, EffectuationBuilder.nextId("I"));
-				attachNode(i);
-				i.generateGoal();
-				totalInvestors--;
-			}			
-		}
+		evolveNetwork();
 		
 		return network;
 	}
-	
-	
+
 	/**
 	 * Preferential attachment
 	 * @param n Node to be attached
@@ -65,29 +43,22 @@ public class BarabasiAlbertNetworkGenerator extends EntrepreneurialNetworkGenera
 		context.add(n);
 		//When checking the network degree, look only at the "entreprenurial network",
 		// i.e at the network without means and goals
-		JungNetwork<Object> entrepreneurialNetwork = EffectuationBuilder.getEntrepreneurialNetwork();
 		for (int i = 0; i < edgesPerStep; i++) {
 			
-			double totalDegree = entrepreneurialNetwork.getDegree();
+			double totalDegree = network.getDegree();
 			
-			for (Object o: context) {
+			boolean attached = false;
+			
+			while (!attached) {
+				Object o = context.getRandomObjects(Agent.class, 1).iterator().next();
 				
-				//Attach only to subclasses of Agent!
-				
-				if (o instanceof Means || o instanceof Goal) 
-				{
-					continue;
-				}
-				
-				//double prob = entrepreneurialNetwork.getDegree(o) / totalDegree;
-				double prob = (entrepreneurialNetwork.getDegree(o) + 1) /
+				double prob = (network.getDegree(o) + 1) /
 								(totalDegree 
-										+ entrepreneurialNetwork.size() - 1);
+										+ network.size() - 1);
 				
 				if (prob > 0.0 && RandomHelper.nextDoubleFromTo(0,1) >= prob) {
-					entrepreneurialNetwork.addEdge(n, o);
 					network.addEdge(n, o);
-					break;				
+					attached = true;
 				}			
 			}
 		}

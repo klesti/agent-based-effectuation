@@ -3,10 +3,11 @@
  */
 package EffectuationCausation;
 
+import java.util.ArrayList;
+
 import repast.simphony.context.Context;
-import repast.simphony.context.space.graph.WattsBetaSmallWorldGenerator;
+import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
-import repast.simphony.space.graph.RepastEdge;
 
 /**
  * @author klesti
@@ -27,34 +28,43 @@ public class SmallWorldNetworkGenerator extends EntrepreneurialNetworkGenerator 
 	@Override
 	public Network<Object> createNetwork(Network<Object> network) {
 		
-		while (totalCustomers > 0 || totalEntrepreneuers > 0 || totalInvestors > 0) {
-			if (totalCustomers > 0) {
-				Customer c = new Customer(context, network, EffectuationBuilder.nextId("C"));
-				attachNode(c);
-				totalCustomers--;
-			}
-			
-			if (totalEntrepreneuers > 0) {
-				Entrepreneur e = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
-				attachNode(e);
-				e.generateGoal();
-				totalEntrepreneuers--;
-			}
-			
-			if (totalInvestors > 0) {
-				Investor i = new Investor(context, network, EffectuationBuilder.nextId("I"));
-				attachNode(i);
-				i.generateGoal();
-				totalInvestors--;
+		evolveNetwork();
+		
+		//Wire network using Watts beta-model
+		
+		double beta = 0.3;
+		int meanDegree = 4;
+		
+		int K = RandomHelper.nextIntFromTo(1, meanDegree / 2);		
+		
+		ArrayList<Agent> nodes = new ArrayList<Agent>();		
+		for (Object o: context.getObjects(Agent.class)) {
+			nodes.add((Agent)o);
+		}
+		
+		for (int i = 0; i < nodes.size() - 1; i++) {
+			for (int j = 0; j < nodes.size() - 1; j++) {
+				if (((Integer)Math.abs(i-j)) % nodes.size() == K) {
+					network.addEdge(nodes.get(i), nodes.get(j));
+				}
 			}
 		}
 		
-		WattsBetaSmallWorldGenerator<Object> ng = new WattsBetaSmallWorldGenerator<Object>(0.3, 6, true);
-		
-		Network<Object> n = ng.createNetwork(EffectuationBuilder.getEntrepreneurialNetwork());
+		for (int i = 0; i < nodes.size() - 1; i++) { 
+			for (int j = 0; j < nodes.size() - 1; j++) {
 				
-		for (RepastEdge<Object> edge: n.getEdges()) {
-			network.addEdge(edge.getSource(), edge.getTarget());
+				double random = RandomHelper.nextDoubleFromTo(0, 1);
+				
+				if (i < j & network.getEdge(nodes.get(i), nodes.get(j)) != null && random >= beta) {					
+					
+					int k;
+					do {
+						k = RandomHelper.nextIntFromTo(1, nodes.size() - 1);
+					} while (k != i && network.getEdge(nodes.get(i), nodes.get(k)) != null);					
+					
+					network.addEdge(nodes.get(i), nodes.get(k));
+				}
+			}
 		}
 		
 		return network;		

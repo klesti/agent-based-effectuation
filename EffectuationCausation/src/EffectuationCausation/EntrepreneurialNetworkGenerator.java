@@ -1,7 +1,5 @@
 package EffectuationCausation;
 
-import java.util.UUID;
-
 import repast.simphony.context.Context;
 import repast.simphony.context.space.graph.NetworkGenerator;
 import repast.simphony.random.RandomHelper;
@@ -12,7 +10,6 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	protected int edgesPerStep;
 	protected int totalCustomers;
 	protected int totalEntrepreneuers;
-	protected int totalInvestors;
 	protected Context<Object> context;
 	protected Network<Object> network;
 
@@ -22,7 +19,6 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 		edgesPerStep = 0;
 		totalCustomers = 0;
 		totalEntrepreneuers = 0;
-		totalInvestors = 0;
 	}
 
 	
@@ -31,36 +27,10 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	 * @param p initial wiring probability
 	 */
 	protected void initializeNetwork(double p) {
-		if (totalCustomers == 0 && totalEntrepreneuers == 0 && totalInvestors == 0) {
-			initializeParametersRandomly();
+		for (int i = 0; i < 10 && i < totalCustomers; i++) {		
+			context.add(new Customer(context, SimulationBuilder.fullNetwork, SimulationBuilder.nextId("C")));
+			totalCustomers--;
 		}
-		
-		context.add(new Customer(context, network, EffectuationBuilder.nextId("C")));
-		totalCustomers--;
-		context.add(new Customer(context, network, "Customer" + 
-				UUID.randomUUID().toString().subSequence(0, 7)));
-		totalCustomers--;
-	
-		Entrepreneur e1 = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
-		context.add(e1);
-		e1.generateGoal();
-		totalEntrepreneuers--;
-		
-		Entrepreneur e2 = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
-		context.add(e2);
-		e2.generateGoal();
-	
-		totalEntrepreneuers--;
-		
-		Investor i1 = new Investor(context, network, EffectuationBuilder.nextId("I"));
-		context.add(i1);
-		i1.generateGoal();		
-		totalInvestors--;
-		
-		Investor i2 = new Investor(context, network, EffectuationBuilder.nextId("I"));
-		context.add(i2);
-		i2.generateGoal();
-		totalInvestors--;
 		
 		randomWire(p);
 	}
@@ -71,25 +41,16 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	 */
 	public void randomWire(double p) {
 		//Initial wiring using a random network
-		for (Object i: network.getNodes()) {
-			for (Object j: network.getNodes()) {
+		for (Object i: context.getObjects(Agent.class)) {
+			for (Object j: context.getObjects(Agent.class)) {
 				double random = RandomHelper.nextDoubleFromTo(0, 1);
-				if ( (i instanceof Customer || i instanceof Investor || i instanceof Entrepreneur) &&
-						(j instanceof Customer || j instanceof Investor || j instanceof Entrepreneur) &&
-							random >= p) {
-					network.addEdge(i, j);					
+				if (random >= p) {
+					network.addEdge(i, j);
 				}
 			}
 		}
 	}
 	
-	public void initializeParametersRandomly() {
-		edgesPerStep = RandomHelper.nextIntFromTo(2, 5);
-		totalCustomers = RandomHelper.nextIntFromTo(5, 50);
-		totalEntrepreneuers = RandomHelper.nextIntFromTo(2, 10);
-		totalInvestors = RandomHelper.nextIntFromTo(2, 5);
-	}	
-
 	/**
 	 * @return the edgesPerStep
 	 */
@@ -133,20 +94,6 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	}
 
 	/**
-	 * @return the totalInvestors
-	 */
-	public int getTotalInvestors() {
-		return totalInvestors;
-	}
-
-	/**
-	 * @param totalInvestors the totalInvestors to set
-	 */
-	public void setTotalInvestors(int totalInvestors) {
-		this.totalInvestors = totalInvestors;
-	}
-
-	/**
 	 * @return the context
 	 */
 	public Context<Object> getContext() {
@@ -173,6 +120,24 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	public void setNetwork(Network<Object> network) {
 		this.network = network;
 	}
+	
+	
+	public void evolveNetwork() {
+		while (totalCustomers > 0 || totalEntrepreneuers > 0) {
+			
+			double random = RandomHelper.nextDoubleFromTo(0, 1);
+			
+			if (totalEntrepreneuers > 0 && random >= 0.8) {
+				Entrepreneur e = new Entrepreneur(context, SimulationBuilder.fullNetwork, SimulationBuilder.nextId("E"));
+				attachNode(e);
+				e.generateGoal();				
+				totalEntrepreneuers--;				
+			} else if (totalCustomers > 0) {
+				attachNode(new Customer(context, SimulationBuilder.fullNetwork, SimulationBuilder.nextId("C")));
+				totalCustomers--;
+			}
+		}
+	}	
 
 
 	@Override
