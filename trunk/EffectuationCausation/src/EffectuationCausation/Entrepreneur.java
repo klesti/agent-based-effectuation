@@ -3,7 +3,6 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
@@ -15,32 +14,13 @@ import repast.simphony.space.graph.Network;
  */
 public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
-	protected List<Customer> customers;
 	protected Goal goal;
 	
 	public Entrepreneur(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
 		availableMeans = new ArrayList<Means>();
-		customers = new ArrayList<Customer>();
 	}
 
-	public List<Customer> getCustomers() {
-		return customers;
-	}
-
-	public void setCustomers(List<Customer> customers) {
-		for (Customer c: this.customers) {
-			context.remove(c);
-		}
-		for (Customer c: customers) {
-			if (!context.contains(c)) {
-				context.add(c);
-			}
-			network.addEdge(this, c);
-		}
-		this.customers = customers;
-	}
-	
 	public List<Means> getAvailableMeans() {
 		return availableMeans;
 	}
@@ -64,7 +44,6 @@ public class Entrepreneur extends Agent {
 	public Goal getGoal() {
 		return goal;
 	}
-
 
 	/**
 	 * @param goal the goal to set
@@ -96,16 +75,13 @@ public class Entrepreneur extends Agent {
 		int totalMeans = RandomHelper.nextIntFromTo(1, Parameters.maxInitalMeans);
 		
 		for (int i = 0; i < totalMeans; i++) {
-			Means m = new Means("Means" +
-					UUID.randomUUID().toString().subSequence(0, 7));
+			Means m = new Means("M" + SimulationBuilder.nextId("M"));
 			availableMeans.add(m);
 			context.add(m);
 			network.addEdge(this, m);
 		}
 	}
-	
-	
-	
+		
 	/**
 	 *  To be called only in the effectuation scenario
 	 *  @description Generate goal based on the available means (require all of them)

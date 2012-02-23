@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import repast.simphony.context.Context;
-import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 
 /**
@@ -28,41 +26,19 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 		initializeNetwork(0.3);	
 		
 		// Evolve network using a "copy model"
-		
-		while (totalCustomers > 0 || totalEntrepreneuers > 0 || totalInvestors > 0) {
-			if (totalCustomers > 0) {
-				Customer c = new Customer(context, network, EffectuationBuilder.nextId("C"));
-				attachNode(c);
-				totalCustomers--;
-			}
-			
-			if (totalEntrepreneuers > 0) {
-				Entrepreneur e = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
-				attachNode(e);
-				e.generateGoal();
-				totalEntrepreneuers--;
-			}
-			
-			if (totalInvestors > 0) {
-				Investor i = new Investor(context, network, EffectuationBuilder.nextId("I"));
-				attachNode(i);
-				i.generateGoal();
-				totalInvestors--;
-			}
-		}
+		evolveNetwork();
 		
 		return network;
 	}
 	
 	public void rewireNode(Object n) {
-		JungNetwork<Object> entrepreneurialNetwork = EffectuationBuilder.getEntrepreneurialNetwork();
 		
 		int attached = 0;
 		ArrayList<Object> alreadyWired = new ArrayList<Object>();
 		
 		while (attached != getEdgesPerStep()) {
 			
-			Object randomNode = getRandomNode();
+			Object randomNode = context.getRandomObjects(Agent.class, 1).iterator().next();
 			
 			if (alreadyWired.indexOf(randomNode) != -1) {
 				continue;
@@ -70,7 +46,7 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 			
 			ArrayList<Object> adjacentNodes = new ArrayList<Object>();
 			
-			for (Object o: entrepreneurialNetwork.getAdjacent(randomNode)) {
+			for (Object o: network.getAdjacent(randomNode)) {
 				adjacentNodes.add(o);
 			}
 			
@@ -79,8 +55,7 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 			int i = 0;
 						
 			while (i < adjacentNodes.size() && attached != getEdgesPerStep()) {
-				entrepreneurialNetwork.addEdge(n, adjacentNodes.get(i));
-				network.addEdge(n, adjacentNodes.get(i));								
+				network.addEdge(n, adjacentNodes.get(i));
 				i++;
 				attached++;
 			}
@@ -91,29 +66,4 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 		context.add(n);
 		rewireNode(n);
 	}
-	
-	/**
-	 * Returns a random node from the entrepreneurial network (customer, entrepreneur, investor)
-	 * @return node
-	 */
-	public Object getRandomNode() {		
-		int random = RandomHelper.nextIntFromTo(1, 3);
-		
-		Object o;
-		
-		switch(random) {
-			default:
-				o = context.getRandomObjects(Customer.class, 1).iterator().next();
-				break;
-			case 2:
-				o = context.getRandomObjects(Entrepreneur.class, 1).iterator().next();
-				break;
-			case 3:
-				o = context.getRandomObjects(Investor.class, 1).iterator().next();
-				break;			
-		}
-		
-		return o;		
-	}
-
 }

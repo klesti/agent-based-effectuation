@@ -28,27 +28,7 @@ public class RandomNetworkGenerator extends EntrepreneurialNetworkGenerator {
 		
 		// Evolve network using a "copy model"
 		
-		while (totalCustomers > 0 || totalEntrepreneuers > 0 || totalInvestors > 0) {
-			if (totalCustomers > 0) {
-				Customer c = new Customer(context, network, EffectuationBuilder.nextId("C"));
-				attachNode(c);
-				totalCustomers--;
-			}
-			
-			if (totalEntrepreneuers > 0) {
-				Entrepreneur e = new Entrepreneur(context, network, EffectuationBuilder.nextId("E"));
-				attachNode(e);
-				e.generateGoal();
-				totalEntrepreneuers--;
-			}
-			
-			if (totalInvestors > 0) {
-				Investor i = new Investor(context, network, EffectuationBuilder.nextId("I"));
-				attachNode(i);
-				i.generateGoal();
-				totalInvestors--;
-			}
-		}
+		evolveNetwork();
 		
 		randomWire(0.3);
 		
