@@ -6,7 +6,7 @@
   <sizeScale>1.0</sizeScale>
   <sizeMethodName>getThickness</sizeMethodName>
   <color>
-    <float>1.0</float>
+    <float>0.0</float>
     <float>0.0</float>
     <float>0.0</float>
   </color>
@@ -24,8 +24,8 @@
     <float>0.0</float>
   </colorMin>
   <colorScale>
-    <float>10.0</float>
-    <float>10.0</float>
-    <float>10.0</float>
+    <float>1.0</float>
+    <float>1.0</float>
+    <float>1.0</float>
   </colorScale>
 </repast.simphony.visualization.editedStyle.DefaultEditedEdgeStyleData2D>
