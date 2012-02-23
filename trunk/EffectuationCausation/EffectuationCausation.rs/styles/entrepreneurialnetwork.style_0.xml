@@ -4,10 +4,9 @@
   <sizeMax>1.0</sizeMax>
   <sizeMin>0.0</sizeMin>
   <sizeScale>1.0</sizeScale>
-  <sizeMethodName>getThickness</sizeMethodName>
   <color>
-    <float>0.2</float>
-    <float>0.2</float>
+    <float>0.0</float>
+    <float>0.0</float>
     <float>0.0</float>
   </color>
   <redMethodName>getRed</redMethodName>
