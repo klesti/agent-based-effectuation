@@ -50,7 +50,8 @@ public class BarabasiAlbertNetworkGenerator extends EntrepreneurialNetworkGenera
 			boolean attached = false;
 			
 			while (!attached) {
-				Object o = context.getRandomObjects(Agent.class, 1).iterator().next();
+				
+				Object o = context.getRandomObject();
 				
 				double prob = (network.getDegree(o) + 1) /
 								(totalDegree 

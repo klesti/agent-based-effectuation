@@ -38,7 +38,7 @@ public class SmallWorldNetworkGenerator extends EntrepreneurialNetworkGenerator 
 		int K = RandomHelper.nextIntFromTo(1, meanDegree / 2);		
 		
 		ArrayList<Agent> nodes = new ArrayList<Agent>();		
-		for (Object o: context.getObjects(Agent.class)) {
+		for (Object o: network.getNodes()) {
 			nodes.add((Agent)o);
 		}
 		

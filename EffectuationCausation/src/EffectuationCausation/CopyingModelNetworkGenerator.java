@@ -38,7 +38,7 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 		
 		while (attached != getEdgesPerStep()) {
 			
-			Object randomNode = context.getRandomObjects(Agent.class, 1).iterator().next();
+			Object randomNode = context.getRandomObject();
 			
 			if (alreadyWired.indexOf(randomNode) != -1) {
 				continue;

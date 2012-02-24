@@ -42,13 +42,11 @@ public class Effectuator extends Entrepreneur {
 	public Object meet() {		
 		int depth = RandomHelper.nextIntFromTo(1, Parameters.maxDepthForMeeting);
 		
-		Network<Object> entrepreneurialNetwork = SimulationBuilder.entrepreneurialNetwork;
-		
-		int i = 0;
+				int i = 0;
 		Object o = this, acquaintance = this;
 		
 		while (i < depth && o != null) {
-			o = entrepreneurialNetwork.getRandomAdjacent(acquaintance);
+			o = network.getRandomAdjacent(acquaintance);
 			//do not meet customers
 			if (o != null && !(o instanceof Customer)) {
 				acquaintance = o;

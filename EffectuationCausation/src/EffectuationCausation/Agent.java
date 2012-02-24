@@ -10,16 +10,19 @@ import repast.simphony.space.graph.Network;
  * @author klesti
  *
  */
-public class Agent extends NetworkNode {
+public class Agent {
 	protected Context<Object> context;
 	protected Network<Object> network;
+	protected String label;
+	protected double graphicsSize;	
 	protected double betweennessCentrality;
 
 	
-	public Agent(Context<Object> context, Network<Object> network, String label) {
-		super(label);
+	public Agent(Context<Object> context, Network<Object> network, String label) {		
 		this.context = context;
 		this.network = network;
+		this.graphicsSize = 0;
+		this.label = label;
 		this.betweennessCentrality = 0;
 	}
 	
@@ -53,6 +56,33 @@ public class Agent extends NetworkNode {
 		this.network = network;
 	}
 	
+	/**
+	 * @return the graphicsSize
+	 */
+	public double getGraphicsSize() {
+		return graphicsSize;
+	}
+
+	/**
+	 * @param graphicsSize the graphicsSize to set
+	 */
+	public void setGraphicsSize(double graphicsSize) {
+		this.graphicsSize = graphicsSize;
+	}
+
+	/**
+	 * @return the label
+	 */
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * @param label the label to set
+	 */
+	public void setLabel(String label) {
+		this.label = label;
+	}	
 
 	/**
 	 * @return the betweennessCentrality
