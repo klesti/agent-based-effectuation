@@ -36,6 +36,6 @@ public class Causator extends Entrepreneur {
 			}
 		}
 		System.out.println("Product refined");
-		goal.setProductVectorCausation(productVector);
+		goal.setProductVector(productVector);
 	}
 }

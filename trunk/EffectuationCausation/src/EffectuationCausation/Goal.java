@@ -2,54 +2,29 @@ package EffectuationCausation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import repast.simphony.context.Context;
 import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.Network;
 
-public class Goal extends NetworkNode {
+public class Goal  {
 	private List<Means> requiredMeans;
 	private int[] productVector;
-	private Context<Object> context;
-	private Network<Object> network;
 	
-	public Goal(Context<Object> context, Network<Object> network) {
-		this.context = context;
-		this.network = network;
-		setGraphicsSize(12.0);
-		
+	public Goal() {
 		requiredMeans = new ArrayList<Means>();
 		productVector = new int[Parameters.vectorSpaceSize];
 		
 		generateRandomProductVector();	
 	}
 	
-	/**
-	 *  This method should be called only in the causation scenario
-	 */
 	public void generateRequiredMeans() {
-		clearRequiredMeans();
-		CausationBuilder.offeredMeans.clear();		
+		requiredMeans.clear();
 		
 		int possibleMeans = RandomHelper.nextIntFromTo(2, 10);		
 		for (int i = 0; i < possibleMeans; i++) {
-			Means m = new Means("Means" + 
-					UUID.randomUUID().toString().subSequence(0, 7));
+			Means m = new Means("M" + SimulationBuilder.nextId("M"));
 			requiredMeans.add(m);
-			//Add the required means to the network
-			context.add(m);
-			network.addEdge(this, m);	
 		}
 	}
-	
-	public void clearRequiredMeans() {		
-		for (Means m: requiredMeans) {
-			context.remove(m);
-		}
-		requiredMeans.clear();
-	}
-	
 	
 
 	/**
@@ -63,13 +38,6 @@ public class Goal extends NetworkNode {
 	 * @param requiredMeans the requiredMeans to set
 	 */
 	public void setRequiredMeans(List<Means> requiredMeans) {
-		clearRequiredMeans();
-		for (Means m: requiredMeans) {
-			if (!context.contains(m)) {
-				context.add(m);
-			}
-			network.addEdge(this, m);
-		}
 		this.requiredMeans = requiredMeans;
 	}
 
@@ -81,35 +49,10 @@ public class Goal extends NetworkNode {
 	}
 	
 	
-
-/**
-	 * Sets the product vector in the causation scenario
-	 * @param productVector the productVector to set
-	 */
-	public void setProductVectorCausation(int[] productVector) {
-	
-		boolean changed = false;
-		
-		for (int i = 0; i < productVector.length; i++) {
-			if (productVector[i] != this.productVector[i]) {
-				changed = true;
-				break;
-			}
-		}
-		
-		this.productVector = productVector;
-		
-		//If the product has changed generate the new required means
-		if (changed) {
-			generateRequiredMeans();
-		}
-	}
-	
 	/**
-	 * Sets the product vector in the effectuation scenario
 	 * @param productVector the productVector to set
 	 */
-	public void setProductVectorEffectuation(int[] productVector) {
+	public void setProductVector(int[] productVector) {
 		this.productVector = productVector;
 	}
 	

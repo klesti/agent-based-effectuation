@@ -26,15 +26,6 @@ public class Entrepreneur extends Agent {
 	}
 
 	public void setAvailableMeans(List<Means> availableMeans) {
-		for (Means m: this.availableMeans) {
-			context.remove(m);
-		}
-		for (Means m: availableMeans) {
-			if (!context.contains(m)) {
-				context.add(m);
-			}
-			network.addEdge(this, m);
-		}
 		this.availableMeans = availableMeans;
 	}
 	
@@ -49,21 +40,10 @@ public class Entrepreneur extends Agent {
 	 * @param goal the goal to set
 	 */
 	public void setGoal(Goal goal) {		
-		if (this.goal != null) {
-			context.remove(this.goal);
-		}
-		if (!context.contains(goal)) {
-			context.add(goal);
-		}
-		network.addEdge(this, goal);
 		this.goal = goal;
 	}
 	
 	public void addMeans(Means m) {
-		if (!context.contains(m)) {
-			context.add(m);
-		}
-		network.addEdge(this, m);
 		availableMeans.add(m);
 	}
 	
@@ -77,8 +57,6 @@ public class Entrepreneur extends Agent {
 		for (int i = 0; i < totalMeans; i++) {
 			Means m = new Means("M" + SimulationBuilder.nextId("M"));
 			availableMeans.add(m);
-			context.add(m);
-			network.addEdge(this, m);
 		}
 	}
 		
@@ -87,15 +65,13 @@ public class Entrepreneur extends Agent {
 	 *  @description Generate goal based on the available means (require all of them)
 	 */
 	public void generateGoal() {
-		goal = new Goal(context, network);
-		context.add(goal);
+		goal = new Goal();
 		goal.generateRandomProductVector();
 
 		if (availableMeans.size() == 0) {
 			generateAvailableMeans();
 		}			
 		goal.setRequiredMeans(availableMeans);
-		network.addEdge(this, goal);
 	}
 	
 	/**

@@ -19,7 +19,6 @@ import repast.simphony.space.graph.Network;
 public class SimulationBuilder extends DefaultContext<Object> implements ContextBuilder<Object> {
 
 	public static Context<Object> context;
-	public static Network<Object> fullNetwork;	
 	public static Network<Object> entrepreneurialNetwork;
 	public static Network<Object> effectuationNetwork;	
 	private static EntrepreneurialNetworkGenerator networkGenerator;
@@ -38,19 +37,18 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		buildNetworks();
 		
 		//Add the effectuator entrepreneur 
-		Effectuator effectuator = new Effectuator(context, fullNetwork, "Effectuator");
+		Effectuator effectuator = new Effectuator(context, entrepreneurialNetwork, "Effectuator");
 		context.add(effectuator);
 		effectuator.generateAvailableMeans();
 		
 		//Add the causator entrepreneur and it's initial goal
-		Causator causator = new Causator(context, fullNetwork, "Causator");
+		Causator causator = new Causator(context, entrepreneurialNetwork, "Causator");
 		context.add(causator);
 		
-		Goal initialGoal = new Goal(context, fullNetwork);		
-		context.add(initialGoal);		
-		
-		context.add(causator);
+		Goal initialGoal = new Goal();		
 		causator.setGoal(initialGoal);		
+		
+		context.add(causator);
 
 		
 		//Network generation
@@ -73,6 +71,12 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		System.out.println(entrepreneurialNetwork.numEdges());
 		
+		for (Object o: entrepreneurialNetwork.getNodes()) {
+			if (o instanceof Means || o instanceof Goal) {
+				System.out.println("Test");
+			}
+		}
+		
 		return context;
 	}
 
@@ -94,35 +98,13 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			}
 		};
 		
-		//Build Full network
-		
-		NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>("full network",
-				context, false);
-		
-		netBuilder.setEdgeCreator(edgeCreator);	
-		
-		SimulationBuilder.fullNetwork = netBuilder.buildNetwork();		
 		
 		//Build Entrepreneurial network
 		
 		NetworkBuilder<Object> netBuilder2 = new NetworkBuilder<Object>("entrepreneurial network",
 				context, false);
 		
-		netBuilder2.setEdgeCreator(new EdgeCreator<NetworkEdge, Object>(
-				
-		) {
-			public Class<NetworkEdge> getEdgeType() {
-				return NetworkEdge.class;
-			}
-
-			@Override
-			public NetworkEdge createEdge(Object source, Object target,
-					boolean isDirected, double weight) {
-				//Add also the edge to the full network
-				SimulationBuilder.fullNetwork.addEdge(source, target);
-				return new NetworkEdge(source, target, true, 0);
-			}
-		});		
+		netBuilder2.setEdgeCreator(edgeCreator);		
 		
 		SimulationBuilder.entrepreneurialNetwork = netBuilder2.buildNetwork();
 		

@@ -28,7 +28,7 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	 */
 	protected void initializeNetwork(double p) {
 		for (int i = 0; i < 10 && i < totalCustomers; i++) {		
-			context.add(new Customer(context, SimulationBuilder.fullNetwork, SimulationBuilder.nextId("C")));
+			context.add(new Customer(context, network, SimulationBuilder.nextId("C")));
 			totalCustomers--;
 		}
 		
@@ -41,8 +41,8 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	 */
 	public void randomWire(double p) {
 		//Initial wiring using a random network
-		for (Object i: context.getObjects(Agent.class)) {
-			for (Object j: context.getObjects(Agent.class)) {
+		for (Object i: network.getNodes()) {
+			for (Object j: network.getNodes()) {
 				double random = RandomHelper.nextDoubleFromTo(0, 1);
 				if (random >= p) {
 					network.addEdge(i, j);
@@ -128,12 +128,12 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			double random = RandomHelper.nextDoubleFromTo(0, 1);
 			
 			if (totalEntrepreneuers > 0 && random >= 0.8) {
-				Entrepreneur e = new Entrepreneur(context, SimulationBuilder.fullNetwork, SimulationBuilder.nextId("E"));
+				Entrepreneur e = new Entrepreneur(context, network, SimulationBuilder.nextId("E"));
 				attachNode(e);
 				e.generateGoal();				
 				totalEntrepreneuers--;				
 			} else if (totalCustomers > 0) {
-				attachNode(new Customer(context, SimulationBuilder.fullNetwork, SimulationBuilder.nextId("C")));
+				attachNode(new Customer(context, network, SimulationBuilder.nextId("C")));
 				totalCustomers--;
 			}
 		}
