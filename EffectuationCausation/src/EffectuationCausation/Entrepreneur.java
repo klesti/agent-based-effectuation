@@ -83,7 +83,7 @@ public class Entrepreneur extends Agent {
 		
 		List<Customer> customers = new ArrayList<Customer>(); 
 		
-		EffectuationBuilder.getCustomerAcquiantances(this, depth, customers);		
+		SimulationBuilder.getCustomerAcquiantances(this, depth, customers);		
 		
 		if (customers.size() > 0) {
 			Collections.shuffle(customers);

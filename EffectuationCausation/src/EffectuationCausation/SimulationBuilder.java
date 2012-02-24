@@ -5,11 +5,15 @@ package EffectuationCausation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
+import repast.simphony.engine.schedule.ISchedule;
+import repast.simphony.engine.schedule.ScheduleParameters;
+import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.EdgeCreator;
 import repast.simphony.space.graph.Network;
@@ -23,7 +27,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	public static Context<Object> context;
 	public static Network<Object> network;
 	public static Network<Object> effectuationNetwork;	
-	private static EntrepreneurialNetworkGenerator networkGenerator;
+	private EntrepreneurialNetworkGenerator networkGenerator;
 	private static HashMap<String, Integer> lastIds;
 	
 	@Override
@@ -72,6 +76,9 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		network = networkGenerator.createNetwork(network);
 		
 		initializeDemandVectors();
+		aggregateProductVectors();
+		
+		scheduleActions();		
 		
 		return context;
 	}
@@ -134,6 +141,43 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	}
 	
 	/**
+	 * Returns the the bits that are different in two equal 0-1 strings
+	 * @param s1
+	 * @param s2
+	 * @return s
+	 */
+	public static String diff(String s1, String s2) {
+		String s = "";
+		
+		for (int i = 0; i < s1.length(); i++) {
+			s += String.valueOf(
+					Integer.parseInt(String.valueOf(s1.charAt(i))) 
+							^ Integer.parseInt(String.valueOf(s2.charAt(i)))
+							);
+		}
+		
+		return s;
+	}
+	
+	/**
+	 * Recursively get all customer acquaintances of a node using a specified network depth.
+	 * @param n node
+	 * @param depth
+	 * @param List of customers acquaintances
+	 */
+	public static void getCustomerAcquiantances(Object n, int depth, List<Customer> customers) {		
+		for (Object o: network.getAdjacent(n)) {
+			if (o instanceof Customer) {
+				customers.add((Customer)o);
+			}
+			if (depth > 1) {
+				getCustomerAcquiantances(o, depth-1, customers);
+			}
+		}
+	}
+
+	
+	/**
 	 *  Initialize customer demand vectors using the define "Market split", i.e
 	 *  the percentage of customers that "like" a certain product element
 	 */
@@ -154,5 +198,67 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 				c.getDemandVector()[i] = 1;
 			}
 		}
+	}
+	
+	/**
+	 * Refine the product vector of the entrepreneurs based on the
+	 * connected customers (randomly)
+	 */
+	public void aggregateProductVectors() {
+		
+		if (!Parameters.aggregateProductVector) {
+			return;
+		}
+		
+		double prob = RandomHelper.nextDoubleFromTo(0, 1);
+		
+		for (Object o: context.getObjects(Entrepreneur.class)) {
+			
+			//Skip causator 
+			
+			if (o instanceof Causator) {
+				continue;
+			}
+			
+			double r = RandomHelper.nextDoubleFromTo(0, 1);
+			
+			if (r >= prob) {
+				Entrepreneur e = (Entrepreneur)o;
+				e.aggregateGoalProductVector();
+			}
+		}		
+	}
+	
+	public void scheduleActions() {
+		ISchedule schedule = repast.simphony.engine.environment.RunEnvironment.getInstance()
+        .getCurrentSchedule();
+		
+		
+		//Schedule adaptProductVector for each Customer
+		
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		
+		for (Object c: context.getObjects(Customer.class)) {
+			customers.add((Customer)c);
+		}
+		
+		ScheduleParameters parameters = 
+			ScheduleParameters.createRepeating(1, 6 - Parameters.adaptationSpeed, 1);		
+		
+		schedule.scheduleIterable(parameters, customers, "adaptProductVector", true);		
+	}
+	
+	@ScheduledMethod(start=1,priority=2,interval=5)
+	public void printTest() {
+		for (int i = 0; i < Parameters.vectorSpaceSize; i++) {
+			int count = 0;
+			for (Object o: context.getObjects(Customer.class)) {
+				Customer c = (Customer)o;
+				if (c.getDemandVector()[i] == 1) 
+					count++;
+			}
+			System.out.print(String.valueOf(count) + " ");
+		}
+		System.out.println("");
 	}
 }

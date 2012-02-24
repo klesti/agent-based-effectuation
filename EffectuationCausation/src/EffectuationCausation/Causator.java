@@ -27,9 +27,11 @@ public class Causator extends Entrepreneur {
 		
 		int[] productVector = goal.getProductVector();
 		
+		int sampleSize = 0;
+		
 		for (int i = 0; i < aggregatedSurveyResults.length; i++) {		
 			
-			if ( ((double)aggregatedSurveyResults[i] / (double)CausationBuilder.sampleSize) * 100 
+			if ( ((double)aggregatedSurveyResults[i] / (double)sampleSize) * 100 
 					>= Parameters.productElementChangeThreshold) {
 				
 				productVector[i] = (productVector[i] + 1) % 2;				

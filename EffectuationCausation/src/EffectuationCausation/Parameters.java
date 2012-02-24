@@ -13,7 +13,9 @@ public class Parameters {
 					= RunEnvironment.getInstance().getParameters();	
 	
 	public static int vectorSpaceSize;
-	public static int marketSplit; // The percentage of the population that "like" a product element  
+	public static int marketSplit; // The percentage of the population that "like" a product element
+	public static int adaptationThreshold;
+	public static int adaptationSpeed;
 		
 	// The percentage of the customers sample that needs to have a product element as 1
 	// in order to change the initial value of the product elements vector
@@ -36,6 +38,8 @@ public class Parameters {
 	public static void initialize() {
 		vectorSpaceSize = (Integer)params.getValue("vectorSpaceSize");
 		marketSplit = (Integer)params.getValue("marketSplit");
+		adaptationThreshold = (Integer)params.getValue("adaptationThreshold");
+		adaptationSpeed = (Integer)params.getValue("adaptationSpeed"); //From 1 to 5
 		
 		productElementChangeThreshold = (Integer)params.getValue("productElementChangeThreshold");		
 		numberOfCustomers = (Integer)params.getValue("numberOfCustomers");
