@@ -2,7 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context"
 	class="EffectuationCausation.SimulationBuilder"><projection type="network" id="full network"></projection>
-	<projection type="network" id="entrepreneurial network"></projection>
 	<projection type="network" id="effectuation network"></projection>
 
 
