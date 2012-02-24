@@ -31,8 +31,14 @@
 									values="Random ConnectionsUtility DegreeCentrality BetweennessCentrality Mixed "
 						
 		/>
-				<parameter name="vectorSpaceSize" displayName="Vector Space Size" type="int" 
+				<parameter name="sampleSizePercentage" displayName="Sample size percentage (Causation)" type="int" 
 						defaultValue="10" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
+									
+		/>
+				<parameter name="vectorSpaceSize" displayName="Vector Space Size" type="int" 
+						defaultValue="5" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
@@ -43,20 +49,8 @@
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
-				<parameter name="minMeetings" displayName="Min Meetings" type="int" 
-						defaultValue="3" 
-						isReadOnly="false" 
-						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
-									
-		/>
-				<parameter name="numberOfInvestors" displayName="Number of Investors" type="int" 
-						defaultValue="5" 
-						isReadOnly="false" 
-						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
-									
-		/>
-				<parameter name="maxMeetings" displayName="Max meetings" type="int" 
-						defaultValue="10" 
+				<parameter name="marketSplit" displayName="Market Split (%)" type="int" 
+						defaultValue="30" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									

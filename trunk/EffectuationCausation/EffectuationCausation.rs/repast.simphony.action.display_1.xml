@@ -1,5 +1,5 @@
 <repast.simphony.visualization.engine.DefaultDisplayDescriptor>
-  <name>Entrepreneurial network</name>
+  <name>Full Network</name>
   <type>TWO_D</type>
   <styles>
     <entry>
@@ -11,11 +11,11 @@
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
     <entry>
-      <string>EffectuationCausation.Effectuator</string>
+      <string>EffectuationCausation.Entrepreneur</string>
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
     <entry>
-      <string>EffectuationCausation.Entrepreneur</string>
+      <string>EffectuationCausation.Effectuator</string>
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
   </styles>
@@ -29,24 +29,24 @@
       <string>EffectuationCausation.Customer.style_0.xml</string>
     </entry>
     <entry>
-      <string>EffectuationCausation.Effectuator</string>
-      <string>EffectuationCausation.Effectuator.style_0.xml</string>
+      <string>EffectuationCausation.Entrepreneur</string>
+      <string>EffectuationCausation.Entrepreneur.style_1.xml</string>
     </entry>
     <entry>
-      <string>EffectuationCausation.Entrepreneur</string>
-      <string>EffectuationCausation.Entrepreneur.style_0.xml</string>
+      <string>EffectuationCausation.Effectuator</string>
+      <string>EffectuationCausation.Effectuator.style_0.xml</string>
     </entry>
   </editedStyles>
   <netStyles>
     <entry>
-      <string>entrepreneurial network</string>
+      <string>full network</string>
       <string>repast.simphony.visualization.editedStyle.EditedEdgeStyle2D</string>
     </entry>
   </netStyles>
   <editedNetStyles>
     <entry>
-      <string>entrepreneurial network</string>
-      <string>entrepreneurialnetwork.style_0.xml</string>
+      <string>full network</string>
+      <string>fullnetwork.style_0.xml</string>
     </entry>
   </editedNetStyles>
   <frequency>AT_INTERVAL</frequency>
@@ -58,7 +58,7 @@
     <frequency>REPEAT</frequency>
   </schedParams>
   <layoutClassName>repast.simphony.visualization.visualization2D.layout.FRLayout2D</layoutClassName>
-  <layoutProjection>entrepreneurial network</layoutProjection>
+  <layoutProjection>full network</layoutProjection>
   <layoutInterval>4</layoutInterval>
   <layerOrder>
     <entry>
@@ -80,7 +80,7 @@
   </layerOrder>
   <projections>
     <repast.simphony.scenario.data.ProjectionData>
-      <id>entrepreneurial network</id>
+      <id>full network</id>
       <attributes/>
       <type>NETWORK</type>
     </repast.simphony.scenario.data.ProjectionData>
@@ -88,7 +88,7 @@
   <valueLayers/>
   <projectionDescriptors>
     <entry>
-      <string>entrepreneurial network</string>
+      <string>full network</string>
       <repast.simphony.visualization.engine.DefaultProjectionDescriptor>
         <proj reference="../../../../projections/repast.simphony.scenario.data.ProjectionData"/>
         <props/>

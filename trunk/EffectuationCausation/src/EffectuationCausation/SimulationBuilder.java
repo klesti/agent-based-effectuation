@@ -144,9 +144,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			customers.add((Customer)c);
 		}
 		
-		int shouldLikeProductElement = (int)Math.ceil((Parameters.marketSplit / 100) * customers.size());
-		
-		System.out.println(shouldLikeProductElement);
+		int shouldLikeProductElement = (int)Math.ceil(((double)Parameters.marketSplit / 100) * customers.size());
 		
 		for (int i = 0; i < Parameters.vectorSpaceSize; i++) {
 			ArrayList<Customer> copy = new ArrayList<Customer>(customers);
@@ -156,6 +154,5 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 				c.getDemandVector()[i] = 1;
 			}
 		}
-		
 	}
 }
