@@ -1,7 +1,6 @@
 package EffectuationCausation;
 
 import repast.simphony.context.Context;
-import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
 public class Customer extends Agent {
@@ -10,8 +9,10 @@ public class Customer extends Agent {
 	
 	public Customer(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
+		
 		demandVector = new int[Parameters.vectorSpaceSize];
-		generateRandomDemandVector();
+		
+		initializeDemandVector();
 	}
 
 	/**
@@ -28,9 +29,12 @@ public class Customer extends Agent {
 		this.demandVector = demandVector;
 	}
 	
-	public void generateRandomDemandVector() {
+	/**
+	 * Initialize demand vector with all element set as 0s
+	 */
+	public void initializeDemandVector() {
 		for (int i = 0; i < demandVector.length; i++) {
-			demandVector[i] = RandomHelper.nextIntFromTo(0, 1);
+			demandVector[i] = 0;
 		}
 	}
 
