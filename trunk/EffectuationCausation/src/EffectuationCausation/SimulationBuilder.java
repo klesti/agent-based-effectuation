@@ -3,12 +3,14 @@
  */
 package EffectuationCausation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
+import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.EdgeCreator;
 import repast.simphony.space.graph.Network;
 
@@ -19,14 +21,14 @@ import repast.simphony.space.graph.Network;
 public class SimulationBuilder extends DefaultContext<Object> implements ContextBuilder<Object> {
 
 	public static Context<Object> context;
-	public static Network<Object> entrepreneurialNetwork;
+	public static Network<Object> network;
 	public static Network<Object> effectuationNetwork;	
 	private static EntrepreneurialNetworkGenerator networkGenerator;
 	private static HashMap<String, Integer> lastIds;
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
-		Parameters.initializeEffectuation();
+		Parameters.initialize();
 		
 		lastIds = new HashMap<String, Integer>();
 		
@@ -37,12 +39,12 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		buildNetworks();
 		
 		//Add the effectuator entrepreneur 
-		Effectuator effectuator = new Effectuator(context, entrepreneurialNetwork, "Effectuator");
+		Effectuator effectuator = new Effectuator(context, network, "Effectuator");
 		context.add(effectuator);
 		effectuator.generateAvailableMeans();
 		
 		//Add the causator entrepreneur and it's initial goal
-		Causator causator = new Causator(context, entrepreneurialNetwork, "Causator");
+		Causator causator = new Causator(context, network, "Causator");
 		context.add(causator);
 		
 		Goal initialGoal = new Goal();		
@@ -67,15 +69,9 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		networkGenerator.setTotalEntrepreneuers(Parameters.numberOfEntrepreneurs);
 		networkGenerator.seEdgesPerStep(Parameters.edgesPerStep);
 		
-		entrepreneurialNetwork = networkGenerator.createNetwork(entrepreneurialNetwork);
+		network = networkGenerator.createNetwork(network);
 		
-		System.out.println(entrepreneurialNetwork.numEdges());
-		
-		for (Object o: entrepreneurialNetwork.getNodes()) {
-			if (o instanceof Means || o instanceof Goal) {
-				System.out.println("Test");
-			}
-		}
+		initializeDemandVectors();
 		
 		return context;
 	}
@@ -101,21 +97,21 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		//Build Entrepreneurial network
 		
-		NetworkBuilder<Object> netBuilder2 = new NetworkBuilder<Object>("entrepreneurial network",
+		NetworkBuilder<Object> netBuilder2 = new NetworkBuilder<Object>("full network",
 				context, false);
 		
 		netBuilder2.setEdgeCreator(edgeCreator);		
 		
-		SimulationBuilder.entrepreneurialNetwork = netBuilder2.buildNetwork();
+		network = netBuilder2.buildNetwork();
 		
 		//Build Effectuation network
 		
-		NetworkBuilder<Object> netBuilder3 = new NetworkBuilder<Object>("effectuation network",
+		NetworkBuilder<Object> netBuilder3 = new NetworkBuilder<Object>("effectual network",
 				context, false);
 		
 		netBuilder3.setEdgeCreator(edgeCreator);	
 		
-		SimulationBuilder.effectuationNetwork = netBuilder3.buildNetwork();
+		effectuationNetwork = netBuilder3.buildNetwork();
 	}
 
 	/**
@@ -135,5 +131,31 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		}
 		
 		return prefix + String.valueOf(nextId);
+	}
+	
+	/**
+	 *  Initialize customer demand vectors using the define "Market split", i.e
+	 *  the percentage of customers that "like" a certain product element
+	 */
+	private void initializeDemandVectors() {
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		
+		for (Object c: context.getObjects(Customer.class)) {
+			customers.add((Customer)c);
+		}
+		
+		int shouldLikeProductElement = (int)Math.ceil((Parameters.marketSplit / 100) * customers.size());
+		
+		System.out.println(shouldLikeProductElement);
+		
+		for (int i = 0; i < Parameters.vectorSpaceSize; i++) {
+			ArrayList<Customer> copy = new ArrayList<Customer>(customers);
+			
+			for (int j = 0; j < shouldLikeProductElement; j++) {
+				Customer c = copy.remove(RandomHelper.nextIntFromTo(0, copy.size() - 1));
+				c.getDemandVector()[i] = 1;
+			}
+		}
+		
 	}
 }

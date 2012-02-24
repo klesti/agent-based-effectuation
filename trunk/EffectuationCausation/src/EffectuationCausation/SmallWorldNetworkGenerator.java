@@ -59,7 +59,7 @@ public class SmallWorldNetworkGenerator extends EntrepreneurialNetworkGenerator 
 					
 					int k;
 					do {
-						k = RandomHelper.nextIntFromTo(1, nodes.size() - 1);
+						k = RandomHelper.nextIntFromTo(0, nodes.size() - 1);
 					} while (k != i && network.getEdge(nodes.get(i), nodes.get(k)) != null);					
 					
 					network.addEdge(nodes.get(i), nodes.get(k));

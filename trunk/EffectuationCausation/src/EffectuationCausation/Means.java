@@ -21,6 +21,4 @@ public class Means  {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-
-	
 }
