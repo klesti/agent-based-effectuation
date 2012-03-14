@@ -70,7 +70,7 @@ public class Entrepreneur extends Agent {
 		m.setMoney(RandomHelper.nextDoubleFromTo(Parameters.minAvailableMoney, 
 				Parameters.maxAvailableMoney));
 		
-		availableMeans.add(m);				
+		availableMeans.add(m);
 	}
 	
 	public void generateGoal() {

@@ -12,6 +12,12 @@
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
+				<parameter name="minAvailableMoney" displayName="Min available money (thousands EUR)" type="double" 
+						defaultValue="1.0" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
+									
+		/>
 				<parameter name="adaptationSpeed" displayName="Adaptation Speed  (1-5)" type="int" 
 						defaultValue="1" 
 						isReadOnly="false" 
@@ -61,6 +67,12 @@
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
+				<parameter name="maxAvailableMoney" displayName="Max available money (thousands EUR)" type="double" 
+						defaultValue="10.0" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
+									
+		/>
 				<parameter name="networkGenerator" displayName="Network Generator" type="java.lang.String" 
 						defaultValue="BarabasiAlbert" 
 						isReadOnly="false" 
@@ -81,20 +93,8 @@
 									values="true false "
 						
 		/>
-				<parameter name="maxInitialGoals" displayName="Max Initial Goals" type="int" 
-						defaultValue="3" 
-						isReadOnly="false" 
-						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
-									
-		/>
 				<parameter name="adaptationThreshold" displayName="Adaptation threshold (%)" type="int" 
 						defaultValue="60" 
-						isReadOnly="false" 
-						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
-									
-		/>
-				<parameter name="maxInitialMeans" displayName="Max Initial Means" type="int" 
-						defaultValue="5" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									

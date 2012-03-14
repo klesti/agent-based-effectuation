@@ -8,12 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
-import edu.uci.ics.jung.algorithms.metrics.Metrics;
-import edu.uci.ics.jung.graph.Graph;
-
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
+import repast.simphony.context.space.graph.ContextJungNetwork;
 import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.dataLoader.ContextBuilder;
 import repast.simphony.engine.schedule.ISchedule;
@@ -21,9 +18,11 @@ import repast.simphony.engine.schedule.ScheduleParameters;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.EdgeCreator;
-import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.RepastEdge;
+import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
+import edu.uci.ics.jung.algorithms.metrics.Metrics;
+import edu.uci.ics.jung.graph.Graph;
 
 /**
  * @author klesti
@@ -91,7 +90,6 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		calculateBetweennesCentralities();
 		
-	
 		scheduleActions();		
 		
 		return context;
@@ -249,8 +247,9 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * betweenness centrality calculator algorithm 
 	 */
 		
-	public static void calculateBetweennesCentralities() {
-		JungNetwork<Object> N = (JungNetwork<Object>)network;
+	public static void calculateBetweennesCentralities() {			
+		
+		ContextJungNetwork<Object> N = (ContextJungNetwork<Object>)network;
 		
 		Graph<Object, RepastEdge<Object>> G = N.getGraph();
 		
@@ -260,7 +259,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		ranker.setRemoveRankScoresOnFinalize(false);
 		ranker.evaluate();
 		
-		for (Object n: N.getNodes()) {
+		for (Object n: network.getNodes()) {
 			Agent a = (Agent)n;
 			a.setBetweennessCentrality(ranker.getVertexRankScore(n));
 		}	
@@ -285,7 +284,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		double C = 0;
 		
 		
-		Map<Object, Double> cc = Metrics.clusteringCoefficients(((JungNetwork<Object>)network).getGraph());
+		Map<Object, Double> cc = Metrics.clusteringCoefficients(((ContextJungNetwork<Object>)network).getGraph());
 		
 		for (Object n: network.getNodes()) {
 			C += cc.get(n) / network.size();

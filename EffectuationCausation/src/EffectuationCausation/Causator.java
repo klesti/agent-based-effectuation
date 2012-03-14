@@ -12,9 +12,8 @@ public class Causator extends Entrepreneur {
 	protected int[] aggregatedSurveyResults;
 
 	public Causator(Context<Object> context, Network<Object> network, String label) {
-		super(context, network, label);
+		super(context, network, label);	
 		
-		availableMeans = new ArrayList<Means>();
 		//Initialize aggregatedSurveyResults
 		aggregatedSurveyResults = new int[Parameters.vectorSpaceSize];
 		generateGoal();
@@ -57,7 +56,7 @@ public class Causator extends Entrepreneur {
 		int sampleSize = (int)Math.ceil((Parameters.sampleSizePercentage / 100.0) * customers.size());
 		
 		for (int i = 0; i < sampleSize; i++) {
-			for (int j = 0; i < Parameters.vectorSpaceSize; j++) {
+			for (int j = 0; j < Parameters.vectorSpaceSize; j++) {
 				aggregatedSurveyResults[j] += customers.get(i).getDemandVector()[j];
 			}
 		}
