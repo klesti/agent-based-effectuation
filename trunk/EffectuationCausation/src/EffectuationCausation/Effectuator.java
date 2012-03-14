@@ -18,6 +18,7 @@ public class Effectuator extends Entrepreneur {
 	public Effectuator(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);		
 		setFinishedExpandingResources(false);
+		generateGoal();
 	}
 
 	/**
@@ -34,6 +35,19 @@ public class Effectuator extends Entrepreneur {
 		this.finishedExpandingResources = finishedExpandingResources;
 	}
 
+	/**
+	 *  @description Generate goal based on the available means (require all of them)
+	 */	
+	public void generateGoal() {		
+		super.generateGoal();
+		
+		if (availableMeans.size() == 0) {
+			generateAvailableMeans();
+		}
+		
+		goal.setProductVector(availableMeans.get(0).getKnowHow());
+		goal.setRequiredMeans(availableMeans.get(0));		
+	}
 	
 	/**
 	 * Meet an entity (entrepreneur, investor, etc) and "negotiate" a commitment

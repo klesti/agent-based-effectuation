@@ -5,6 +5,7 @@ package EffectuationCausation;
 
 import repast.simphony.context.Context;
 import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.ShortestPath;
 
 /**
  * @author klesti
@@ -85,6 +86,13 @@ public class Agent {
 	}	
 
 	/**
+	 * @param betweennessCentrality the betweennessCentrality to set
+	 */
+	public void setBetweennessCentrality(double betweennessCentrality) {
+		this.betweennessCentrality = betweennessCentrality;
+	}
+
+	/**
 	 * @return the betweennessCentrality
 	 */
 	public double getBetweennessCentrality() {
@@ -92,13 +100,36 @@ public class Agent {
 	}
 
 	/**
-	 * @param betweennessCentrality the betweennessCentrality to set
+	 * Returns the "degree centrality" of the agent
+	 * @return centrality
 	 */
-	public void setBetweennessCentrality(double betweennessCentrality) {
-		this.betweennessCentrality = betweennessCentrality;
+	public double getDegreeCentralityUtility() {	
+		return network.getDegree(this);
+	}	
+
+	
+	/**
+	 * Returns the "connections utility" as defined by "Jackson and Wolinsky, 1996"
+	 * @return utility
+	 */
+	public double getConnectionsUtility() {
+		double sigma = 0.5;
+		
+		double utility = 0;
+		
+		
+		ShortestPath<Object> sp = new ShortestPath<Object>(network);
+				
+		for(Object o: network.getNodes()) {
+			if (!this.equals(o)) {
+				utility += Math.pow(sigma, sp.getPathLength(this, o));
+			}
+		}	
+		
+		return utility;
 	}
 	
-	
+
 	public void step() {
 		
 	}

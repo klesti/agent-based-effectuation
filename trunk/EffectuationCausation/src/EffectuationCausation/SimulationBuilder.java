@@ -6,6 +6,11 @@ package EffectuationCausation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
+import edu.uci.ics.jung.algorithms.metrics.Metrics;
+import edu.uci.ics.jung.graph.Graph;
 
 import repast.simphony.context.Context;
 import repast.simphony.context.DefaultContext;
@@ -16,7 +21,9 @@ import repast.simphony.engine.schedule.ScheduleParameters;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.EdgeCreator;
+import repast.simphony.space.graph.JungNetwork;
 import repast.simphony.space.graph.Network;
+import repast.simphony.space.graph.RepastEdge;
 
 /**
  * @author klesti
@@ -78,6 +85,13 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		initializeDemandVectors();
 		aggregateProductVectors();
 		
+		//Define the causator's product based on preliminary market research 
+		causator.performMarketResearch();
+		causator.refineProduct();
+		
+		calculateBetweennesCentralities();
+		
+	
 		scheduleActions();		
 		
 		return context;
@@ -203,6 +217,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	/**
 	 * Refine the product vector of the entrepreneurs based on the
 	 * connected customers (randomly)
+	 * @param skipEffectuator 
 	 */
 	public void aggregateProductVectors() {
 		
@@ -214,9 +229,9 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		for (Object o: context.getObjects(Entrepreneur.class)) {
 			
-			//Skip causator 
+			//Skip causator and effectuator
 			
-			if (o instanceof Causator) {
+			if (o instanceof Causator || o instanceof Effectuator) {
 				continue;
 			}
 			
@@ -228,6 +243,74 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			}
 		}		
 	}
+	
+	/**
+	 * Calculates the betweenness centrality for each node, using the JUNG implemented
+	 * betweenness centrality calculator algorithm 
+	 */
+		
+	public static void calculateBetweennesCentralities() {
+		JungNetwork<Object> N = (JungNetwork<Object>)network;
+		
+		Graph<Object, RepastEdge<Object>> G = N.getGraph();
+		
+		BetweennessCentrality<Object, RepastEdge<Object>> ranker = 
+			new BetweennessCentrality<Object, RepastEdge<Object>>(G);
+		
+		ranker.setRemoveRankScoresOnFinalize(false);
+		ranker.evaluate();
+		
+		for (Object n: N.getNodes()) {
+			Agent a = (Agent)n;
+			a.setBetweennessCentrality(ranker.getVertexRankScore(n));
+		}	
+	}
+	
+	/**
+	 * Returns the "network density"
+	 * density = 2 * number of edges / N * (N-1)
+	 * @return networkDensity
+	 */
+	public static double getNetworkDensity() {
+		
+		return ( 2 * network.getDegree() ) / ( network.size() * (network.size()-1) );
+	}
+	
+	/**
+	 * Returns the average clustering coefficient of the network 
+	 * (as calculated by Watts and Strogatz)
+	 * @return C
+	 */
+	public static double getClusteringCoefficient() {
+		double C = 0;
+		
+		
+		Map<Object, Double> cc = Metrics.clusteringCoefficients(((JungNetwork<Object>)network).getGraph());
+		
+		for (Object n: network.getNodes()) {
+			C += cc.get(n) / network.size();
+		}
+		
+		return C;
+	}
+	
+	/**
+	 * Returns the effectuator's betweenness centrality in the network
+	 * @return betweennessCentrality
+	 */
+	public static double getEffectuatorsBetweennessCentrality() {
+		Effectuator e =(Effectuator)context.getObjects(Effectuator.class).iterator().next(); 
+		return e.getBetweennessCentrality();
+	}
+
+	/**
+	 * Returns the effectuator's degree centrality in the entrepreneurial network
+	 * @return degreeCentrality
+	 */	
+	public static double getEffectuatorsDegreeCentrality() {
+		Effectuator e =(Effectuator)context.getObjects(Effectuator.class).iterator().next();
+		return network.getDegree(e);		
+	}	
 	
 	public void scheduleActions() {
 		ISchedule schedule = repast.simphony.engine.environment.RunEnvironment.getInstance()
