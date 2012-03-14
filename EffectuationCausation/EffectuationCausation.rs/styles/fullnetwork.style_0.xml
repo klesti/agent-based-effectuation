@@ -24,8 +24,8 @@
     <float>0.0</float>
   </colorMin>
   <colorScale>
-    <float>1.0</float>
-    <float>1.0</float>
-    <float>1.0</float>
+    <float>10.0</float>
+    <float>10.0</float>
+    <float>10.0</float>
   </colorScale>
 </repast.simphony.visualization.editedStyle.DefaultEditedEdgeStyleData2D>

@@ -36,6 +36,12 @@
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
+				<parameter name="newConnectionsProbability" displayName="New connections probability" type="double" 
+						defaultValue="0.5" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
+									
+		/>
 				<parameter name="utilityFunction" displayName="Utility function" type="java.lang.String" 
 						defaultValue="Random" 
 						isReadOnly="false" 
@@ -98,13 +104,6 @@
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
-		/>
-				<parameter name="evolveNetwork" displayName="Evolve Network" type="boolean" 
-						defaultValue="true" 
-						isReadOnly="false" 
-						converter="repast.simphony.parameter.StringConverterFactory$BooleanConverter"
-									values="true false "
-						
 		/>
 		</parameters>
 
