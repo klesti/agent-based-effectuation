@@ -129,8 +129,8 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			
 			if (totalEntrepreneuers > 0 && random >= 0.8) {
 				Entrepreneur e = new Entrepreneur(context, network, SimulationBuilder.nextId("E"));
+				e.generateGoal();
 				attachNode(e);
-				e.generateGoal();				
 				totalEntrepreneuers--;				
 			} else if (totalCustomers > 0) {
 				attachNode(new Customer(context, network, SimulationBuilder.nextId("C")));

@@ -33,7 +33,7 @@ public class Parameters {
 	public static int edgesPerStep;	
 	public static String utilityFunction;
 	public static boolean aggregateProductVector;
-	public static boolean evolveNetwork;
+	public static double newConnectionsProbability;
 
 	//Causation scenario
 	public static int sampleSizePercentage; //Sample size in percentage
@@ -59,6 +59,6 @@ public class Parameters {
 		edgesPerStep = (Integer)params.getValue("edgesPerStep");
 		utilityFunction = (String)params.getValue("utilityFunction");
 		aggregateProductVector = (Boolean)params.getValue("aggregateProductVector");
-		evolveNetwork = (Boolean)params.getValue("evolveNetwork");
+		newConnectionsProbability = (Double)params.getValue("newConnectionsProbability");		
 	}	
 }

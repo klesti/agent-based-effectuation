@@ -3,6 +3,7 @@
  */
 package EffectuationCausation;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -311,6 +312,42 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		return network.getDegree(e);		
 	}	
 	
+	/**
+	 *  Evolves network during the simulation (adding new nodes randomly)
+	 */
+	@ScheduledMethod(start=1)
+	public void evolveNetwork() {
+		
+		double r = RandomHelper.nextDoubleFromTo(0, 1);		
+		
+		if (r >= Parameters.newConnectionsProbability) {
+			System.out.println("Added new node!");
+			
+			int random = RandomHelper.nextIntFromTo(1, 2);
+			
+			Object attached;
+			
+			switch (random) {
+				default:
+					Customer c = new Customer(context, network, nextId("C"));
+					networkGenerator.attachNode(c);
+					attached = c;					
+					break;
+				case 2:
+					Entrepreneur e = new Entrepreneur(context, network, nextId("E"));	
+					e.generateGoal();
+					networkGenerator.attachNode(e);					
+					attached = e;
+					break;
+			}
+			
+			for (RepastEdge<Object> edge: network.getEdges(attached)) {
+				((NetworkEdge) edge).setThickness(2.0); 
+				((NetworkEdge) edge).setColor(Color.red);
+			}
+		}		
+	}	
+	
 	public void scheduleActions() {
 		ISchedule schedule = repast.simphony.engine.environment.RunEnvironment.getInstance()
         .getCurrentSchedule();
@@ -330,7 +367,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		schedule.scheduleIterable(parameters, customers, "adaptProductVector", true);		
 	}
 	
-	@ScheduledMethod(start=1,priority=2,interval=5)
+//	@ScheduledMethod(start=1,priority=2,interval=5)
 	public void printTest() {
 		for (int i = 0; i < Parameters.vectorSpaceSize; i++) {
 			int count = 0;
