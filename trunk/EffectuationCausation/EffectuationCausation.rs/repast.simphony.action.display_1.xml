@@ -70,12 +70,12 @@
       <int>0</int>
     </entry>
     <entry>
-      <string>EffectuationCausation.Effectuator</string>
-      <int>3</int>
-    </entry>
-    <entry>
       <string>EffectuationCausation.Entrepreneur</string>
       <int>1</int>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Effectuator</string>
+      <int>3</int>
     </entry>
   </layerOrder>
   <projections>

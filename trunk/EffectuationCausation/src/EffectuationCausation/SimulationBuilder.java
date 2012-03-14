@@ -34,7 +34,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	public static Context<Object> context;
 	public static Network<Object> network;
 	public static Network<Object> effectuationNetwork;	
-	private EntrepreneurialNetworkGenerator networkGenerator;
+	private static EntrepreneurialNetworkGenerator networkGenerator;
 	private static HashMap<String, Integer> lastIds;
 	
 	@Override
@@ -315,13 +315,13 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	/**
 	 *  Evolves network during the simulation (adding new nodes randomly)
 	 */
-	@ScheduledMethod(start=1)
+	@ScheduledMethod(start=1,interval=3)
 	public void evolveNetwork() {
 		
-		double r = RandomHelper.nextDoubleFromTo(0, 1);		
+		double r = RandomHelper.nextDoubleFromTo(0, 1);	
 		
-		if (r >= Parameters.newConnectionsProbability) {
-			System.out.println("Added new node!");
+		if (r < Parameters.newConnectionsProbability) {
+			System.out.println(r);
 			
 			int random = RandomHelper.nextIntFromTo(1, 2);
 			
