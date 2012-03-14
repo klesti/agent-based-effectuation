@@ -20,11 +20,14 @@ public class Parameters {
 	// The percentage of the customers sample that needs to have a product element as 1
 	// in order to change the initial value of the product elements vector
 	public static int productElementChangeThreshold;
-	public static int numberOfCustomers;
 	
+	public static int numberOfCustomers;	
 	public static int numberOfEntrepreneurs;
-	public static int maxInitialGoals;
-	public static int maxInitalMeans;
+	
+	public static double minAvailableMoney; // Thousands €
+	public static double maxAvailableMoney; // Thousands €
+
+	
 	public static int maxDepthForMeeting;
 	public static String networkGenerator;
 	public static int edgesPerStep;	
@@ -43,12 +46,13 @@ public class Parameters {
 		
 		productElementChangeThreshold = (Integer)params.getValue("productElementChangeThreshold");		
 		numberOfCustomers = (Integer)params.getValue("numberOfCustomers");
-		
-		sampleSizePercentage = (Integer)params.getValue("sampleSizePercentage");
+		sampleSizePercentage = (Integer)params.getValue("sampleSizePercentage");		
 
 		numberOfEntrepreneurs = (Integer)params.getValue("numberOfEntrepreneurs");
-		maxInitialGoals = (Integer)params.getValue("maxInitialGoals");
-		maxInitalMeans = (Integer)params.getValue("maxInitialMeans");
+		
+		
+		minAvailableMoney = (Double)params.getValue("minAvailableMoney");
+		maxAvailableMoney = (Double)params.getValue("maxAvailableMoney");
 
 		maxDepthForMeeting = (Integer)params.getValue("maxDepthForMeeting");
 		networkGenerator = (String)params.getValue("networkGenerator");

@@ -19,6 +19,7 @@ public class Entrepreneur extends Agent {
 	public Entrepreneur(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
 		availableMeans = new ArrayList<Means>();
+		generateAvailableMeans();
 	}
 
 	public List<Means> getAvailableMeans() {
@@ -49,30 +50,33 @@ public class Entrepreneur extends Agent {
 	
 	
 	/**
-	 * To be called only in the effectuation scenario 
+	 *  Generates the available means
 	 */
 	public void generateAvailableMeans() {
-		int totalMeans = RandomHelper.nextIntFromTo(1, Parameters.maxInitalMeans);
+		availableMeans.clear();
 		
-		for (int i = 0; i < totalMeans; i++) {
-			Means m = new Means("M" + SimulationBuilder.nextId("M"));
-			availableMeans.add(m);
+		Means m = new Means(SimulationBuilder.nextId("M"));
+		
+		//Random know-how
+		
+		int[] knowHow = new int[Parameters.vectorSpaceSize];
+		
+		for (int i = 0; i < knowHow.length; i++) {
+			knowHow[i] = RandomHelper.nextIntFromTo(0, 1); 
 		}
-	}
 		
-	/**
-	 *  To be called only in the effectuation scenario
-	 *  @description Generate goal based on the available means (require all of them)
-	 */
+		m.setKnowHow(knowHow);
+		
+		m.setMoney(RandomHelper.nextDoubleFromTo(Parameters.minAvailableMoney, 
+				Parameters.maxAvailableMoney));
+		
+		availableMeans.add(m);				
+	}
+	
 	public void generateGoal() {
 		goal = new Goal();
-		goal.generateRandomProductVector();
-
-		if (availableMeans.size() == 0) {
-			generateAvailableMeans();
-		}			
-		goal.setRequiredMeans(availableMeans);
 	}
+		
 	
 	/**
 	 * Effectuation scenario:
@@ -106,12 +110,6 @@ public class Entrepreneur extends Agent {
 				}
 			}
 			
-			//Refine product vector
-			
-			if (goal == null) {
-				generateGoal();
-			}
-			
 			int[] productVector = goal.getProductVector();
 			
 			for (int i = 0; i < surveyResults.length; i++) {				
@@ -121,5 +119,9 @@ public class Entrepreneur extends Agent {
 				}
 			}
 		}
+	}
+	
+	public void offer() {
+		
 	}
 }

@@ -5,10 +5,6 @@ package EffectuationCausation;
 
 import java.util.List;
 
-import repast.simphony.random.RandomHelper;
-import repast.simphony.space.graph.JungNetwork;
-import repast.simphony.space.graph.ShortestPath;
-
 /**
  * @author klesti
  *
@@ -17,7 +13,7 @@ import repast.simphony.space.graph.ShortestPath;
  * @author klesti
  *
  */
-public class Commitment implements Comparable<Commitment> {
+public class Commitment {
 	private Entrepreneur firstParty;
 	private Agent secondParty;
 	private Goal goal;
@@ -26,7 +22,6 @@ public class Commitment implements Comparable<Commitment> {
 	public Commitment(Entrepreneur firstParty, Agent secondParty) {
 		this.firstParty = firstParty;
 		this.secondParty = secondParty;
-		buildCommitment();
 	}
 
 	/**
@@ -83,108 +78,5 @@ public class Commitment implements Comparable<Commitment> {
 	 */
 	public void setMeans(List<Means> means) {
 		this.means = means;
-	}
-	
-	/**
-	 * Returns a random utility from 0 to 1 for this commitment
-	 * @return utility
-	 */
-	public double getRandomUtility() {		 
-		return RandomHelper.nextDoubleFromTo(0,1);
-	}
-	
-	/**
-	 * Returns the "connections utility" as defined by "Jackson and Wolinsky, 1996"
-	 * @return utility
-	 */
-	public double getConnectionsUtility() {
-		double sigma = 0.5;
-		
-		double utility = 0;
-		
-		JungNetwork<Object> network = EffectuationBuilder.getEntrepreneurialNetwork(); 
-		
-		ShortestPath<Object> sp = new ShortestPath<Object>(network);
-				
-		for(Object o: network.getNodes()) {
-			if (!getSecondParty().equals(o)) {
-				utility += Math.pow(sigma, sp.getPathLength(getSecondParty(), o));
-			}
-		}	
-		
-		return utility;
-	}
-	
-	/**
-	 * Returns the "degree centrality utility", i.e an utility functions that is based on the
-	 * degree centrality of the second party 
-	 * @return utility
-	 */
-	public double getDegreeCentralityUtility() {
-		JungNetwork<Object> network = EffectuationBuilder.getEntrepreneurialNetwork();
-		
-		return network.getDegree(getSecondParty());
-	}
-	
-	
-	/**
-	 * Returns the "betweenness centrality utility", i.e an utility functions that is based on the
-	 * betweenness centrality of the second party
-	 * @return utility
-	 */
-	public double getBetweennessCentralityUtility() {
-		return getSecondParty().getBetweennessCentrality();
-	}
-	
-	/**
-	 *  Builds the commitment based on the involved parties
-	 */
-	public void buildCommitment() {
-	
-		if (secondParty instanceof Entrepreneur || secondParty instanceof Investor) {
-			Entrepreneur e = (Entrepreneur)secondParty;
-			setMeans(e.getAvailableMeans());
-			setGoal(e.getGoal());
-		}
-		
-		if (secondParty instanceof Customer) {
-			Customer c = (Customer)secondParty;
-			setGoal(new Goal(secondParty.getContext(), secondParty.getNetwork()));
-			getGoal().setProductVectorEffectuation(c.getDemandVector());			
-		}
-	}
-
-	@Override
-	public int compareTo(Commitment c) {
-		double ownUtility;
-		double othersUtility;
-		
-		int mixed = 0;
-		
-		if (Parameters.utilityFunction.equals("Mixed")) {
-			mixed = RandomHelper.nextIntFromTo(1, 4);
-		}
-		
-		if (Parameters.utilityFunction.equals("ConnectionsUtility") || mixed == 1) {
-			ownUtility = this.getConnectionsUtility();
-			othersUtility = c.getConnectionsUtility();
-		} else if (Parameters.utilityFunction.equals("DegreeCentrality") || mixed == 2) {
-			ownUtility = this.getDegreeCentralityUtility();
-			othersUtility = c.getDegreeCentralityUtility();
-		} else if(Parameters.utilityFunction.equals("BetweennessCentrality") || mixed == 3) {
-			ownUtility = this.getBetweennessCentralityUtility();
-			othersUtility = c.getBetweennessCentralityUtility();
-		} else { //Random utility
-			ownUtility = this.getRandomUtility();
-			othersUtility = c.getRandomUtility();
-		}
-		
-		if (ownUtility < othersUtility) {
-			return -1;
-		} else if (ownUtility > othersUtility) {
-			return 1;
-		} else {
-			return 0;
-		}
 	}
 }
