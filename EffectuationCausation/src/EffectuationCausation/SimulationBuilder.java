@@ -321,8 +321,6 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		double r = RandomHelper.nextDoubleFromTo(0, 1);	
 		
 		if (r < Parameters.newConnectionsProbability) {
-			System.out.println(r);
-			
 			int random = RandomHelper.nextIntFromTo(1, 2);
 			
 			Object attached;
@@ -331,21 +329,23 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 				default:
 					Customer c = new Customer(context, network, nextId("C"));
 					networkGenerator.attachNode(c);
-					attached = c;					
+					attached = c;
+					System.out.println("Added a customer to the network!");
 					break;
 				case 2:
 					Entrepreneur e = new Entrepreneur(context, network, nextId("E"));	
 					e.generateGoal();
 					networkGenerator.attachNode(e);					
 					attached = e;
+					System.out.println("Added an entrepreneur to the network!");					
 					break;
 			}
 			
 			for (RepastEdge<Object> edge: network.getEdges(attached)) {
 				((NetworkEdge) edge).setThickness(2.0); 
 				((NetworkEdge) edge).setColor(Color.red);
-			}
-		}		
+			}		
+		}	
 	}	
 	
 	public void scheduleActions() {
