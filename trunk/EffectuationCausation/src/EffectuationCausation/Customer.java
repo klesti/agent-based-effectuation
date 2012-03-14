@@ -3,6 +3,7 @@ package EffectuationCausation;
 import java.util.HashMap;
 
 import repast.simphony.context.Context;
+import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
 public class Customer extends Agent {
@@ -35,8 +36,12 @@ public class Customer extends Agent {
 	 * Initialize demand vector with all element set as 0s
 	 */
 	public void initializeDemandVector() {
+		double marketSplit = Parameters.marketSplit / 100.0;
 		for (int i = 0; i < demandVector.length; i++) {
-			demandVector[i] = 0;
+			
+			double r = RandomHelper.nextDoubleFromTo(0, 1);
+			
+			demandVector[i] = r < marketSplit ? 1 : 0;
 		}
 	}
 	

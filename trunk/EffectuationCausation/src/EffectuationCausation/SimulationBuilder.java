@@ -315,13 +315,13 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	/**
 	 *  Evolves network during the simulation (adding new nodes randomly)
 	 */
-	@ScheduledMethod(start=1,interval=3)
+	@ScheduledMethod(start=1,interval=1)
 	public void evolveNetwork() {
 		
 		double r = RandomHelper.nextDoubleFromTo(0, 1);	
 		
 		if (r < Parameters.newConnectionsProbability) {
-			int random = RandomHelper.nextIntFromTo(1, 2);
+			int random = RandomHelper.nextIntFromTo(1, 5);
 			
 			Object attached;
 			
@@ -330,14 +330,12 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 					Customer c = new Customer(context, network, nextId("C"));
 					networkGenerator.attachNode(c);
 					attached = c;
-					System.out.println("Added a customer to the network!");
 					break;
 				case 2:
 					Entrepreneur e = new Entrepreneur(context, network, nextId("E"));	
 					e.generateGoal();
 					networkGenerator.attachNode(e);					
-					attached = e;
-					System.out.println("Added an entrepreneur to the network!");					
+					attached = e;				
 					break;
 			}
 			
