@@ -27,8 +27,11 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	 * @param p initial wiring probability
 	 */
 	protected void initializeNetwork(double p) {
-		for (int i = 0; i < 10 && i < totalCustomers; i++) {		
-			context.add(new Customer(context, network, SimulationBuilder.nextId("C")));
+		for (int i = 0; i < 10 && i < totalCustomers; i++) {
+			Customer c = new Customer(context, network, SimulationBuilder.nextId("C"));
+			context.add(c);
+			SimulationBuilder.customers.add(c);
+			
 			totalCustomers--;
 		}
 		
@@ -133,7 +136,9 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 				attachNode(e);
 				totalEntrepreneuers--;				
 			} else if (totalCustomers > 0) {
-				attachNode(new Customer(context, network, SimulationBuilder.nextId("C")));
+				Customer c = new Customer(context, network, SimulationBuilder.nextId("C"));
+				attachNode(c);
+				SimulationBuilder.customers.add(c);
 				totalCustomers--;
 			}
 		}

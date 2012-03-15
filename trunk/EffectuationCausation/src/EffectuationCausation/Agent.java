@@ -14,6 +14,7 @@ import repast.simphony.space.graph.ShortestPath;
 public class Agent {
 	protected Context<Object> context;
 	protected Network<Object> network;
+	protected boolean negotiating;
 	protected String label;
 	protected double graphicsSize;	
 	protected double betweennessCentrality;
@@ -22,6 +23,7 @@ public class Agent {
 	public Agent(Context<Object> context, Network<Object> network, String label) {		
 		this.context = context;
 		this.network = network;
+		this.negotiating = false;		
 		this.graphicsSize = 0;
 		this.label = label;
 		this.betweennessCentrality = 0;
@@ -57,6 +59,24 @@ public class Agent {
 		this.network = network;
 	}
 	
+	
+	
+	/**
+	 * @return the negotiating
+	 */
+	public boolean isNegotiating() {
+		return negotiating;
+	}
+
+
+	/**
+	 * @param negotiating the negotiating to set
+	 */
+	public void setNegotiating(boolean negotiating) {
+		this.negotiating = negotiating;
+	}
+
+
 	/**
 	 * @return the graphicsSize
 	 */
@@ -129,8 +149,6 @@ public class Agent {
 		return utility;
 	}
 	
-
-	public void step() {
 		
-	}
+	
 }

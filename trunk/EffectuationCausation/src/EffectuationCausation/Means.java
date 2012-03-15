@@ -2,28 +2,16 @@ package EffectuationCausation;
 
 public class Means  {
 
-	private String label;
 	private int[] knowHow;
 	private double money;
 	
-	public Means(String label) {
-		this.label = label;
+	public Means() {
 		knowHow = new int[Parameters.vectorSpaceSize];
+		for (int i = 0; i < knowHow.length; i++) {
+			knowHow[i] = 0;
+		}
 	}
 	
-	/**
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
-
-	/**
-	 * @param label the label to set
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-	}
 
 	/**
 	 * @return the knowHow

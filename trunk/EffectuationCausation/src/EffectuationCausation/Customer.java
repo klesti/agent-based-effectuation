@@ -79,4 +79,22 @@ public class Customer extends Agent {
 			}
 		}		 
 	}
+	
+	/**
+	 * Process offer made by an entrepreneur
+	 * @param productVector
+	 */
+	public void processOffer(int[] productVector) {
+		setNegotiating(true);
+		
+		int d = SimulationBuilder.hammingDistance(demandVector, productVector);
+		
+		double r = RandomHelper.nextDoubleFromTo(0, 1);
+		
+		if (d>0 && d < Math.floor(d / (double)Parameters.vectorSpaceSize) && r < Parameters.customersPersuadability / 100.0) {
+			demandVector = productVector;
+		}
+		
+		setNegotiating(false);
+	}
 }

@@ -3,52 +3,32 @@
  */
 package EffectuationCausation;
 
-import java.util.List;
-
-/**
- * @author klesti
- *
- */
 /**
  * @author klesti
  *
  */
 public class Commitment {
-	private Entrepreneur firstParty;
-	private Agent secondParty;
+	private Entrepreneur secondParty;
 	private Goal goal;
-	private List<Means> means;
+	private Means means;
 	
-	public Commitment(Entrepreneur firstParty, Agent secondParty) {
-		this.firstParty = firstParty;
+	public Commitment(Entrepreneur secondParty) {
 		this.secondParty = secondParty;
+		goal = secondParty.getGoal();
 	}
 
-	/**
-	 * @return the firstParty
-	 */
-	public Entrepreneur getFirstParty() {
-		return firstParty;
-	}
-
-	/**
-	 * @param firstParty the firstParty to set
-	 */
-	public void setFirstParty(Entrepreneur firstParty) {
-		this.firstParty = firstParty;
-	}
 
 	/**
 	 * @return the secondParty
 	 */
-	public Agent getSecondParty() {
+	public Entrepreneur getSecondParty() {
 		return secondParty;
 	}
 
 	/**
 	 * @param secondParty the secondParty to set
 	 */
-	public void setSecondParty(Agent secondParty) {
+	public void setSecondParty(Entrepreneur secondParty) {
 		this.secondParty = secondParty;
 	}
 
@@ -69,14 +49,14 @@ public class Commitment {
 	/**
 	 * @return the means
 	 */
-	public List<Means> getMeans() {
+	public Means getMeans() {
 		return means;
 	}
 
 	/**
 	 * @param means the means to set
 	 */
-	public void setMeans(List<Means> means) {
+	public void setMeans(Means means) {
 		this.means = means;
 	}
 }

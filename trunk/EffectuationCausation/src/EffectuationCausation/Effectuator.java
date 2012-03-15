@@ -3,8 +3,10 @@
  */
 package EffectuationCausation;
 
+import java.util.ArrayList;
+
 import repast.simphony.context.Context;
-import repast.simphony.random.RandomHelper;
+import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.space.graph.Network;
 
 /**
@@ -13,31 +15,18 @@ import repast.simphony.space.graph.Network;
  */
 public class Effectuator extends Entrepreneur {
 	
-	private boolean finishedExpandingResources;
-
+	private ArrayList<Commitment> commitmentList;
+	
 	public Effectuator(Context<Object> context, Network<Object> network, String label) {
-		super(context, network, label);		
-		setFinishedExpandingResources(false);
+		super(context, network, label);
+		commitmentList = new ArrayList<Commitment>();
 		generateGoal();
-	}
-
-	/**
-	 * @return the finishedExpandingResources
-	 */
-	public boolean isFinishedExpandingResources() {
-		return finishedExpandingResources;
-	}
-
-	/**
-	 * @param finishedExpandingResources the finishedExpandingResources to set
-	 */
-	public void setFinishedExpandingResources(boolean finishedExpandingResources) {
-		this.finishedExpandingResources = finishedExpandingResources;
 	}
 
 	/**
 	 *  @description Generate goal based on the available means (require all of them)
 	 */	
+	@Override
 	public void generateGoal() {		
 		super.generateGoal();
 		
@@ -46,32 +35,61 @@ public class Effectuator extends Entrepreneur {
 		}
 		
 		goal.setProductVector(availableMeans.get(0).getKnowHow());
-		goal.setRequiredMeans(availableMeans.get(0));		
+		
+		if (availableMeans.get(0).getMoney() < goal.getRequiredMeans().getMoney()) {
+			availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() 
+					+ goal.getRequiredMeans().getMoney());
+		}
 	}
 	
-	/**
-	 * Meet an entity (entrepreneur, investor, etc) and "negotiate" a commitment
-	 * @return Object An acquaintance
+	/* 
+	 * Offers the product to an entrepreneur 
 	 */
-	public Object meet() {		
-		int depth = RandomHelper.nextIntFromTo(1, Parameters.maxDepthForMeeting);
+	@Override
+	@ScheduledMethod(start=1,interval=2,priority=1)	
+	public void offer() {
+		Entrepreneur e = null;
 		
-				int i = 0;
-		Object o = this, acquaintance = this;
-		
-		while (i < depth && o != null) {
-			o = network.getRandomAdjacent(acquaintance);
-			//do not meet customers
-			if (o != null && !(o instanceof Customer)) {
-				acquaintance = o;
-			}
-			i++;
+		if (SimulationBuilder.allEntrepreneursOffering) {
+			return;
 		}
 		
-		if (acquaintance == this) {
-			acquaintance = null;			
-		} 
+		e = (Entrepreneur)meet(Entrepreneur.class);
 		
-		return acquaintance;		
-	}	
+		if (!productRefinedOnce && e != null && !e.isNegotiating()) {
+
+			int[] diff = SimulationBuilder.diff(goal.getProductVector(), e.getGoal().getProductVector());
+			
+			double changeCost = 0;
+			
+			for (int i = 0; i < diff.length; i++) {
+				if (diff[i] == 1) {
+					changeCost += SimulationBuilder.productElementCost[i];
+				}
+			}
+			
+			if (changeCost <=  (availableMeans.get(0).getMoney() * Parameters.affordableLoss) / 100.0) {
+				if (e.processOffer(e.getGoal().getProductVector())) {
+					goal.setProductVector(e.getGoal().getProductVector());
+					availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - changeCost);
+					SimulationBuilder.effectuationNetwork.addEdge(this, e);
+					productRefinedOnce = true;
+				}
+			} else {
+				Means m = e.askCommitment(diff);
+				if (m != null) {
+					goal.setProductVector(e.getGoal().getProductVector());				
+					availableMeans.add(m);
+					Commitment c = new Commitment(e);
+					c.setGoal(e.getGoal());
+					c.setMeans(m);
+					commitmentList.add(c);
+					SimulationBuilder.effectuationNetwork.addEdge(this, e);		
+					productRefinedOnce = true;
+				}
+			}
+			
+			e.setNegotiating(false);
+		}
+	}
 }
