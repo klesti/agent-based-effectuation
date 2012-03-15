@@ -17,6 +17,8 @@ import repast.simphony.dataLoader.ContextBuilder;
 import repast.simphony.engine.schedule.ISchedule;
 import repast.simphony.engine.schedule.ScheduleParameters;
 import repast.simphony.engine.schedule.ScheduledMethod;
+import repast.simphony.engine.watcher.Watch;
+import repast.simphony.engine.watcher.WatcherTriggerSchedule;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.EdgeCreator;
 import repast.simphony.space.graph.Network;
@@ -36,10 +38,19 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	public static Network<Object> effectuationNetwork;	
 	private static EntrepreneurialNetworkGenerator networkGenerator;
 	private static HashMap<String, Integer> lastIds;
+	public static double[]  productElementCost;
+	public static boolean allEntrepreneursOffering;
+	public static Effectuator effectuator;
+	public static Causator causator;
+	public static ArrayList<Customer> customers;
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
 		Parameters.initialize();
+		
+		customers = new ArrayList<Customer>();
+		
+		generateProductElementCosts();
 		
 		lastIds = new HashMap<String, Integer>();
 		
@@ -49,13 +60,12 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		buildNetworks();
 		
-		//Add the effectuator entrepreneur 
-		Effectuator effectuator = new Effectuator(context, network, "Effectuator");
+		//Add the effectuator entrepreneur
+		effectuator = new Effectuator(context, network, "Effectuator");
 		context.add(effectuator);
-		effectuator.generateAvailableMeans();
 		
 		//Add the causator entrepreneur and it's initial goal
-		Causator causator = new Causator(context, network, "Causator");
+		causator = new Causator(context, network, "Causator");
 		context.add(causator);
 		
 		Goal initialGoal = new Goal();		
@@ -86,12 +96,16 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		aggregateProductVectors();
 		
 		//Define the causator's product based on preliminary market research 
-		causator.performMarketResearch();
+		causator.performInitialMarketResearch();
 		causator.refineProduct();
+		causator.setOffering(true);
 		
 		calculateBetweennesCentralities();
 		
-		scheduleActions();		
+	
+		allEntrepreneursOffering = false;
+		
+		scheduleActions();	
 		
 		return context;
 	}
@@ -154,22 +168,35 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	}
 	
 	/**
-	 * Returns the the bits that are different in two equal 0-1 strings
-	 * @param s1
-	 * @param s2
+	 * Returns the the bits that are different in two equal length 0-1 vectors
+	 * @param p1
+	 * @param p2
 	 * @return s
 	 */
-	public static String diff(String s1, String s2) {
-		String s = "";
+	public static int[] diff(int[] p1, int[] p2) {
+		int[] diff = new int[p1.length];
 		
-		for (int i = 0; i < s1.length(); i++) {
-			s += String.valueOf(
-					Integer.parseInt(String.valueOf(s1.charAt(i))) 
-							^ Integer.parseInt(String.valueOf(s2.charAt(i)))
-							);
+		for (int i = 0; i < p1.length; i++) {
+			diff[i] = p1[i] ^ p2[i];
 		}
 		
-		return s;
+		return diff;
+	}
+	
+	/**
+	 * Returns the "Hamming distance" between two equal length 0-1 vectors
+	 * @param p1
+	 * @param p2
+	 * @return int
+	 */
+	public static int hammingDistance(int[] p1, int[] p2) {
+		int d = 0;
+		
+		for (int i = 0; i < p1.length; i++) {
+			d += p1[i] ^ p2[i];
+		}
+		
+		return d;		
 	}
 	
 	/**
@@ -188,8 +215,25 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			}
 		}
 	}
-
 	
+	
+	/**
+	 * Randomly generate product element costs
+	 */
+	private void generateProductElementCosts() {
+		productElementCost = new double[Parameters.vectorSpaceSize];
+		double avgAvailableMoney = (Parameters.minAvailableMoney 
+				+ Parameters.maxAvailableMoney) / 2.0;
+		
+		for (int i = 0; i < productElementCost.length; i++) {
+			productElementCost[i] = RandomHelper.nextIntFromTo(1, 3) 
+										* Parameters.minAvailableMoney;
+			productElementCost[i] = productElementCost[i] > avgAvailableMoney 
+										? avgAvailableMoney : productElementCost[i];
+		}
+	}
+	
+
 	/**
 	 *  Initialize customer demand vectors using the define "Market split", i.e
 	 *  the percentage of customers that "like" a certain product element
@@ -216,7 +260,6 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	/**
 	 * Refine the product vector of the entrepreneurs based on the
 	 * connected customers (randomly)
-	 * @param skipEffectuator 
 	 */
 	public void aggregateProductVectors() {
 		
@@ -241,6 +284,21 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 				e.aggregateGoalProductVector();
 			}
 		}		
+	}
+	
+	/**
+	 * Checks if all entrepreneurs are offering and update the relevant flag
+	 */
+	@Watch(watcheeClassName="EffectuationCausation.Entrepreneur",
+			watcheeFieldNames="offering",whenToTrigger=WatcherTriggerSchedule.IMMEDIATE)
+	public void checkAllEntrepreneursOffering() {
+		for (Object o: context.getObjects(Entrepreneur.class)) {
+			if (!((Entrepreneur)o).isOffering()) {
+				allEntrepreneursOffering = false;
+			}
+			return;
+		}
+		allEntrepreneursOffering = true;
 	}
 	
 	/**
@@ -298,24 +356,56 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * Returns the effectuator's betweenness centrality in the network
 	 * @return betweennessCentrality
 	 */
-	public static double getEffectuatorsBetweennessCentrality() {
-		Effectuator e =(Effectuator)context.getObjects(Effectuator.class).iterator().next(); 
-		return e.getBetweennessCentrality();
+	public double getEffectuatorsBetweennessCentrality() {		 
+		return effectuator.getBetweennessCentrality();
 	}
 
 	/**
 	 * Returns the effectuator's degree centrality in the entrepreneurial network
 	 * @return degreeCentrality
 	 */	
-	public static double getEffectuatorsDegreeCentrality() {
-		Effectuator e =(Effectuator)context.getObjects(Effectuator.class).iterator().next();
-		return network.getDegree(e);		
+	public double getEffectuatorsDegreeCentrality() {
+		return network.getDegree(effectuator);		
 	}	
+	
+	public String getEffectuatorsGoal() {
+		return effectuator.getGoal().printProductVector();
+	}
+	
+	public String getCausatorsGoal() {
+		return causator.getGoal().printProductVector();
+	}
+	
+	public double getEffectuatorsMarketFit() {
+		int meetDemand = 0;		
+		
+		for (int i = 0; i < customers.size(); i++) {
+			if (hammingDistance(effectuator.getGoal().getProductVector(), 
+					customers.get(i).getDemandVector()) < Math.floor(Parameters.vectorSpaceSize / 2.0)) {
+				meetDemand++;
+			}
+		}
+		
+		return (meetDemand / (double)customers.size()) * 100;
+	}
+	
+	public double getCausatorsMarketFit() {
+		int meetDemand = 0;		
+		
+		for (int i = 0; i < customers.size(); i++) {
+			if (hammingDistance(causator.getGoal().getProductVector(), 
+					customers.get(i).getDemandVector()) < Math.floor(Parameters.vectorSpaceSize / 2.0)) {
+				meetDemand++;
+			}
+		}
+		
+		return (meetDemand / (double)customers.size()) * 100;
+	}
 	
 	/**
 	 *  Evolves network during the simulation (adding new nodes randomly)
 	 */
-	@ScheduledMethod(start=1,interval=1)
+	@ScheduledMethod(start=1,interval=2)
 	public void evolveNetwork() {
 		
 		double r = RandomHelper.nextDoubleFromTo(0, 1);	
@@ -343,6 +433,8 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 				((NetworkEdge) edge).setThickness(2.0); 
 				((NetworkEdge) edge).setColor(Color.red);
 			}		
+			
+			calculateBetweennesCentralities();
 		}	
 	}	
 	
@@ -364,18 +456,5 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		schedule.scheduleIterable(parameters, customers, "adaptProductVector", true);		
 	}
-	
-//	@ScheduledMethod(start=1,priority=2,interval=5)
-	public void printTest() {
-		for (int i = 0; i < Parameters.vectorSpaceSize; i++) {
-			int count = 0;
-			for (Object o: context.getObjects(Customer.class)) {
-				Customer c = (Customer)o;
-				if (c.getDemandVector()[i] == 1) 
-					count++;
-			}
-			System.out.print(String.valueOf(count) + " ");
-		}
-		System.out.println("");
-	}
+
 }

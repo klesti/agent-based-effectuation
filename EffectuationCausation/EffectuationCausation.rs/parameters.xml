@@ -49,6 +49,12 @@
 									values="Random ConnectionsUtility DegreeCentrality BetweennessCentrality Mixed "
 						
 		/>
+				<parameter name="affordableLoss" displayName="Affordable Loss (%)" type="int" 
+						defaultValue="50" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
+									
+		/>
 				<parameter name="sampleSizePercentage" displayName="Sample size percentage (Causation)" type="int" 
 						defaultValue="10" 
 						isReadOnly="false" 
@@ -101,6 +107,12 @@
 		/>
 				<parameter name="adaptationThreshold" displayName="Adaptation threshold (%)" type="int" 
 						defaultValue="60" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
+									
+		/>
+				<parameter name="customersPersuadability" displayName="Customers Persuadability Prob (%)" type="int" 
+						defaultValue="30" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									

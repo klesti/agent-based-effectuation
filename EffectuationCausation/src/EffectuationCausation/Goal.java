@@ -26,6 +26,19 @@ public class Goal  {
 	public void setRequiredMeans(Means requiredMeans) {
 		this.requiredMeans = requiredMeans;
 	}
+	
+	public void generateRequiredMeans() {
+		requiredMeans = new Means();
+		
+		double requiredMoney = 0;
+		
+		for (int i = 0; i < productVector.length; i++) {
+			requiredMoney += SimulationBuilder.productElementCost[i];
+		}
+		
+		requiredMeans.setKnowHow(productVector);
+		requiredMeans.setMoney(requiredMoney);		
+	}
 
 	/**
 	 * @return the productVector
@@ -40,6 +53,7 @@ public class Goal  {
 	 */
 	public void setProductVector(int[] productVector) {
 		this.productVector = productVector;
+		this.generateRequiredMeans();
 	}
 	
 	

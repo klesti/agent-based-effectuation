@@ -1,10 +1,12 @@
 package EffectuationCausation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import repast.simphony.context.Context;
+import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 
@@ -15,11 +17,14 @@ import repast.simphony.space.graph.Network;
 public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected Goal goal;
+	protected boolean offering;
+	protected boolean productRefinedOnce = false;	
 	
 	public Entrepreneur(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
 		availableMeans = new ArrayList<Means>();
 		generateAvailableMeans();
+		setOffering(false);
 	}
 
 	public List<Means> getAvailableMeans() {
@@ -44,6 +49,22 @@ public class Entrepreneur extends Agent {
 		this.goal = goal;
 	}
 	
+	
+	
+	/**
+	 * @return the offering
+	 */
+	public boolean isOffering() {
+		return offering;
+	}
+
+	/**
+	 * @param offering the offering to set
+	 */
+	public void setOffering(boolean offering) {
+		this.offering = offering;
+	}
+
 	public void addMeans(Means m) {
 		availableMeans.add(m);
 	}
@@ -55,7 +76,7 @@ public class Entrepreneur extends Agent {
 	public void generateAvailableMeans() {
 		availableMeans.clear();
 		
-		Means m = new Means(SimulationBuilder.nextId("M"));
+		Means m = new Means();
 		
 		//Random know-how
 		
@@ -75,6 +96,7 @@ public class Entrepreneur extends Agent {
 	
 	public void generateGoal() {
 		goal = new Goal();
+		goal.generateRequiredMeans();
 	}
 		
 	
@@ -121,7 +143,91 @@ public class Entrepreneur extends Agent {
 		}
 	}
 	
-	public void offer() {
+	/**
+	 * Meet an entity of an specified type (entrepreneur or customer)
+	 * @param Class<?> Entity type 
+	 * @return Object An acquaintance
+	 */
+	public Object meet(Class<?> type) {		
+		int depth = RandomHelper.nextIntFromTo(1, Parameters.maxDepthForMeeting);
 		
+		int i = 0;
+		Object o = this, acquaintance = this;
+		
+		while (i < depth && o != null) {
+			o = network.getRandomAdjacent(acquaintance);
+
+			if (o != null && o.getClass() == type && !((Agent)o).isNegotiating()) {
+				acquaintance = o;
+			}
+			i++;
+		}
+		
+		if (acquaintance == this) {
+			acquaintance = null;			
+		} 
+		
+		return acquaintance;		
+	}		
+	
+	/**
+	 * Offers the product to customers
+	 */
+	@ScheduledMethod(start=1,priority=2,interval=4)
+	public void offer() {
+		if (isOffering() && this instanceof Entrepreneur) {
+			Customer c;	
+			
+			c = (Customer) meet(Customer.class);
+			
+			if (c!=null) {			
+				c.processOffer(goal.getProductVector());
+			}
+		}
+	}
+	
+	/**
+	 * Process the offer from an effectuator or causator
+	 * @param productVector
+	 * @return boolean accepted the offer ?
+	 */
+	public boolean processOffer(int[] productVector) {	
+		setNegotiating(true);
+		double r = RandomHelper.nextDoubleFromTo(0, 1);
+		if (Arrays.equals(goal.getProductVector(), productVector) && r <= 0.5) {
+			setOffering(true);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Replies to the request for commitment of resources
+	 * @param diffVector
+	 * @return Means means
+	 */
+	public Means askCommitment(int[] diffVector) {
+		double requiredFunds = goal.getRequiredMeans().getMoney();
+		
+		//Can provide know how ?
+		for (int i = 0; i < diffVector.length; i++) {
+			if (availableMeans.get(0).getKnowHow()[i] == 1) {
+				requiredFunds -= SimulationBuilder.productElementCost[i];
+			}
+		}
+		
+		
+		double r = RandomHelper.nextDoubleFromTo(0, 1);
+				
+		if (requiredFunds <= availableMeans.get(0).getMoney() && r <= 0.5) {
+			setOffering(true);
+			availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - requiredFunds);
+			Means m = new Means();
+			m.setKnowHow(availableMeans.get(0).getKnowHow());
+			m.setMoney(requiredFunds);
+			return m;
+		}
+		
+		return null;
 	}
 }

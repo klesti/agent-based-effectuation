@@ -20,12 +20,16 @@ public class Parameters {
 	// The percentage of the customers sample that needs to have a product element as 1
 	// in order to change the initial value of the product elements vector
 	public static int productElementChangeThreshold;
+	//%, the percentage probability that a customers accepts an offer 
+	// slightly different from the original demand
+	public static int customersPersuadability;  
 	
 	public static int numberOfCustomers;	
 	public static int numberOfEntrepreneurs;
 	
 	public static double minAvailableMoney; // Thousands €
 	public static double maxAvailableMoney; // Thousands €
+	public static int affordableLoss; //Percent
 
 	
 	public static int maxDepthForMeeting;
@@ -44,7 +48,9 @@ public class Parameters {
 		adaptationThreshold = (Integer)params.getValue("adaptationThreshold");
 		adaptationSpeed = (Integer)params.getValue("adaptationSpeed"); //From 1 to 5
 		
-		productElementChangeThreshold = (Integer)params.getValue("productElementChangeThreshold");		
+		productElementChangeThreshold = (Integer)params.getValue("productElementChangeThreshold");
+		customersPersuadability = (Integer)params.getValue("customersPersuadability");
+		
 		numberOfCustomers = (Integer)params.getValue("numberOfCustomers");
 		sampleSizePercentage = (Integer)params.getValue("sampleSizePercentage");		
 
@@ -53,6 +59,7 @@ public class Parameters {
 		
 		minAvailableMoney = (Double)params.getValue("minAvailableMoney");
 		maxAvailableMoney = (Double)params.getValue("maxAvailableMoney");
+		affordableLoss = (Integer)params.getValue("affordableLoss");
 
 		maxDepthForMeeting = (Integer)params.getValue("maxDepthForMeeting");
 		networkGenerator = (String)params.getValue("networkGenerator");
