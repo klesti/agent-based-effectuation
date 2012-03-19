@@ -187,6 +187,59 @@ public class Entrepreneur extends Agent {
 	}
 	
 	/**
+	 * Offers a deal to the effectuator if meets him
+	 */
+	@ScheduledMethod(start=1,priority=2,interval=1)
+	public void offerDeal() {
+		if (isNegotiating() || isOffering() || !(this instanceof Entrepreneur)) {
+			return;
+		}
+		
+		Entrepreneur o = (Entrepreneur)meet(Effectuator.class);
+		if (o!= null) {
+			System.out.println(o.getLabel());
+		}
+		
+		if (o != null && o instanceof Effectuator && !((Effectuator)o).isNegotiating()) {
+			setNegotiating(true);
+			Effectuator e = (Effectuator)o;
+			e.setNegotiating(true);
+			int[] diff = SimulationBuilder.diff(e.getGoal().getProductVector(), getGoal().getProductVector());
+			
+			double changeCost = 0;
+			boolean hasKnowHow = true;
+			
+			for (int i = 0; i < diff.length; i++) {
+				if (diff[i] == 1) {
+					changeCost += SimulationBuilder.productElementCost[i];
+					if (hasKnowHow && availableMeans.get(0).getKnowHow()[i] != 1) {
+						hasKnowHow = false;
+					}
+				}
+			}
+			
+			Means m = new Means();
+			
+			m.setKnowHow(availableMeans.get(0).getKnowHow());
+			
+			if (availableMeans.get(0).getMoney() <= changeCost) {
+				m.setMoney(changeCost);
+				availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - changeCost);
+			} else {
+				m.setMoney(availableMeans.get(0).getMoney());
+				availableMeans.get(0).setMoney(0.0);
+			}
+			
+			if (e.processOfferedDeal(this, goal.getProductVector(), diff, m)) {
+				System.out.println("Deal accepted!");
+			} else {
+				System.out.println("Deal rejected!");
+			}
+			e.setNegotiating(false);
+		}
+	}
+	
+	/**
 	 * Process the offer from an effectuator or causator
 	 * @param productVector
 	 * @return boolean accepted the offer ?
@@ -229,5 +282,20 @@ public class Entrepreneur extends Agent {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Process a deal about changing the product vector
+	 * @param productVector
+	 * @return 
+	 */
+	public boolean processDeal(int productVector[]) {
+		double r = RandomHelper.nextDoubleFromTo(0, 1);
+		
+		if (r <= 0.5 &&
+				SimulationBuilder.hammingDistance(productVector, goal.getProductVector()) < 3) {			
+			return true;
+		}
+		return false;
 	}
 }

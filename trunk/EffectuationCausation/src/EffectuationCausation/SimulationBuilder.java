@@ -102,7 +102,6 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		calculateBetweennesCentralities();
 		
-	
 		allEntrepreneursOffering = false;
 		
 		scheduleActions();	
@@ -320,7 +319,9 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		for (Object n: network.getNodes()) {
 			Agent a = (Agent)n;
-			a.setBetweennessCentrality(ranker.getVertexRankScore(n));
+			// Normalize by (n-1)(n-2)/2
+			a.setBetweennessCentrality(ranker.getVertexRankScore(n) 
+					/ (((N.size()-1) * (N.size()-2)) / 2.0) );
 		}	
 	}
 	
@@ -331,7 +332,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 */
 	public static double getNetworkDensity() {
 		
-		return ( 2 * network.getDegree() ) / ( network.size() * (network.size()-1) );
+		return ( 2.0 * network.numEdges() ) / ( network.size() * (network.size()-1) );
 	}
 	
 	/**

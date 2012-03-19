@@ -57,7 +57,9 @@ public class Effectuator extends Entrepreneur {
 		e = (Entrepreneur)meet(Entrepreneur.class);
 		
 		if (!productRefinedOnce && e != null && !e.isNegotiating()) {
-
+			
+			setNegotiating(true);
+			
 			int[] diff = SimulationBuilder.diff(goal.getProductVector(), e.getGoal().getProductVector());
 			
 			double changeCost = 0;
@@ -74,6 +76,8 @@ public class Effectuator extends Entrepreneur {
 					availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - changeCost);
 					SimulationBuilder.effectuationNetwork.addEdge(this, e);
 					productRefinedOnce = true;
+					setOffering(true);
+					System.out.println("Commitment estabilished!");
 				}
 			} else {
 				Means m = e.askCommitment(diff);
@@ -86,10 +90,72 @@ public class Effectuator extends Entrepreneur {
 					commitmentList.add(c);
 					SimulationBuilder.effectuationNetwork.addEdge(this, e);		
 					productRefinedOnce = true;
+					setOffering(true);
+					System.out.println("Commitment estabilished!");
 				}
 			}
 			
 			e.setNegotiating(false);
+			setNegotiating(false);
 		}
+	}
+	
+	/**
+	 * Processes a possible offered deal from another entrepreneur
+	 * @param productVector
+	 * @param m
+	 */
+	public boolean processOfferedDeal(Entrepreneur e, int[] productVector, int[] productChanges, Means m) {
+		boolean allAgreed = true;
+		int [] generalKnowHow = new int[Parameters.vectorSpaceSize];
+		for (int i = 0; i < generalKnowHow.length; i++) {
+			generalKnowHow[i] = 0;
+		}
+		
+		if (isOffering()) {			
+			for (Commitment c: commitmentList) {
+				if (!c.getSecondParty().processDeal(productVector)) {
+					allAgreed = false;
+				}
+				for (int j = 0; j < generalKnowHow.length; j++) {			
+					if (c.getMeans().getKnowHow()[j] == 1 
+							|| availableMeans.get(0).getKnowHow()[j] == 1) {
+						generalKnowHow[j] = 1;
+					}					
+				}
+			}			
+		}
+		
+		if (allAgreed) {
+		
+			double changeCost = 0.0;
+			
+			for (int i = 0; i < productChanges.length; i++) {
+				if (productChanges[i] == 1) {
+					 if(generalKnowHow[i] != 1) {
+						 changeCost += SimulationBuilder.productElementCost[i];
+					 }
+				}
+			}
+			
+			if (changeCost <= m.getMoney() + availableMeans.get(0).getMoney()) {
+				Commitment c = new Commitment(e);
+				c.setMeans(m);
+				availableMeans.add(m);
+				goal.setProductVector(productVector);
+				c.setGoal(getGoal());				
+				changeCost -= m.getMoney();				
+				availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - changeCost);
+				SimulationBuilder.effectuationNetwork.addEdge(this, e);
+				for (Commitment cm: commitmentList) {
+					cm.getSecondParty().getGoal().setProductVector(productVector);
+				}
+				
+				commitmentList.add(c);
+				return true;
+			}
+		}		
+		
+		return false;
 	}
 }
