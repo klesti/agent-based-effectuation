@@ -10,6 +10,7 @@ public class Means  {
 		for (int i = 0; i < knowHow.length; i++) {
 			knowHow[i] = 0;
 		}
+		money = 0.0;
 	}
 	
 
