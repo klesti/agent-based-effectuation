@@ -147,8 +147,5 @@ public class Agent {
 		}	
 		
 		return utility;
-	}
-	
-		
-	
+	}	
 }

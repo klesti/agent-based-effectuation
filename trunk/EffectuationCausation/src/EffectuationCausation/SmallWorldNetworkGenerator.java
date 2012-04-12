@@ -13,11 +13,14 @@ import repast.simphony.space.graph.Network;
  */
 public class SmallWorldNetworkGenerator extends EntrepreneurialNetworkGenerator {
 
+	private int meanDegree; //Must be even
+	
 	/**
 	 * @param context
 	 */
-	public SmallWorldNetworkGenerator(Context<Object> context) {
+	public SmallWorldNetworkGenerator(Context<Object> context, int meanDegree) {
 		super(context);
+		this.meanDegree = meanDegree;
 	}
 
 	/* (non-Javadoc)
@@ -31,11 +34,8 @@ public class SmallWorldNetworkGenerator extends EntrepreneurialNetworkGenerator 
 		
 		//Wire network using Watts beta-model
 		
-		double beta = 0.3;
-		int meanDegree = 4;
-		
 		WattsBetaSmallWorldGenerator<Object> ng = 
-			new WattsBetaSmallWorldGenerator<Object>(beta, meanDegree, true);
+			new WattsBetaSmallWorldGenerator<Object>(getEdgeProbability(), meanDegree, true);
 		
 		network = ng.createNetwork(network);
 		
@@ -48,5 +48,19 @@ public class SmallWorldNetworkGenerator extends EntrepreneurialNetworkGenerator 
 	@Override
 	public void attachNode(Object n) {
 		context.add(n);
+	}
+
+	/**
+	 * @return the meanDegree
+	 */
+	public int getMeanDegree() {
+		return meanDegree;
+	}
+
+	/**
+	 * @param meanDegree the meanDegree to set
+	 */
+	public void setMeanDegree(int meanDegree) {
+		this.meanDegree = meanDegree;
 	}
 }

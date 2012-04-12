@@ -30,7 +30,7 @@ public class RandomNetworkGenerator extends EntrepreneurialNetworkGenerator {
 		
 		evolveNetwork();
 		
-		randomWire(0.3);
+		randomWire(getEdgeProbability());
 		
 		return network;
 	}

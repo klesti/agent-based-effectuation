@@ -83,12 +83,13 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		} else if (Parameters.networkGenerator.equals("RandomNetwork")) {
 			networkGenerator = new RandomNetworkGenerator(context);
 		} else if (Parameters.networkGenerator.equals("SmallWorld")) {
-			networkGenerator = new SmallWorldNetworkGenerator(context);
+			networkGenerator = new SmallWorldNetworkGenerator(context, Parameters.meanDegree);
 		}
 		
 		networkGenerator.setTotalCustomers(Parameters.numberOfCustomers);
 		networkGenerator.setTotalEntrepreneuers(Parameters.numberOfEntrepreneurs);
 		networkGenerator.seEdgesPerStep(Parameters.edgesPerStep);
+		networkGenerator.setEdgeProbability(Parameters.edgeProbability);
 		
 		network = networkGenerator.createNetwork(network);
 		

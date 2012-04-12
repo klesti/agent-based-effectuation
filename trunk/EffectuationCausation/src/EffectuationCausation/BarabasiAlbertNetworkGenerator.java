@@ -26,7 +26,7 @@ public class BarabasiAlbertNetworkGenerator extends EntrepreneurialNetworkGenera
 	public Network<Object> createNetwork(Network<Object> network) {		
 		this.network = network;
 		
-		initializeNetwork(0.3);		
+		initializeNetwork(getEdgeProbability());		
 
 		// Evolve network using preferential attachment
 		

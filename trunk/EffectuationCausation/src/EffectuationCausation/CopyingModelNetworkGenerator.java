@@ -23,7 +23,7 @@ public class CopyingModelNetworkGenerator extends EntrepreneurialNetworkGenerato
 	@Override
 	public Network<Object> createNetwork(Network<Object> network) {
 		this.network = network;
-		initializeNetwork(0.3);	
+		initializeNetwork(getEdgeProbability());	
 		
 		// Evolve network using a "copy model"
 		evolveNetwork();
