@@ -114,20 +114,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * @param context
 	 */
 	private void buildNetworks() {
-		EdgeCreator<NetworkEdge, Object> edgeCreator = new EdgeCreator<NetworkEdge, Object>(
-				
-		) {
-			public Class<NetworkEdge> getEdgeType() {
-				return NetworkEdge.class;
-			}
-
-			@Override
-			public NetworkEdge createEdge(Object source, Object target,
-					boolean isDirected, double weight) {
-				return new NetworkEdge(source, target, true, 0);
-			}
-		};
-		
+		EdgeCreator<CustomNetworkEdge, Object> edgeCreator = new CustomEdgeCreator();		
 		
 		//Build Entrepreneurial network
 		
@@ -432,8 +419,8 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			}
 			
 			for (RepastEdge<Object> edge: network.getEdges(attached)) {
-				((NetworkEdge) edge).setThickness(2.0); 
-				((NetworkEdge) edge).setColor(Color.red);
+				((CustomNetworkEdge) edge).setThickness(2.0); 
+				((CustomNetworkEdge) edge).setColor(Color.red);
 			}		
 			
 			calculateBetweennesCentralities();

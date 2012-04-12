@@ -11,25 +11,25 @@ import repast.simphony.space.graph.RepastEdge;
  * @author klesti
  *
  */
-public class NetworkEdge extends RepastEdge<Object> {
+public class CustomNetworkEdge extends RepastEdge<Object> {
 	
 	private double thickness;
 	private Color color;
 
-	public NetworkEdge() {
+	public CustomNetworkEdge() {
 		super();
 		setThickness(1.0);
 		setColor(Color.BLACK);
 	}
 
-	public NetworkEdge(Object source, Object target, boolean directed,
+	public CustomNetworkEdge(Object source, Object target, boolean directed,
 			double weight) {
 		super(source, target, directed, weight);
 		setThickness(1.0);
 		setColor(Color.BLACK);
 	}
 
-	public NetworkEdge(Object source, Object target, boolean directed) {
+	public CustomNetworkEdge(Object source, Object target, boolean directed) {
 		super(source, target, directed);
 		setThickness(1.0);
 		setColor(Color.BLACK);
