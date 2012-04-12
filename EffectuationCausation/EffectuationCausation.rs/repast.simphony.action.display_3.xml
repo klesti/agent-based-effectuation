@@ -11,11 +11,11 @@
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
     <entry>
-      <string>EffectuationCausation.Entrepreneur</string>
+      <string>EffectuationCausation.Effectuator</string>
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
     <entry>
-      <string>EffectuationCausation.Effectuator</string>
+      <string>EffectuationCausation.Entrepreneur</string>
       <string>repast.simphony.visualization.editedStyle.EditedStyle2D</string>
     </entry>
   </styles>
@@ -29,12 +29,12 @@
       <string>EffectuationCausation.Customer.style_0.xml</string>
     </entry>
     <entry>
-      <string>EffectuationCausation.Entrepreneur</string>
-      <string>EffectuationCausation.Entrepreneur.style_1.xml</string>
-    </entry>
-    <entry>
       <string>EffectuationCausation.Effectuator</string>
       <string>EffectuationCausation.Effectuator.style_0.xml</string>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Entrepreneur</string>
+      <string>EffectuationCausation.Entrepreneur.style_1.xml</string>
     </entry>
   </editedStyles>
   <netStyles>
@@ -70,12 +70,12 @@
       <int>0</int>
     </entry>
     <entry>
-      <string>EffectuationCausation.Effectuator</string>
-      <int>3</int>
-    </entry>
-    <entry>
       <string>EffectuationCausation.Entrepreneur</string>
       <int>1</int>
+    </entry>
+    <entry>
+      <string>EffectuationCausation.Effectuator</string>
+      <int>3</int>
     </entry>
   </layerOrder>
   <projections>

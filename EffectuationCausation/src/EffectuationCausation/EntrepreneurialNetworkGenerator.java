@@ -8,6 +8,7 @@ import repast.simphony.space.graph.Network;
 public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerator<Object> {
 
 	protected int edgesPerStep;
+	protected double edgeProbability;	
 	protected int totalCustomers;
 	protected int totalEntrepreneuers;
 	protected Context<Object> context;
@@ -68,6 +69,22 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 		this.edgesPerStep = edgesPerStep;
 	}
 
+	
+	/**
+	 * @return the edgeProbability
+	 */
+	public double getEdgeProbability() {
+		return edgeProbability;
+	}
+
+	/**
+	 * @param edgeProbability the edgeProbability to set
+	 */
+	public void setEdgeProbability(double edgeProbability) {
+		this.edgeProbability = edgeProbability;
+	}
+
+
 	/**
 	 * @return the totalCustomers
 	 */
@@ -95,7 +112,7 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 	public void setTotalEntrepreneuers(int totalEntrepreneuers) {
 		this.totalEntrepreneuers = totalEntrepreneuers;
 	}
-
+	
 	/**
 	 * @return the context
 	 */

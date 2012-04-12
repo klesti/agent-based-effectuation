@@ -35,6 +35,8 @@ public class Parameters {
 	public static int maxDepthForMeeting;
 	public static String networkGenerator;
 	public static int edgesPerStep;	
+	public static double edgeProbability;
+	public static int meanDegree;
 	public static String utilityFunction;
 	public static boolean aggregateProductVector;
 	public static double newConnectionsProbability;
@@ -64,6 +66,8 @@ public class Parameters {
 		maxDepthForMeeting = (Integer)params.getValue("maxDepthForMeeting");
 		networkGenerator = (String)params.getValue("networkGenerator");
 		edgesPerStep = (Integer)params.getValue("edgesPerStep");
+		edgeProbability = (Double)params.getValue("edgeProbability");
+		meanDegree = (Integer)params.getValue("meanDegree");
 		utilityFunction = (String)params.getValue("utilityFunction");
 		aggregateProductVector = (Boolean)params.getValue("aggregateProductVector");
 		newConnectionsProbability = (Double)params.getValue("newConnectionsProbability");		
