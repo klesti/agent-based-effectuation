@@ -125,12 +125,9 @@ public class Causator extends Entrepreneur {
 		Entrepreneur e = null;		
 		
 		do {
-			Object o = context.getRandomObject();
-			if (o instanceof Entrepreneur) {
-				e = (Entrepreneur)o;
-			}
-		} while (e == null || e.isNegotiating() || e.isOffering());
-		
+			e = getEntrepreneur();
+		} while (e.isNegotiating() || e.isOffering());
+				
 		//React in case of offer refusal
 		if (!productRefinedOnce && e != null && !e.processOffer(goal.getProductVector())) {
 			
@@ -141,5 +138,21 @@ public class Causator extends Entrepreneur {
 			}			
 			e.setNegotiating(false);
 		} 
+	}
+	
+	/**
+	 * Returns an entrepreneur based on the selected "utility function"
+	 * @return entrepreneur
+	 */
+	public Entrepreneur getEntrepreneur() {		
+		ArrayList<Entrepreneur> entrepreneurs = new  ArrayList<Entrepreneur>();
+		
+		for (Object o: context.getObjects(Entrepreneur.class)) {
+			if (!(o instanceof Effectuator) && !(o instanceof Causator)) {
+				entrepreneurs.add((Entrepreneur)o);
+			}
+		}		
+		
+		return (Entrepreneur)Collections.max(entrepreneurs);
 	}
 }

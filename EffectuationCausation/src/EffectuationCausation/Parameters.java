@@ -30,7 +30,6 @@ public class Parameters {
 	public static double minAvailableMoney; // Thousands €
 	public static double maxAvailableMoney; // Thousands €
 	public static int affordableLoss; //Percent
-
 	
 	public static int maxDepthForMeeting;
 	public static String networkGenerator;
@@ -40,6 +39,8 @@ public class Parameters {
 	public static String utilityFunction;
 	public static boolean aggregateProductVector;
 	public static double newConnectionsProbability;
+	
+	public static String observedEntrepreneur;
 
 	//Causation scenario
 	public static int sampleSizePercentage; //Sample size in percentage
@@ -71,5 +72,7 @@ public class Parameters {
 		utilityFunction = (String)params.getValue("utilityFunction");
 		aggregateProductVector = (Boolean)params.getValue("aggregateProductVector");
 		newConnectionsProbability = (Double)params.getValue("newConnectionsProbability");		
+		
+		observedEntrepreneur = (String)params.getValueAsString("observedEntrepreneur");
 	}	
 }

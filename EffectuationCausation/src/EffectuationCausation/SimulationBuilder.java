@@ -60,19 +60,23 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		buildNetworks();
 		
-		//Add the effectuator entrepreneur
-		effectuator = new Effectuator(context, network, "Effectuator");
-		context.add(effectuator);
-		
-		//Add the causator entrepreneur and it's initial goal
-		causator = new Causator(context, network, "Causator");
-		context.add(causator);
-		
-		Goal initialGoal = new Goal();		
-		causator.setGoal(initialGoal);		
-		
-		context.add(causator);
+		if (!Parameters.observedEntrepreneur.equals("Causator")) {
 
+			//Add the effectuator entrepreneur
+			effectuator = new Effectuator(context, network, "Effectuator");
+			context.add(effectuator);
+		}
+		
+		if (!Parameters.observedEntrepreneur.equals("Effectuator")) {
+			//Add the causator entrepreneur and it's initial goal
+			causator = new Causator(context, network, "Causator");
+			context.add(causator);
+			
+			Goal initialGoal = new Goal();		
+			causator.setGoal(initialGoal);		
+			
+			context.add(causator);
+		}
 		
 		//Network generation
 		
@@ -96,10 +100,12 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		initializeDemandVectors();
 		aggregateProductVectors();
 		
-		//Define the causator's product based on preliminary market research 
-		causator.performInitialMarketResearch();
-		causator.refineProduct();
-		causator.setOffering(true);
+		if (!Parameters.observedEntrepreneur.equals("Effectuator")) {		
+			//Define the causator's product based on preliminary market research 
+			causator.performInitialMarketResearch();
+			causator.refineProduct();
+			causator.setOffering(true);
+		}
 		
 		calculateBetweennesCentralities();
 		
@@ -355,6 +361,22 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 */	
 	public double getEffectuatorsDegreeCentrality() {
 		return network.getDegree(effectuator);		
+	}	
+
+	/**
+	 * Returns the causator's betweenness centrality in the network
+	 * @return betweennessCentrality
+	 */
+	public double getCausatorssBetweennessCentrality() {		 
+		return causator.getBetweennessCentrality();
+	}
+
+	/**
+	 * Returns the causators degree centrality in the entrepreneurial network
+	 * @return degreeCentrality
+	 */	
+	public double getCausatorsDegreeCentrality() {
+		return network.getDegree(causator);		
 	}	
 	
 	public String getEffectuatorsGoal() {

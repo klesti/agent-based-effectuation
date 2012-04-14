@@ -4,6 +4,7 @@
 package EffectuationCausation;
 
 import repast.simphony.context.Context;
+import repast.simphony.random.RandomHelper;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.graph.ShortestPath;
 
@@ -11,7 +12,7 @@ import repast.simphony.space.graph.ShortestPath;
  * @author klesti
  *
  */
-public class Agent {
+public class Agent implements Comparable<Object> {
 	protected Context<Object> context;
 	protected Network<Object> network;
 	protected boolean negotiating;
@@ -147,5 +148,35 @@ public class Agent {
 		}	
 		
 		return utility;
+	}
+
+
+	/* 
+	 * Allows for comparing agents based on the selected utility function
+	 */
+	@Override
+	public int compareTo(Object a) {
+		
+		if (!(a instanceof Entrepreneur)) {
+			return 0;
+		}
+		
+		double ownUtility, othersUtility;
+		
+		if (Parameters.utilityFunction.equals("ConnectionsUtility")) {
+			ownUtility = getConnectionsUtility();
+			othersUtility = ((Agent)a).getConnectionsUtility();
+		} else if (Parameters.utilityFunction.equals("DegreeCentrality")) {
+			ownUtility = getDegreeCentralityUtility();
+			othersUtility = ((Agent)a).getDegreeCentralityUtility();
+		} else if (Parameters.utilityFunction.equals("BetweennessCentrality")) {
+			ownUtility = getBetweennessCentrality();
+			othersUtility = ((Agent)a).getBetweennessCentrality();
+		} else {
+			ownUtility = RandomHelper.nextDouble();
+			othersUtility = RandomHelper.nextDouble();
+		}
+		
+		return ((Double)ownUtility).compareTo((Double)othersUtility);
 	}	
 }

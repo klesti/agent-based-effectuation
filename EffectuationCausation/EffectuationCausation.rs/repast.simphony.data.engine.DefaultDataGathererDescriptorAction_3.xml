@@ -1,6 +1,6 @@
 <repast.simphony.data.engine.DefaultDataGathererDescriptor>
-  <name>Causator and Effectuator</name>
-  <dataSetId class="string">Causator and Effectuator</dataSetId>
+  <name>Effectuator Only</name>
+  <dataSetId class="string">Effectuator Only</dataSetId>
   <scheduleParameters>
     <start>1.0</start>
     <interval>1.0</interval>
@@ -11,14 +11,18 @@
   <dataMappingContainer class="repast.simphony.data.logging.gather.DefaultDataMappingContainer">
     <nameMappingTable>
       <entry>
-        <string>CausatorsMarketFit</string>
+        <string>EffectuatorsDegreeCentrality</string>
         <repast.simphony.data.logging.gather.MethodMapping>
           <method>
             <class>EffectuationCausation.SimulationBuilder</class>
-            <name>getCausatorsMarketFit</name>
+            <name>getEffectuatorsDegreeCentrality</name>
             <parameter-types/>
           </method>
         </repast.simphony.data.logging.gather.MethodMapping>
+      </entry>
+      <entry>
+        <string>Tick</string>
+        <repast.simphony.data.logging.gather.DefaultTimeDataMapping/>
       </entry>
       <entry>
         <string>ClusteringCoefficient</string>
@@ -26,36 +30,6 @@
           <method>
             <class>EffectuationCausation.SimulationBuilder</class>
             <name>getClusteringCoefficient</name>
-            <parameter-types/>
-          </method>
-        </repast.simphony.data.logging.gather.MethodMapping>
-      </entry>
-      <entry>
-        <string>EffectuatorsBetweennessCentrality</string>
-        <repast.simphony.data.logging.gather.MethodMapping>
-          <method>
-            <class>EffectuationCausation.SimulationBuilder</class>
-            <name>getEffectuatorsBetweennessCentrality</name>
-            <parameter-types/>
-          </method>
-        </repast.simphony.data.logging.gather.MethodMapping>
-      </entry>
-      <entry>
-        <string>EffectuatorsGoal</string>
-        <repast.simphony.data.logging.gather.MethodMapping>
-          <method>
-            <class>EffectuationCausation.SimulationBuilder</class>
-            <name>getEffectuatorsGoal</name>
-            <parameter-types/>
-          </method>
-        </repast.simphony.data.logging.gather.MethodMapping>
-      </entry>
-      <entry>
-        <string>EffectuatorsDegreeCentrality</string>
-        <repast.simphony.data.logging.gather.MethodMapping>
-          <method>
-            <class>EffectuationCausation.SimulationBuilder</class>
-            <name>getEffectuatorsDegreeCentrality</name>
             <parameter-types/>
           </method>
         </repast.simphony.data.logging.gather.MethodMapping>
@@ -71,11 +45,11 @@
         </repast.simphony.data.logging.gather.MethodMapping>
       </entry>
       <entry>
-        <string>CausatorsGoal</string>
+        <string>EffectuatorsBetweennessCentrality</string>
         <repast.simphony.data.logging.gather.MethodMapping>
           <method>
             <class>EffectuationCausation.SimulationBuilder</class>
-            <name>getCausatorsGoal</name>
+            <name>getEffectuatorsBetweennessCentrality</name>
             <parameter-types/>
           </method>
         </repast.simphony.data.logging.gather.MethodMapping>
@@ -91,46 +65,44 @@
         </repast.simphony.data.logging.gather.MethodMapping>
       </entry>
       <entry>
-        <string>Tick</string>
-        <repast.simphony.data.logging.gather.DefaultTimeDataMapping/>
+        <string>EffectuatorsGoal</string>
+        <repast.simphony.data.logging.gather.MethodMapping>
+          <method>
+            <class>EffectuationCausation.SimulationBuilder</class>
+            <name>getEffectuatorsGoal</name>
+            <parameter-types/>
+          </method>
+        </repast.simphony.data.logging.gather.MethodMapping>
       </entry>
     </nameMappingTable>
     <mappingNameTable>
       <entry>
         <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[3]/repast.simphony.data.logging.gather.MethodMapping"/>
-        <string>EffectuatorsBetweennessCentrality</string>
-      </entry>
-      <entry>
-        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[2]/repast.simphony.data.logging.gather.MethodMapping"/>
         <string>ClusteringCoefficient</string>
       </entry>
       <entry>
-        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[8]/repast.simphony.data.logging.gather.MethodMapping"/>
-        <string>NetworkDensity</string>
+        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[4]/repast.simphony.data.logging.gather.MethodMapping"/>
+        <string>EffectuatorsMarketFit</string>
       </entry>
       <entry>
-        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry/repast.simphony.data.logging.gather.MethodMapping"/>
-        <string>CausatorsMarketFit</string>
+        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[7]/repast.simphony.data.logging.gather.MethodMapping"/>
+        <string>EffectuatorsGoal</string>
       </entry>
       <entry>
-        <repast.simphony.data.logging.gather.DefaultTimeDataMapping reference="../../../nameMappingTable/entry[9]/repast.simphony.data.logging.gather.DefaultTimeDataMapping"/>
+        <repast.simphony.data.logging.gather.DefaultTimeDataMapping reference="../../../nameMappingTable/entry[2]/repast.simphony.data.logging.gather.DefaultTimeDataMapping"/>
         <string>Tick</string>
       </entry>
       <entry>
         <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[5]/repast.simphony.data.logging.gather.MethodMapping"/>
+        <string>EffectuatorsBetweennessCentrality</string>
+      </entry>
+      <entry>
+        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry/repast.simphony.data.logging.gather.MethodMapping"/>
         <string>EffectuatorsDegreeCentrality</string>
       </entry>
       <entry>
         <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[6]/repast.simphony.data.logging.gather.MethodMapping"/>
-        <string>EffectuatorsMarketFit</string>
-      </entry>
-      <entry>
-        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[4]/repast.simphony.data.logging.gather.MethodMapping"/>
-        <string>EffectuatorsGoal</string>
-      </entry>
-      <entry>
-        <repast.simphony.data.logging.gather.MethodMapping reference="../../../nameMappingTable/entry[7]/repast.simphony.data.logging.gather.MethodMapping"/>
-        <string>CausatorsGoal</string>
+        <string>NetworkDensity</string>
       </entry>
     </mappingNameTable>
   </dataMappingContainer>
