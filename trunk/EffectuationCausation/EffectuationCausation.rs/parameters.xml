@@ -42,6 +42,13 @@
 						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
 									
 		/>
+				<parameter name="observedEntrepreneur" displayName="Observed entrepreneur" type="java.lang.String" 
+						defaultValue="Both" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter"
+									values="Both Effectuator Causator "
+						
+		/>
 				<parameter name="utilityFunction" displayName="Utility function" type="java.lang.String" 
 						defaultValue="None" 
 						isReadOnly="false" 

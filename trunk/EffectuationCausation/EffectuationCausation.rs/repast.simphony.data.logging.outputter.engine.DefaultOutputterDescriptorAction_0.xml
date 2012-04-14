@@ -5,7 +5,7 @@
   </outputterFactory>
   <dataSetHandler>
     <dataSets>
-      <string>Data Set 1</string>
+      <string>Causator and Effectuator</string>
     </dataSets>
   </dataSetHandler>
   <streamHandler>
@@ -22,7 +22,7 @@
     </columns>
   </streamHandler>
   <isBatchAction>false</isBatchAction>
-  <dataSetId class="string">Data Set 1</dataSetId>
+  <dataSetId class="string">Causator and Effectuator</dataSetId>
   <fileName>ModelOutput.txt</fileName>
   <insertTimeToFileName>true</insertTimeToFileName>
   <insertBatchToFileName>true</insertBatchToFileName>
