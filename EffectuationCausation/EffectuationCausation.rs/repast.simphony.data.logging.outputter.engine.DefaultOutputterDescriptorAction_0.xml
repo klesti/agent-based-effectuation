@@ -19,6 +19,8 @@
       <string>CausatorsMarketFit</string>
       <string>CausatorsGoal</string>
       <string>ClusteringCoefficient</string>
+      <string>CausatorssBetweennessCentrality</string>
+      <string>CausatorsDegreeCentrality</string>
     </columns>
   </streamHandler>
   <isBatchAction>false</isBatchAction>
