@@ -61,21 +61,19 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		buildNetworks();
 		
 		if (!Parameters.observedEntrepreneur.equals("Causator")) {
-
-			//Add the effectuator entrepreneur
+			//Create the effectuator entrepreneur
 			effectuator = new Effectuator(context, network, "Effectuator");
-			context.add(effectuator);
+		} else {
+			effectuator = null;
 		}
 		
 		if (!Parameters.observedEntrepreneur.equals("Effectuator")) {
-			//Add the causator entrepreneur and it's initial goal
-			causator = new Causator(context, network, "Causator");
-			context.add(causator);
-			
+			//Create causator entrepreneur and it's initial goal
+			causator = new Causator(context, network, "Causator");			
 			Goal initialGoal = new Goal();		
 			causator.setGoal(initialGoal);		
-			
-			context.add(causator);
+		} else {
+			causator = null;
 		}
 		
 		//Network generation
