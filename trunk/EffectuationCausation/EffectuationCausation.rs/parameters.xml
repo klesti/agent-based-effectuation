@@ -92,6 +92,12 @@
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
 									
 		/>
+				<parameter name="randomNetworkDensity" displayName="Random network density" type="double" 
+						defaultValue="0.3" 
+						isReadOnly="false" 
+						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
+									
+		/>
 				<parameter name="meanDegree" displayName="Small-world mean degree (even):" type="int" 
 						defaultValue="4" 
 						isReadOnly="false" 

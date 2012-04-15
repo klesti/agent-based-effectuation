@@ -35,6 +35,7 @@ public class Parameters {
 	public static String networkGenerator;
 	public static int edgesPerStep;	
 	public static double edgeProbability;
+	public static double randomNetworkDensity;
 	public static int meanDegree;
 	public static String utilityFunction;
 	public static boolean aggregateProductVector;
@@ -68,6 +69,7 @@ public class Parameters {
 		networkGenerator = (String)params.getValue("networkGenerator");
 		edgesPerStep = (Integer)params.getValue("edgesPerStep");
 		edgeProbability = (Double)params.getValue("edgeProbability");
+		randomNetworkDensity = (Double)params.getValue("randomNetworkDensity");
 		meanDegree = (Integer)params.getValue("meanDegree");
 		utilityFunction = (String)params.getValue("utilityFunction");
 		aggregateProductVector = (Boolean)params.getValue("aggregateProductVector");
