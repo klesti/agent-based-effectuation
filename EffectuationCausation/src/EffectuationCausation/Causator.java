@@ -115,8 +115,8 @@ public class Causator extends Entrepreneur {
 	/* 
 	 *  Makes a product offer to an entrepreneur
 	 */
-	@Override
 	@ScheduledMethod(start=1,interval=3,priority=1)
+	@Override	
 	public void offer() {		
 		if ( SimulationBuilder.allEntrepreneursOffering) {
 			return;
@@ -135,6 +135,7 @@ public class Causator extends Entrepreneur {
 				goal.setProductVector(e.getGoal().getProductVector());
 				e.processOffer(goal.getProductVector());
 				productRefinedOnce = true;
+				System.out.println("Causator commitment estabilished!");
 			}			
 			e.setNegotiating(false);
 		} 

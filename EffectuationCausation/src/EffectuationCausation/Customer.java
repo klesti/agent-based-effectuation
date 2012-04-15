@@ -91,7 +91,7 @@ public class Customer extends Agent {
 		
 		double r = RandomHelper.nextDoubleFromTo(0, 1);
 		
-		if (d>0 && d < Math.floor(d / (double)Parameters.vectorSpaceSize) && r < Parameters.customersPersuadability / 100.0) {
+		if (d>0 && ((double)d / (double)Parameters.vectorSpaceSize) <= 0.25 && r < (Parameters.customersPersuadability / 100.0)) {
 			demandVector = productVector;
 		}
 		
