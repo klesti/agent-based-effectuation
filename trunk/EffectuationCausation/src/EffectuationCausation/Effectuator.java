@@ -45,54 +45,68 @@ public class Effectuator extends Entrepreneur {
 	/* 
 	 * Offers the product to an entrepreneur 
 	 */
-	@Override
-	@ScheduledMethod(start=1,interval=2,priority=1)	
+	@ScheduledMethod(start=1,interval=2,priority=1)
+	@Override	
 	public void offer() {
 		Entrepreneur e = null;
 		
-		if (SimulationBuilder.allEntrepreneursOffering) {
+		if (isOffering() || SimulationBuilder.allEntrepreneursOffering) {
 			return;
 		}
 		
 		e = (Entrepreneur)meet(Entrepreneur.class);
 		
-		if (!productRefinedOnce && e != null && !e.isNegotiating()) {
+		if (e != null && !e.isOffering()) {			
 			
 			setNegotiating(true);
+			System.out.println("Deal offered from effectuator to entrepreneur.");
 			
-			int[] diff = SimulationBuilder.diff(goal.getProductVector(), e.getGoal().getProductVector());
-			
-			double changeCost = 0;
-			
-			for (int i = 0; i < diff.length; i++) {
-				if (diff[i] == 1) {
-					changeCost += SimulationBuilder.productElementCost[i];
+			if (!productRefinedOnce && !e.processOffer(getGoal().getProductVector())) {
+				
+				int[] diff = SimulationBuilder.diff(goal.getProductVector(), e.getGoal().getProductVector());
+				
+				double changeCost = 0;
+				
+				for (int i = 0; i < diff.length; i++) {
+					if (diff[i] == 1) {
+						changeCost += SimulationBuilder.productElementCost[i];
+					}
 				}
-			}
-			
-			if (changeCost <=  (availableMeans.get(0).getMoney() * Parameters.affordableLoss) / 100.0) {
-				if (e.processOffer(e.getGoal().getProductVector())) {
-					goal.setProductVector(e.getGoal().getProductVector());
-					availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - changeCost);
-					SimulationBuilder.effectuationNetwork.addEdge(this, e);
-					productRefinedOnce = true;
-					setOffering(true);
-					System.out.println("Commitment estabilished!");
+				
+				if (changeCost <=  (availableMeans.get(0).getMoney() * Parameters.affordableLoss) / 100.0) {
+					if (e.processOffer(e.getGoal().getProductVector())) {
+						goal.setProductVector(e.getGoal().getProductVector());
+						availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - changeCost);
+						Commitment c = new Commitment(e);
+						c.setGoal(e.getGoal());
+						commitmentList.add(c);						
+						SimulationBuilder.effectuationNetwork.addEdge(this, e);
+						productRefinedOnce = true;
+						setOffering(true);
+						System.out.println("Effectual commitment estabilished!");
+					}
+				} else {
+					Means m = e.askCommitment(diff);
+					if (m != null) {
+						goal.setProductVector(e.getGoal().getProductVector());				
+						availableMeans.add(m);
+						Commitment c = new Commitment(e);
+						c.setGoal(e.getGoal());
+						c.setMeans(m);
+						commitmentList.add(c);
+						SimulationBuilder.effectuationNetwork.addEdge(this, e);		
+						productRefinedOnce = true;
+						setOffering(true);
+						System.out.println("Effectual commitment estabilished!");
+					}
 				}
 			} else {
-				Means m = e.askCommitment(diff);
-				if (m != null) {
-					goal.setProductVector(e.getGoal().getProductVector());				
-					availableMeans.add(m);
-					Commitment c = new Commitment(e);
-					c.setGoal(e.getGoal());
-					c.setMeans(m);
-					commitmentList.add(c);
-					SimulationBuilder.effectuationNetwork.addEdge(this, e);		
-					productRefinedOnce = true;
-					setOffering(true);
-					System.out.println("Commitment estabilished!");
-				}
+				Commitment c = new Commitment(e);
+				c.setGoal(e.getGoal());
+				commitmentList.add(c);				
+				SimulationBuilder.effectuationNetwork.addEdge(this, e);
+				setOffering(true);
+				System.out.println("Effectual commitment estabilished!");
 			}
 			
 			e.setNegotiating(false);
@@ -118,7 +132,7 @@ public class Effectuator extends Entrepreneur {
 					allAgreed = false;
 				}
 				for (int j = 0; j < generalKnowHow.length; j++) {			
-					if (c.getMeans().getKnowHow()[j] == 1 
+					if (c.getMeans() != null && c.getMeans().getKnowHow()[j] == 1 
 							|| availableMeans.get(0).getKnowHow()[j] == 1) {
 						generalKnowHow[j] = 1;
 					}					

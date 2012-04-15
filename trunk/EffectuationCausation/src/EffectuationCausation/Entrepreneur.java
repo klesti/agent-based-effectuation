@@ -18,13 +18,14 @@ public class Entrepreneur extends Agent {
 	protected List<Means> availableMeans;
 	protected Goal goal;
 	protected boolean offering;
-	protected boolean productRefinedOnce = false;	
+	protected boolean productRefinedOnce;	
 	
 	public Entrepreneur(Context<Object> context, Network<Object> network, String label) {
 		super(context, network, label);
 		availableMeans = new ArrayList<Means>();
 		generateAvailableMeans();
 		setOffering(false);
+		productRefinedOnce = false;
 	}
 
 	public List<Means> getAvailableMeans() {
@@ -189,18 +190,16 @@ public class Entrepreneur extends Agent {
 	/**
 	 * Offers a deal to the effectuator if meets him
 	 */
-	@ScheduledMethod(start=1,priority=2,interval=1)
+	@ScheduledMethod(start=1,priority=3,interval=4)
 	public void offerDeal() {
 		if (isNegotiating() || isOffering() || !(this instanceof Entrepreneur)) {
 			return;
 		}
 		
 		Entrepreneur o = (Entrepreneur)meet(Effectuator.class);
-		if (o!= null) {
-			System.out.println(o.getLabel());
-		}
 		
 		if (o != null && o instanceof Effectuator && !((Effectuator)o).isNegotiating()) {
+			System.out.println("Deal offered from entrepreneur to effectuator.");
 			setNegotiating(true);
 			Effectuator e = (Effectuator)o;
 			e.setNegotiating(true);
@@ -231,9 +230,9 @@ public class Entrepreneur extends Agent {
 			}
 			
 			if (e.processOfferedDeal(this, goal.getProductVector(), diff, m)) {
-				System.out.println("Deal accepted!");
+				System.out.println("Deal from entrepreneur to effectuator accepted!");
 			} else {
-				System.out.println("Deal rejected!");
+				System.out.println("Deal from entrepreneur to effectuator rejected!");
 			}
 			e.setNegotiating(false);
 		}

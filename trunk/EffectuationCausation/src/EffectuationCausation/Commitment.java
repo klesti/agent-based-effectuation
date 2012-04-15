@@ -15,6 +15,7 @@ public class Commitment {
 	public Commitment(Entrepreneur secondParty) {
 		this.secondParty = secondParty;
 		goal = secondParty.getGoal();
+		means = null;
 	}
 
 
