@@ -361,22 +361,6 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		return network.getDegree(effectuator);		
 	}	
 
-	/**
-	 * Returns the causator's betweenness centrality in the network
-	 * @return betweennessCentrality
-	 */
-	public double getCausatorssBetweennessCentrality() {		 
-		return causator.getBetweennessCentrality();
-	}
-
-	/**
-	 * Returns the causators degree centrality in the entrepreneurial network
-	 * @return degreeCentrality
-	 */	
-	public double getCausatorsDegreeCentrality() {
-		return network.getDegree(causator);		
-	}	
-	
 	public String getEffectuatorsGoal() {
 		return effectuator.getGoal().printProductVector();
 	}
