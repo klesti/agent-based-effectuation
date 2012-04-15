@@ -174,7 +174,7 @@ public class Entrepreneur extends Agent {
 	/**
 	 * Offers the product to customers
 	 */
-	@ScheduledMethod(start=1,priority=2,interval=4)
+	@ScheduledMethod(start=1,priority=2,interval=3)
 	public void offer() {
 		if (isOffering() && this instanceof Entrepreneur) {
 			Customer c;	
