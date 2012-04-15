@@ -5,7 +5,7 @@
   </outputterFactory>
   <dataSetHandler>
     <dataSets>
-      <string>Effectuator Only</string>
+      <string>Causator and Effectuator</string>
     </dataSets>
   </dataSetHandler>
   <streamHandler>
@@ -17,10 +17,12 @@
       <string>EffectuatorsMarketFit</string>
       <string>NetworkDensity</string>
       <string>ClusteringCoefficient</string>
+      <string>CausatorsMarketFit</string>
+      <string>CausatorsGoal</string>
     </columns>
   </streamHandler>
   <isBatchAction>false</isBatchAction>
-  <dataSetId class="string">Effectuator Only</dataSetId>
+  <dataSetId class="string">Causator and Effectuator</dataSetId>
   <fileName>ModelOutput.txt</fileName>
   <insertTimeToFileName>true</insertTimeToFileName>
   <insertBatchToFileName>true</insertBatchToFileName>

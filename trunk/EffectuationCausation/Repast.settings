@@ -16,6 +16,6 @@
     <string>SettingsFileName</string>
     <string>Repast.settings</string>
     <string>Spreadsheet.home</string>
-    <string>C:\Program Files (x86)\Microsoft Office\Office12\EXCEL.exe</string>
+    <string>C:\Program Files\Microsoft Office\Office12\EXCEL.exe</string>
   </hashtable>
 </simphony.settings.SettingsRegistry>
