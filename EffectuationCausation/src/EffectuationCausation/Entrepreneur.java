@@ -199,7 +199,7 @@ public class Entrepreneur extends Agent {
 		Entrepreneur o = (Entrepreneur)meet(Effectuator.class);
 		
 		if (o != null && o instanceof Effectuator && !((Effectuator)o).isNegotiating()) {
-			System.out.println("Deal offered from entrepreneur to effectuator.");
+			SimulationBuilder.printMessage("Deal offered from entrepreneur to effectuator.");
 			setNegotiating(true);
 			Effectuator e = (Effectuator)o;
 			e.setNegotiating(true);
@@ -230,9 +230,9 @@ public class Entrepreneur extends Agent {
 			}
 			
 			if (e.processOfferedDeal(this, goal.getProductVector(), diff, m)) {
-				System.out.println("Deal from entrepreneur to effectuator accepted!");
+				SimulationBuilder.printMessage("Deal from entrepreneur to effectuator accepted!");
 			} else {
-				System.out.println("Deal from entrepreneur to effectuator rejected!");
+				SimulationBuilder.printMessage("Deal from entrepreneur to effectuator rejected!");
 			}
 			e.setNegotiating(false);
 		}

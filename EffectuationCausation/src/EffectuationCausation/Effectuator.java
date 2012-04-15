@@ -59,10 +59,9 @@ public class Effectuator extends Entrepreneur {
 		if (e != null && !e.isOffering()) {			
 			
 			setNegotiating(true);
-			System.out.println("Deal offered from effectuator to entrepreneur.");
+			SimulationBuilder.printMessage("Deal offered from effectuator to entrepreneur.");
 			
-			if (!productRefinedOnce && !e.processOffer(getGoal().getProductVector())) {
-				
+			if (!e.processOffer(getGoal().getProductVector())) {				
 				int[] diff = SimulationBuilder.diff(goal.getProductVector(), e.getGoal().getProductVector());
 				
 				double changeCost = 0;
@@ -75,7 +74,7 @@ public class Effectuator extends Entrepreneur {
 				
 				if (changeCost <=  (availableMeans.get(0).getMoney() * Parameters.affordableLoss) / 100.0) {
 					if (e.processOffer(e.getGoal().getProductVector())) {
-						goal.setProductVector(e.getGoal().getProductVector());
+						goal = e.getGoal();
 						availableMeans.get(0).setMoney(availableMeans.get(0).getMoney() - changeCost);
 						Commitment c = new Commitment(e);
 						c.setGoal(e.getGoal());
@@ -83,12 +82,12 @@ public class Effectuator extends Entrepreneur {
 						SimulationBuilder.effectuationNetwork.addEdge(this, e);
 						productRefinedOnce = true;
 						setOffering(true);
-						System.out.println("Effectual commitment estabilished!");
+						SimulationBuilder.printMessage("Effectual commitment estabilished!");
 					}
 				} else {
 					Means m = e.askCommitment(diff);
 					if (m != null) {
-						goal.setProductVector(e.getGoal().getProductVector());				
+						goal = e.getGoal();				
 						availableMeans.add(m);
 						Commitment c = new Commitment(e);
 						c.setGoal(e.getGoal());
@@ -97,7 +96,7 @@ public class Effectuator extends Entrepreneur {
 						SimulationBuilder.effectuationNetwork.addEdge(this, e);		
 						productRefinedOnce = true;
 						setOffering(true);
-						System.out.println("Effectual commitment estabilished!");
+						SimulationBuilder.printMessage("Effectual commitment estabilished!");
 					}
 				}
 			} else {
@@ -106,7 +105,7 @@ public class Effectuator extends Entrepreneur {
 				commitmentList.add(c);				
 				SimulationBuilder.effectuationNetwork.addEdge(this, e);
 				setOffering(true);
-				System.out.println("Effectual commitment estabilished!");
+				SimulationBuilder.printMessage("Effectuators deal accepted by entrepreneur!");
 			}
 			
 			e.setNegotiating(false);

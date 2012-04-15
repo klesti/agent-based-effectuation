@@ -108,7 +108,7 @@ public class Causator extends Entrepreneur {
 				productVector[i] = (productVector[i] + 1) % 2;				
 			}
 		}
-		System.out.println("Causator's product refined");
+		SimulationBuilder.printMessage("Causator's product refined");
 		goal.setProductVector(productVector);
 	}
 	
@@ -122,20 +122,16 @@ public class Causator extends Entrepreneur {
 			return;
 		}
 		
-		Entrepreneur e = null;		
-		
-		do {
-			e = getEntrepreneur();
-		} while (e.isNegotiating() || e.isOffering());
+		Entrepreneur e = getEntrepreneur();		
 				
 		//React in case of offer refusal
-		if (!productRefinedOnce && e != null && !e.processOffer(goal.getProductVector())) {
+		if (e != null && !e.isOffering() && !e.isNegotiating() && !e.processOffer(goal.getProductVector()) && !productRefinedOnce) {		
 			
 			if (performMarketResarch(e.getGoal().getProductVector()) >= Parameters.productElementChangeThreshold) {
-				goal.setProductVector(e.getGoal().getProductVector());
+				goal = e.getGoal();
 				e.processOffer(goal.getProductVector());
 				productRefinedOnce = true;
-				System.out.println("Causator commitment estabilished!");
+				SimulationBuilder.printMessage("Causator commitment estabilished!");
 			}			
 			e.setNegotiating(false);
 		} 

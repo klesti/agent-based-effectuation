@@ -207,6 +207,12 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		}
 	}
 	
+	public static void printMessage(String m) {
+		ISchedule schedule = repast.simphony.engine.environment.RunEnvironment.getInstance()
+        .getCurrentSchedule();
+		
+		System.out.println(m + " - " + String.valueOf(schedule.getTickCount()));
+	}
 	
 	/**
 	 * Randomly generate product element costs
