@@ -149,8 +149,21 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			
 			//Enter entrepreneur with less probability than customers
 			if (totalEntrepreneuers > 0 && random <= 0.33) {
-				Entrepreneur e = new Entrepreneur(context, network, SimulationBuilder.nextId("E"));
-				e.generateGoal();
+				
+				Entrepreneur e;
+				
+				int type = RandomHelper.nextIntFromTo(1, 3);
+				
+				if (type == 1 && SimulationBuilder.effectuator != null 
+						&& !context.contains(SimulationBuilder.effectuator)) {
+					e = SimulationBuilder.effectuator;
+				} else if (type == 2 && SimulationBuilder.causator != null 
+						&& !context.contains(SimulationBuilder.causator)) {
+					e = SimulationBuilder.causator;
+				} else {					
+					e = new Entrepreneur(context, network, SimulationBuilder.nextId("E"));
+					e.generateGoal();
+				}
 				attachNode(e);
 				totalEntrepreneuers--;				
 			} else if (totalCustomers > 0) {
@@ -160,6 +173,29 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 				totalCustomers--;
 			}
 		}
+		//Assure the presence of the effectuator and/or causator
+		
+		if (SimulationBuilder.effectuator != null 
+				&& !context.contains(SimulationBuilder.effectuator)) {
+			Entrepreneur e = null;
+			do {
+				e = (Entrepreneur)context.getRandomObjects(Entrepreneur.class, 1).iterator().next();
+			} while (!(e instanceof Causator));
+			context.remove(e);
+			attachNode(SimulationBuilder.effectuator);
+			
+		}
+		
+		if (SimulationBuilder.causator != null 
+				&& !context.contains(SimulationBuilder.causator)) {
+			Entrepreneur e = null;
+			do {
+				e = (Entrepreneur)context.getRandomObjects(Entrepreneur.class, 1).iterator().next();
+			} while (!(e instanceof Effectuator));
+			context.remove(e);			
+			attachNode(SimulationBuilder.causator);
+		}
+		
 	}	
 
 
