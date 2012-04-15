@@ -85,7 +85,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		} else if (Parameters.networkGenerator.equals("CopyModel")) {
 			networkGenerator = new CopyingModelNetworkGenerator(context);
 		} else if (Parameters.networkGenerator.equals("RandomNetwork")) {
-			networkGenerator = new RandomNetworkGenerator(context);
+			networkGenerator = new RandomNetworkGenerator(context,Parameters.randomNetworkDensity);
 		} else if (Parameters.networkGenerator.equals("SmallWorld")) {
 			networkGenerator = new SmallWorldNetworkGenerator(context, Parameters.meanDegree);
 		}
@@ -298,7 +298,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * Calculates the betweenness centrality for each node, using the JUNG implemented
 	 * betweenness centrality calculator algorithm 
 	 */
-		
+	
 	public static void calculateBetweennesCentralities() {			
 		
 		ContextJungNetwork<Object> N = (ContextJungNetwork<Object>)network;
@@ -414,7 +414,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	}
 	
 	/**
-	 *  Evolves network during the simulation (adding new nodes randomly)
+	 *  Evolves network (if set) during the simulation (adding new nodes randomly)
 	 */
 	@ScheduledMethod(start=1,interval=2)
 	public void evolveNetwork() {

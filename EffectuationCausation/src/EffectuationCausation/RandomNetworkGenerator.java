@@ -4,6 +4,7 @@
 package EffectuationCausation;
 
 import repast.simphony.context.Context;
+import repast.simphony.context.space.graph.RandomDensityGenerator;
 import repast.simphony.space.graph.Network;
 
 /**
@@ -11,12 +12,15 @@ import repast.simphony.space.graph.Network;
  *
  */
 public class RandomNetworkGenerator extends EntrepreneurialNetworkGenerator {
+	
+	private double density;
 
 	/**
 	 * @param context
 	 */
-	public RandomNetworkGenerator(Context<Object> context) {
+	public RandomNetworkGenerator(Context<Object> context, double density) {
 		super(context);
+		this.density = density;
 	}
 
 	/* (non-Javadoc)
@@ -26,11 +30,13 @@ public class RandomNetworkGenerator extends EntrepreneurialNetworkGenerator {
 	public Network<Object> createNetwork(Network<Object> network) {
 		this.network = network;
 		
-		// Evolve network using a "copy model"
+		// Evolve network 
 		
-		evolveNetwork();
+		evolveNetwork();		
 		
-		randomWire(getEdgeProbability());
+		RandomDensityGenerator<Object> ng = new RandomDensityGenerator<Object>(density, false, true);
+		
+		network = ng.createNetwork(network);
 		
 		return network;
 	}
@@ -41,5 +47,13 @@ public class RandomNetworkGenerator extends EntrepreneurialNetworkGenerator {
 	@Override
 	public void attachNode(Object n) {
 		context.add(n);
+	}
+
+	public double getDensity() {
+		return density;
+	}
+
+	public void setDensity(double density) {
+		this.density = density;
 	}
 }

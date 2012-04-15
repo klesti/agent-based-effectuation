@@ -48,7 +48,7 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 		for (Object i: network.getNodes()) {
 			for (Object j: network.getNodes()) {
 				double random = RandomHelper.nextDoubleFromTo(0, 1);
-				if (random <= p) {
+				if (random <= p && !i.equals(j)) {
 					network.addEdge(i, j);
 				}
 			}
@@ -147,7 +147,8 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			
 			double random = RandomHelper.nextDoubleFromTo(0, 1);
 			
-			if (totalEntrepreneuers > 0 && random <= 0.2) {
+			//Enter entrepreneur with less probability than customers
+			if (totalEntrepreneuers > 0 && random <= 0.33) {
 				Entrepreneur e = new Entrepreneur(context, network, SimulationBuilder.nextId("E"));
 				e.generateGoal();
 				attachNode(e);
