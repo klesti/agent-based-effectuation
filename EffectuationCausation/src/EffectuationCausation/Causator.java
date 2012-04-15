@@ -115,7 +115,7 @@ public class Causator extends Entrepreneur {
 	/* 
 	 *  Makes a product offer to an entrepreneur
 	 */
-	@ScheduledMethod(start=1,interval=3,priority=1)
+	@ScheduledMethod(start=1,interval=2,priority=1)
 	@Override	
 	public void offer() {		
 		if ( SimulationBuilder.allEntrepreneursOffering) {
