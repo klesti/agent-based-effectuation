@@ -27,7 +27,6 @@ import repast.simphony.space.graph.RepastEdge;
 import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
 import edu.uci.ics.jung.algorithms.metrics.Metrics;
 import edu.uci.ics.jung.graph.Graph;
-
 /**
  * @author klesti
  *
@@ -45,6 +44,8 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	public static Causator causator;
 	public static ArrayList<Customer> customers;
 	private static ArrayList<int[]> oldDemand;
+	private static int staticDemandSteps;
+	
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
@@ -52,6 +53,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		customers = new ArrayList<Customer>();
 		oldDemand = new ArrayList<int[]>();
+		staticDemandSteps = 0;
 		
 		generateProductElementCosts();
 		
@@ -468,9 +470,32 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		}	
 	}	
 	
+	@ScheduledMethod(start=5,interval=1)
+	public void stopSimulation() {
+		if (getDemandChange() > 0 && staticDemandSteps > 0) {
+			staticDemandSteps = 0;
+		} else if (getDemandChange() == 0) {
+			staticDemandSteps++;
+		}
+		
+		boolean observedEntrepreneursOffering = false;
+		
+		if (effectuator == null) {
+			observedEntrepreneursOffering = causator.isOffering();
+		} else if (causator == null) {
+			observedEntrepreneursOffering = effectuator.isOffering();
+		} else {
+			observedEntrepreneursOffering = causator.isOffering() && effectuator.isOffering();
+		}
+		
+		if (observedEntrepreneursOffering && staticDemandSteps >= 100) {
+			repast.simphony.engine.environment.RunEnvironment.getInstance().endRun();
+		}
+	}
+	
 	public void scheduleActions() {
 		ISchedule schedule = repast.simphony.engine.environment.RunEnvironment.getInstance()
-        .getCurrentSchedule();
+								.getCurrentSchedule();
 		
 		
 		//Schedule adaptProductVector for each Customer
