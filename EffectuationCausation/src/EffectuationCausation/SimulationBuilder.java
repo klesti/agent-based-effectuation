@@ -413,7 +413,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		for (int i = 0; i < customers.size(); i++) {
 			if (hammingDistance(effectuator.getGoal().getProductVector(), 
-					customers.get(i).getDemandVector()) < Math.ceil(Parameters.vectorSpaceSize / 3.0)) {
+					customers.get(i).getDemandVector()) < Math.ceil(Parameters.vectorSpaceSize / 4.0)) {
 				meetDemand++;
 			}
 		}
@@ -426,7 +426,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		for (int i = 0; i < customers.size(); i++) {
 			if (hammingDistance(causator.getGoal().getProductVector(), 
-					customers.get(i).getDemandVector()) < Math.floor(Parameters.vectorSpaceSize / 2.0)) {
+					customers.get(i).getDemandVector()) < Math.floor(Parameters.vectorSpaceSize / 4.0)) {
 				meetDemand++;
 			}
 		}
