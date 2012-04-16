@@ -472,6 +472,10 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	
 	@ScheduledMethod(start=5,interval=1)
 	public void stopSimulation() {
+		if (repast.simphony.engine.environment.RunEnvironment.
+				getInstance().getCurrentSchedule().getTickCount() >= 500) {
+			repast.simphony.engine.environment.RunEnvironment.getInstance().endRun();
+		}
 		if (getDemandChange() > 0 && staticDemandSteps > 0) {
 			staticDemandSteps = 0;
 		} else if (getDemandChange() == 0) {
@@ -488,7 +492,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			observedEntrepreneursOffering = causator.isOffering() && effectuator.isOffering();
 		}
 		
-		if (observedEntrepreneursOffering && staticDemandSteps >= 100) {
+		if (observedEntrepreneursOffering && staticDemandSteps >= 50) {
 			repast.simphony.engine.environment.RunEnvironment.getInstance().endRun();
 		}
 	}
