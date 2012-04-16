@@ -17,6 +17,7 @@
       <string>EffectuatorsMarketFit</string>
       <string>NetworkDensity</string>
       <string>ClusteringCoefficient</string>
+      <string>DemandChange</string>
       <string>CausatorsMarketFit</string>
       <string>CausatorsGoal</string>
     </columns>

@@ -5,6 +5,7 @@ package EffectuationCausation;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,12 +44,14 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	public static Effectuator effectuator;
 	public static Causator causator;
 	public static ArrayList<Customer> customers;
+	private static ArrayList<int[]> oldDemand;
 	
 	@Override
 	public Context<Object> build(Context<Object> context) {
 		Parameters.initialize();
 		
 		customers = new ArrayList<Customer>();
+		oldDemand = new ArrayList<int[]>();
 		
 		generateProductElementCosts();
 		
@@ -283,6 +286,18 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	}
 	
 	/**
+	 * Caches the old customers demand
+	 */
+	@ScheduledMethod(priority=1,interval=2,start=1)
+	public void cacheOldCustomersDemand() {
+		oldDemand.clear();
+		
+		for (Customer c: customers) {		
+			oldDemand.add(c.getDemandVector().clone());
+		}
+	}
+	
+	/**
 	 * Checks if all entrepreneurs are offering and update the relevant flag
 	 */
 	@Watch(watcheeClassName="EffectuationCausation.Entrepreneur",
@@ -348,6 +363,22 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		}
 		
 		return C;
+	}
+	
+	/**
+	 * Returns the percentage of customers that have changed their demand
+	 * @return demandChange
+	 */
+	public static double getDemandChange() {
+		int changed = 0;
+		
+		for (int i = 0; i < oldDemand.size(); i++) {
+			if (!Arrays.equals(oldDemand.get(i), customers.get(i).getDemandVector())) {
+				changed++;
+			}
+		}
+		
+		return ((double)changed / oldDemand.size()) * 100;
 	}
 	
 	/**
