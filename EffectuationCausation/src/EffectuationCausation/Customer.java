@@ -85,6 +85,7 @@ public class Customer extends Agent {
 	 * @param productVector
 	 */
 	public void processOffer(int[] productVector) {
+
 		setNegotiating(true);
 		
 		int d = SimulationBuilder.hammingDistance(demandVector, productVector);
