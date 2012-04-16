@@ -84,7 +84,8 @@ public class Causator extends Entrepreneur {
 		int meetDemand = 0;
 		
 		for (int i = 0; i < sampleSize; i++) {
-			if (SimulationBuilder.hammingDistance(goal.getProductVector(), productVector) < 2) {
+			if (SimulationBuilder.hammingDistance(goal.getProductVector(), productVector) 
+					< Math.ceil(Parameters.vectorSpaceSize / 4.0)) {
 				meetDemand++;
 			}
 		}
