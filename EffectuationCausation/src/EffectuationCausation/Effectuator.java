@@ -45,7 +45,7 @@ public class Effectuator extends Entrepreneur {
 	/* 
 	 * Offers the product to an entrepreneur 
 	 */
-	@ScheduledMethod(start=1,interval=2,priority=1)
+	@ScheduledMethod(start=2,interval=2,priority=1)
 	@Override	
 	public void offer() {
 		Entrepreneur e = null;
@@ -56,7 +56,7 @@ public class Effectuator extends Entrepreneur {
 		
 		e = (Entrepreneur)meet(Entrepreneur.class);
 		
-		if (e != null && !e.isOffering()) {			
+		if (e != null && !(e instanceof Causator) && !(e instanceof Effectuator) && !e.isOffering()) {			
 			
 			setNegotiating(true);
 			SimulationBuilder.printMessage("Deal offered from effectuator to entrepreneur.");

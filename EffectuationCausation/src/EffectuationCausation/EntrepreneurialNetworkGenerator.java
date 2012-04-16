@@ -180,7 +180,7 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			Entrepreneur e = null;
 			do {
 				e = (Entrepreneur)context.getRandomObjects(Entrepreneur.class, 1).iterator().next();
-			} while (!(e instanceof Causator));
+			} while (e instanceof Causator);
 			context.remove(e);
 			attachNode(SimulationBuilder.effectuator);
 			
@@ -191,7 +191,7 @@ public abstract class EntrepreneurialNetworkGenerator  implements NetworkGenerat
 			Entrepreneur e = null;
 			do {
 				e = (Entrepreneur)context.getRandomObjects(Entrepreneur.class, 1).iterator().next();
-			} while (!(e instanceof Effectuator));
+			} while (e instanceof Effectuator);
 			context.remove(e);			
 			attachNode(SimulationBuilder.causator);
 		}
