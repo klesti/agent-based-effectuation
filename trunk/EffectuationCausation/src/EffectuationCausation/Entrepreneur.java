@@ -190,9 +190,10 @@ public class Entrepreneur extends Agent {
 	/**
 	 * Offers a deal to the effectuator if meets him
 	 */
-	@ScheduledMethod(start=1,priority=3,interval=4)
+	@ScheduledMethod(start=4,priority=3,interval=4)
 	public void offerDeal() {
-		if (isNegotiating() || isOffering() || !(this instanceof Entrepreneur)) {
+		if (isNegotiating() || isOffering() || (this instanceof Effectuator) 
+				|| (this instanceof Causator)) {
 			return;
 		}
 		

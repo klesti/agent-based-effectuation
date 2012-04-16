@@ -102,7 +102,6 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			//Define the causator's product based on preliminary market research 
 			causator.performInitialMarketResearch();
 			causator.refineProduct();
-			causator.setOffering(true);
 		}
 		
 		calculateBetweennesCentralities();
@@ -364,7 +363,8 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * @return degreeCentrality
 	 */	
 	public double getEffectuatorsDegreeCentrality() {
-		return network.getDegree(effectuator);		
+		//Return the normalized effectuators degree centrality
+		return network.getDegree(effectuator) / (double)(network.size() - 1);		
 	}	
 
 	public String getEffectuatorsGoal() {
@@ -380,7 +380,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 		
 		for (int i = 0; i < customers.size(); i++) {
 			if (hammingDistance(effectuator.getGoal().getProductVector(), 
-					customers.get(i).getDemandVector()) < Math.floor(Parameters.vectorSpaceSize / 2.0)) {
+					customers.get(i).getDemandVector()) < Math.ceil(Parameters.vectorSpaceSize / 3.0)) {
 				meetDemand++;
 			}
 		}
