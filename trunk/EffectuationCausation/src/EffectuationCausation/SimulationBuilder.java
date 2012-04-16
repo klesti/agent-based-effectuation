@@ -380,7 +380,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			}
 		}
 		
-		return ((double)changed / oldDemand.size()) * 100;
+		return ((double)changed / oldDemand.size()) * 100.0;
 	}
 	
 	/**
@@ -418,7 +418,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			}
 		}
 		
-		return (meetDemand / (double)customers.size()) * 100;
+		return (meetDemand / (double)customers.size()) * 100.0;
 	}
 	
 	public double getCausatorsMarketFit() {
@@ -431,7 +431,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 			}
 		}
 		
-		return (meetDemand / (double)customers.size()) * 100;
+		return (meetDemand / (double)customers.size()) * 100.0;
 	}
 	
 	/**
@@ -476,10 +476,12 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 				getInstance().getCurrentSchedule().getTickCount() >= 500) {
 			repast.simphony.engine.environment.RunEnvironment.getInstance().endRun();
 		}
-		if (getDemandChange() > 0 && staticDemandSteps > 0) {
-			staticDemandSteps = 0;
-		} else if (getDemandChange() == 0) {
+		double demandChange = getDemandChange();
+		
+		if (demandChange == 0.0) {
 			staticDemandSteps++;
+		} else {
+			staticDemandSteps = 0;
 		}
 		
 		boolean observedEntrepreneursOffering = false;

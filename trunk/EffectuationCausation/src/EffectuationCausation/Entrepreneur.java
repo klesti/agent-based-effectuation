@@ -192,7 +192,7 @@ public class Entrepreneur extends Agent {
 	 */
 	@ScheduledMethod(start=4,priority=3,interval=4)
 	public void offerDeal() {
-		if (isNegotiating() || isOffering() || (this instanceof Effectuator) 
+		if (SimulationBuilder.effectuator == null || isNegotiating() || isOffering() || (this instanceof Effectuator) 
 				|| (this instanceof Causator)) {
 			return;
 		}

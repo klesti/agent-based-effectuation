@@ -165,6 +165,7 @@ public class Effectuator extends Entrepreneur {
 				}
 				
 				commitmentList.add(c);
+				setOffering(true);
 				return true;
 			}
 		}		
