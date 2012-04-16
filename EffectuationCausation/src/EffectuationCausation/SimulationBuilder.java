@@ -317,7 +317,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * betweenness centrality calculator algorithm 
 	 */
 	
-	public static void calculateBetweennesCentralities() {			
+	public void calculateBetweennesCentralities() {			
 		
 		ContextJungNetwork<Object> N = (ContextJungNetwork<Object>)network;
 		
@@ -342,7 +342,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * density = 2 * number of edges / N * (N-1)
 	 * @return networkDensity
 	 */
-	public static double getNetworkDensity() {
+	public double getNetworkDensity() {
 		
 		return ( 2.0 * network.numEdges() ) / ( network.size() * (network.size()-1) );
 	}
@@ -352,7 +352,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * (as calculated by Watts and Strogatz)
 	 * @return C
 	 */
-	public static double getClusteringCoefficient() {
+	public double getClusteringCoefficient() {
 		double C = 0;
 		
 		
@@ -369,7 +369,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	 * Returns the percentage of customers that have changed their demand
 	 * @return demandChange
 	 */
-	public static double getDemandChange() {
+	public double getDemandChange() {
 		int changed = 0;
 		
 		for (int i = 0; i < oldDemand.size(); i++) {
