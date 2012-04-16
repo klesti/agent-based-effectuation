@@ -176,12 +176,12 @@ public class Entrepreneur extends Agent {
 	 */
 	@ScheduledMethod(start=1,priority=2,interval=3)
 	public void offer() {
-		if (isOffering() && this instanceof Entrepreneur) {
+		if (isOffering()) {
 			Customer c;	
 			
 			c = (Customer) meet(Customer.class);
 			
-			if (c!=null) {			
+			if (c!=null && c instanceof Customer) {			
 				c.processOffer(goal.getProductVector());
 			}
 		}
