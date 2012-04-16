@@ -98,7 +98,7 @@
 						converter="repast.simphony.parameter.StringConverterFactory$DoubleConverter"
 									
 		/>
-				<parameter name="meanDegree" displayName="Small-world mean degree (even):" type="int" 
+				<parameter name="meanDegree" displayName="Small-world mean degree (even)" type="int" 
 						defaultValue="4" 
 						isReadOnly="false" 
 						converter="repast.simphony.parameter.StringConverterFactory$IntConverter"
