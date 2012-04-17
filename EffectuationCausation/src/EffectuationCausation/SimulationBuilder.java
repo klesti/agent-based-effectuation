@@ -44,7 +44,7 @@ public class SimulationBuilder extends DefaultContext<Object> implements Context
 	public static Causator causator;
 	public static ArrayList<Customer> customers;
 	private static ArrayList<int[]> oldDemand;
-	private static int staticDemandSteps;
+	public static int staticDemandSteps;
 	
 	
 	@Override

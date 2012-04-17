@@ -64,6 +64,9 @@ public class Entrepreneur extends Agent {
 	 */
 	public void setOffering(boolean offering) {
 		this.offering = offering;
+		if (offering) {
+			SimulationBuilder.staticDemandSteps = 0;
+		}
 	}
 
 	public void addMeans(Means m) {
