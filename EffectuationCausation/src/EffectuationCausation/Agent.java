@@ -143,7 +143,7 @@ public class Agent implements Comparable<Object> {
 				
 		for(Object o: network.getNodes()) {
 			if (!this.equals(o)) {
-				utility += Math.pow(sigma, sp.getPathLength(this, o));
+				utility += Math.pow(sigma, (double)sp.getPath(this, o).size());
 			}
 		}	
 		
