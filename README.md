@@ -2,8 +2,6 @@
 
 An agent-based simulation of effectuation (http://effectuation.org/) and causation managerial approaches
 
-(
-
 This is a Repast (http://repast.sf.net) project that simulates effectual and casual behavior of entrepreneurs. 
 
 It has been developed using Repast Simphony 2.0 beta using the Java version of it
