@@ -1,5 +1,8 @@
 # agent-based-effectuation
-An agent-based simulation of effectuation and causation managerial approaches
+
+An agent-based simulation of effectuation (http://effectuation.org/) and causation managerial approaches
+
+(
 
 This is a Repast (http://repast.sf.net) project that simulates effectual and casual behavior of entrepreneurs. 
 
